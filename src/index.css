@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+@theme inline {
+  /* default font */
+  --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  @apply font-sans;
+}
