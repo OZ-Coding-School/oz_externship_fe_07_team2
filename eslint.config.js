@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from 'eslint-plugin-storybook'
+
 import js from '@eslint/js' // JavaScript 기본 규칙 세트
 import tseslint from 'typescript-eslint' // TypeScript 전용 규칙 세트
 import react from 'eslint-plugin-react' // React 컴포넌트 관련 규칙
