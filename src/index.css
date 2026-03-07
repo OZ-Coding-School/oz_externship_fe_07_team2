@@ -3,8 +3,23 @@
 @theme inline {
   /* default font */
   --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+
+  /* 로딩 컴포넌트용 | 높이: -8px, 속도: 0.6s */
+  --animate-jump: jump 0.6s ease-in-out infinite;
+
+  @keyframes jump {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
 }
 
 body {
   @apply font-sans;
+  line-height: 1.4;
+  letter-spacing: -0.03rem;
 }
