@@ -126,6 +126,9 @@ body {
   --color-surface-sub: var(--surface-sub);
   --color-surface-disabled: var(--surface-disabled);
 
+  /* Boarder Line */
+  --color-gray-250: var(--gray-250);
+
   /* Primary */
 
   --color-primary: var(--primary-color);
