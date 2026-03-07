@@ -12,7 +12,7 @@ export default function Loading() {
       {DELAYS.map((delay, index) => (
         <div
           key={`${delay}-${index}`}
-          className={cn('animate-jump h-2 w-2 rounded-lg bg-[#6201F4]', delay)}
+          className={cn('animate-jump bg-primary h-2 w-2 rounded-lg', delay)}
         />
       ))}
     </div>
