@@ -19,7 +19,7 @@ export default function TabButton({
   className,
 }: TabProps) {
   return (
-    <div className="border-gray-250 flex gap-9 border-b">
+    <div className="border-border-line flex gap-9 border-b">
       {tabs.map((tab) => {
         const isSelected = value === tab.value
         return (
