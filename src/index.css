@@ -1,6 +1,156 @@
 @import 'tailwindcss';
 
+body {
+  @apply font-sans;
+  line-height: 1.4;
+  letter-spacing: -0.03rem;
+}
+
+:root {
+  /* =====================================================
+   PRIMITIVE COLOR TOKENS
+   (Raw palette from Figma)
+===================================================== */
+
+  /* Primary / Brand */
+  --primary-100: #f2effd;
+  --primary-200: #ede6ff;
+  --primary-300: #d7cbf7;
+  --primary-400: #b69cf1;
+  --primary-500: #986be9;
+  --primary-600: #7c35d9;
+  --primary-700: #522193;
+  --primary-800: #3b0186;
+
+  /* Gradient */
+
+  --gradient-primary: linear-gradient(
+    90deg,
+    var(--primary-300) 0%,
+    var(--primary-500) 50%,
+    var(--primary-600) 100%
+  );
+
+  --gradient-line: linear-gradient(
+    90deg,
+    var(--primary-200),
+    var(--primary-600)
+  );
+
+  /* GREY SCALE */
+
+  --gray-primary: #121212;
+  --gray-800: #222222;
+  --gray-700: #303030;
+  --gray-600: #4d4d4d;
+  --gray-500: #707070;
+  --gray-400: #9d9d9d;
+  --gray-disabled: #bdbdbd;
+  --gray-250: #cecece;
+  --gray-100: #fafafa;
+
+  /* BASE */
+
+  --white: #ffffff;
+  --black: #000000;
+
+  /* SHADOW  */
+
+  --shadow-box: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  --shadow-modal: 0px 0px 16px rgba(160, 160, 160, 0.25);
+
+  /* STATUS PALETTE */
+
+  --status-success: #5eb669;
+
+  --status-error: #cc0a0a;
+
+  --answer-active: #04c73d;
+
+  /* =====================================================
+    SEMANTIC TOKENS
+===================================================== */
+
+  /* Text */
+
+  --text-main: var(--gray-primary);
+  --text-sub: var(--gray-600);
+  --text-chatbot: var(--gray-500);
+  --text-light: var(--gray-400);
+  --text-disabled: var(--gray-disabled);
+
+  /* Surface */
+
+  --surface-default: var(--white);
+  --surface-sub: var(--gray-100);
+  --surface-disabled: var(--gray-disabled);
+
+  /* Primary */
+
+  --primary-color: var(--primary-600);
+  --primary-hover: var(--primary-700);
+  --primary-active: var(--primary-800);
+
+  /* Gradient */
+
+  --gradient-brand: var(--gradient-primary);
+  --gradient-divider: var(--gradient-line);
+
+  /* Status */
+
+  --status-success-color: var(--status-success);
+  --status-error-color: var(--status-error);
+
+  /* Answer */
+
+  --answer-active-color: var(--answer-active);
+
+  /* Shadow */
+
+  --shadow-box-color: var(--shadow-box);
+  --shadow-modal-color: var(--shadow-modal);
+}
+
 @theme inline {
+  /* Text */
+
+  --color-text-main: var(--text-main);
+  --color-text-sub: var(--text-sub);
+  --color-text-chatbot: var(--text-chatbot);
+  --color-text-light: var(--text-light);
+  --color-text-disabled: var(--text-disabled);
+
+  /* Surface */
+
+  --color-surface-default: var(--surface-default);
+  --color-surface-sub: var(--surface-sub);
+  --color-surface-disabled: var(--surface-disabled);
+
+  /* Primary */
+
+  --color-primary: var(--primary-color);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+
+  /* Status */
+
+  --color-success: var(--status-success-color);
+  --color-error: var(--status-error-color);
+
+  /* Answer */
+
+  --color-answer-active: var(--answer-active-color);
+
+  /* Gradient */
+
+  --gradient-brand: var(--gradient-brand);
+  --gradient-divider: var(--gradient-divider);
+
+  /* Shadow */
+
+  --shadow-box: var(--shadow-box-color);
+  --shadow-modal: var(--shadow-modal-color);
+
   /* default font */
   --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
 
@@ -16,10 +166,4 @@
       transform: translateY(-8px);
     }
   }
-}
-
-body {
-  @apply font-sans;
-  line-height: 1.4;
-  letter-spacing: -0.03rem;
 }
