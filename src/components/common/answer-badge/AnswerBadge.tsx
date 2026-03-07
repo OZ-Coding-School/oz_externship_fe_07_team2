@@ -6,9 +6,9 @@ const answerBadgeVariants = cva(
   {
     variants: {
       variant: {
-        answered: 'bg-[#04c73d]',
-        unanswered: 'bg-[#bdbdbd]',
-        detail: 'bg-[#6201e0]',
+        answered: 'bg-answer-active',
+        unanswered: 'bg-surface-disabled',
+        detail: 'bg-primary',
       },
       size: {
         sm: 'w-6 h-6 text-sm',

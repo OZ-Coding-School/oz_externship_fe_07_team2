@@ -5,8 +5,8 @@ import { cn } from '@/utils/cn'
 const categoryPathVariants = cva('', {
   variants: {
     variant: {
-      detail: 'text-xl font-bold text-[#6201F4]',
-      list: 'text-xs font-normal text-[#4D4D4D]',
+      detail: 'text-xl font-bold text-primary',
+      list: 'text-xs font-normal text-sub',
     },
   },
   defaultVariants: {
