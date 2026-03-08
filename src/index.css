@@ -39,6 +39,7 @@ body {
   --gray-primary: #121212;
   --gray-100: #fafafa;
   --gray-200: #ececec;
+  --gray-250: #cecece;
   --gray-400: #9d9d9d;
   --gray-500: #707070;
   --gray-600: #4d4d4d;
@@ -76,7 +77,7 @@ body {
 
   --surface-default: var(--white);
   --surface-sub: var(--gray-100);
-  --surface-disabled: var(--gray-disabled);
+  --surface-disabled: var(--gray-200);
 
   /* Primary */
 
@@ -115,7 +116,7 @@ body {
   --color-surface-disabled: var(--surface-disabled);
 
   /* Border Line */
-  --color-border-line: var(--gray-200);
+  --color-border-line: var(--gray-250);
 
   /* Primary */
 
