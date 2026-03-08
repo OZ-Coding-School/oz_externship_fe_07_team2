@@ -1,36 +1,31 @@
 import { cn } from '@/utils/cn'
+import type { VariantProps } from 'class-variance-authority'
+import { buttonVariants } from './button.styles'
 
-interface ButtonProps extends React.ComponentProps<'button'> {
-  variant?: 'primary' | 'outline'
-  size?: 'sm' | 'md'
-}
-
-const baseClasses =
-  'inline-flex items-center justify-center font-semibold transition-colors disabled:cursor-not-allowed disabled:pointer-events-none disabled:bg-surface-disabled disabled:text-text-disabled'
-const variants = {
-  primary:
-    'bg-primary text-white hover:bg-primary-hover active:bg-primary-active',
-  outline:
-    'border border-primary text-primary bg-primary-100 disabled:text-text-sub disabled:border disabled:border-border-line',
-}
-const sizes = {
-  sm: 'py-3 px-6 rounded-full',
-  md: 'px-9 py-4 rounded',
+interface ButtonProps
+  extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
 }
 
 export default function Button({
   variant = 'primary',
   size = 'md',
+  rounded = 'md',
   className = '',
   children,
+  leftIcon,
+  rightIcon,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={cn(baseClasses, variants[variant], sizes[size], className)}
+      className={cn(buttonVariants({ variant, size, rounded }), className)}
       {...props}
     >
+      {leftIcon && <span>{leftIcon}</span>}
       {children}
+      {rightIcon && <span>{rightIcon}</span>}
     </button>
   )
 }
