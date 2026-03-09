@@ -1,8 +1,9 @@
+import { useRef } from 'react'
 import { Search, X } from 'lucide-react'
 
 import { cn } from '@/utils/cn'
 
-interface SearchBarProps {
+type SearchBarProps = {
   value: string
   onChange: (value: string) => void
   placeholder?: string
@@ -15,6 +16,8 @@ export default function SearchBar({
   placeholder = '질문 검색',
   className,
 }: SearchBarProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
   return (
     <div
       className={cn(
@@ -23,9 +26,10 @@ export default function SearchBar({
         className
       )}
     >
-      <Search className="text-text-light h-4 w-4 shrink-0" />
+      <Search size={16} className="text-text-light shrink-0" />
 
       <input
+        ref={inputRef}
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -36,11 +40,14 @@ export default function SearchBar({
       {value && (
         <button
           type="button"
-          onClick={() => onChange('')}
+          onClick={() => {
+            onChange('')
+            inputRef.current?.focus()
+          }}
           aria-label="검색어 지우기"
-          className="text-text-light hover:text-text-sub flex h-4 w-4 shrink-0 items-center justify-center rounded-full transition-colors"
+          className="text-text-light hover:text-text-sub flex shrink-0 items-center justify-center rounded-full transition-colors"
         >
-          <X className="h-4 w-4" />
+          <X size={16} />
         </button>
       )}
     </div>
