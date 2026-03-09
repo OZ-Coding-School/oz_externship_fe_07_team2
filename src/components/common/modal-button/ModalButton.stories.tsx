@@ -42,6 +42,7 @@ export const Disabled: Story = {
   },
 }
 
+// 정렬 선택이 없는 상태 (초기값)
 export const WithPlaceholder: Story = {
   render: (args) => <ModalButtonStory {...args} />,
   args: {

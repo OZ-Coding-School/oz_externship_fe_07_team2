@@ -1,16 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
+import type { MouseEventHandler, ComponentPropsWithRef } from 'react'
+import { ArrowUpDown } from 'lucide-react'
+
+import { cn } from '@/utils/cn'
 
 type ModalOption = {
   label: string
   value: string
 }
 
-type ModalButtonProps = {
+type ModalButtonProps = Omit<
+  ComponentPropsWithRef<'button'>,
+  'value' | 'onChange' | 'children'
+> & {
   value: string
   options: ModalOption[]
   onChange: (value: string) => void
   placeholder?: string
-  disabled?: boolean
   className?: string
 }
 
@@ -20,10 +26,13 @@ export default function ModalButton({
   onChange,
   placeholder = '선택',
   disabled = false,
-  className = '',
+  className,
+  type = 'button',
+  onClick,
+  ...buttonProps
 }: ModalButtonProps) {
   const [open, setOpen] = useState(false)
-  const wrapperRef = useRef<HTMLDivElement | null>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,29 +58,37 @@ export default function ModalButton({
     setOpen(false)
   }
 
-  const handleToggle = () => {
-    if (disabled) return
+  const handleButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    onClick?.(e)
+
+    if (e.defaultPrevented || disabled) return
+
     setOpen((prev) => !prev)
   }
 
   return (
-    <div ref={wrapperRef} className={`relative inline-block ${className}`}>
+    <div ref={wrapperRef} className={cn('relative inline-block', className)}>
       <button
-        type="button"
+        {...buttonProps}
+        type={type}
         disabled={disabled}
-        onClick={handleToggle}
-        className={`w-20 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+        onClick={handleButtonClick}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className={cn(
+          'flex w-24 items-center justify-center gap-1 rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors',
           disabled
             ? 'bg-surface-disabled text-text-disabled cursor-not-allowed'
-            : 'bg-primary-100 text-primary hover:bg-primary-200 whitespace-nowrap'
-        } `}
+            : 'bg-surface-default text-text-sub border-border-line hover:bg-surface-sub'
+        )}
       >
         {selectedOption?.label ?? placeholder}
+        <ArrowUpDown size={14} className="shrink-0" />
       </button>
 
       {open && !disabled && (
         <div className="bg-surface-default absolute top-full left-0 z-50 mt-2 w-28 rounded-md px-4 py-5 shadow-[var(--shadow-modal)]">
-          <ul className="flex flex-col gap-1">
+          <ul role="listbox" className="flex flex-col gap-1">
             {options.map((option) => {
               const isSelected = option.value === value
 
@@ -80,11 +97,12 @@ export default function ModalButton({
                   <button
                     type="button"
                     onClick={() => handleSelect(option.value)}
-                    className={`w-full rounded-md px-3 py-2 text-sm transition-colors ${
+                    className={cn(
+                      'w-full rounded-md px-3 py-2 text-sm transition-colors',
                       isSelected
                         ? 'bg-primary-100 text-primary font-semibold'
                         : 'text-text-sub hover:bg-surface-sub hover:text-text-main'
-                    } `}
+                    )}
                   >
                     {option.label}
                   </button>
