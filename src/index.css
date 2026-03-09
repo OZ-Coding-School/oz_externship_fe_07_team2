@@ -36,7 +36,7 @@ body {
 
   /* GREY SCALE */
 
-  --gray-primary: #121212;
+  --gray-primary: oklch(from #121212 l c h);
   --gray-100: #fafafa;
   --gray-200: #ececec;
   --gray-250: #cecece;
@@ -55,8 +55,8 @@ body {
 
   /* SHADOW  */
 
-  --shadow-box: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  --shadow-modal: 0px 0px 16px rgba(160, 160, 160, 0.25);
+  --shadow-box-value: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  --shadow-modal-value: 0px 0px 16px rgba(160, 160, 160, 0.35);
 
   /* STATUS PALETTE */
   --answer-active: #04c730;
@@ -69,6 +69,7 @@ body {
 
   --text-main: var(--gray-primary);
   --text-sub: var(--gray-600);
+  --text-modal: var(--gray-700);
   --text-chatbot: var(--gray-500);
   --text-light: var(--gray-400);
   --text-disabled: var(--gray-disabled);
@@ -98,6 +99,9 @@ body {
 
   --shadow-box-color: var(--shadow-box);
   --shadow-modal-color: var(--shadow-modal);
+
+  /*Overlay*/
+  --bg-overlay: var(--gray-primary);
 }
 
 @theme inline {
@@ -105,6 +109,7 @@ body {
 
   --color-text-main: var(--text-main);
   --color-text-sub: var(--text-sub);
+  --color-text-modal: var(--text-modal);
   --color-text-chatbot: var(--text-chatbot);
   --color-text-light: var(--text-light);
   --color-text-disabled: var(--text-disabled);
@@ -114,6 +119,9 @@ body {
   --color-surface-default: var(--surface-default);
   --color-surface-sub: var(--surface-sub);
   --color-surface-disabled: var(--surface-disabled);
+
+  /*Overlay*/
+  --color-bg-overlay: var(--bg-overlay);
 
   /* Border Line */
   --color-border-line: var(--gray-250);
