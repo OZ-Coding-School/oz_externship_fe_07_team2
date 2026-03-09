@@ -3,10 +3,7 @@ import type { VariantProps } from 'class-variance-authority'
 import { buttonVariants } from './button.styles'
 
 interface ButtonProps
-  extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
-  leftIcon?: React.ReactNode
-  rightIcon?: React.ReactNode
-}
+  extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {}
 
 export default function Button({
   variant = 'primary',
@@ -14,8 +11,6 @@ export default function Button({
   rounded = 'md',
   className = '',
   children,
-  leftIcon,
-  rightIcon,
   ...props
 }: ButtonProps) {
   return (
@@ -23,9 +18,7 @@ export default function Button({
       className={cn(buttonVariants({ variant, size, rounded }), className)}
       {...props}
     >
-      {leftIcon && <span>{leftIcon}</span>}
       {children}
-      {rightIcon && <span>{rightIcon}</span>}
     </button>
   )
 }

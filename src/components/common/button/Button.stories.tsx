@@ -1,6 +1,5 @@
 import { Button } from '@/components'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ChevronDown, Filter } from 'lucide-react'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -57,7 +56,6 @@ export const Text: Story = {
     variant: 'text',
     size: 'sm',
     rounded: 'full',
-    leftIcon: <Filter className="h-4 w-4" />,
   },
 }
 
@@ -74,7 +72,6 @@ export const WithRightIcon: Story = {
     children: '최신순',
     variant: 'text',
     size: 'sm',
-    rightIcon: <ChevronDown className="ml-10 h-10 w-10" />,
   },
 }
 
