@@ -13,19 +13,25 @@ export default meta
 
 type Story = StoryObj<typeof Dropdown>
 
+type CategoryOption = {
+  id: number
+  value: string
+  parentId?: number
+}
+
 const largeOptions = [
   { id: 1, value: '프론트엔드' },
   { id: 2, value: '백엔드' },
 ]
 
-const mediumOptions = [
+const mediumOptions: CategoryOption[] = [
   { id: 1, value: 'React', parentId: 1 },
   { id: 2, value: 'Vue', parentId: 1 },
   { id: 3, value: 'Node', parentId: 2 },
   { id: 4, value: 'Spring', parentId: 2 },
 ]
 
-const smallOptions = [
+const smallOptions: CategoryOption[] = [
   { id: 1, value: 'Hooks', parentId: 1 },
   { id: 2, value: 'State', parentId: 1 },
   { id: 3, value: 'Composition API', parentId: 2 },
@@ -112,6 +118,26 @@ const FilterPage = () => {
   const [mediumValue, setMediumValue] = useState<string>()
   const [smallValue, setSmallValue] = useState<string>()
   const [largeOpen, setLargeOpen] = useState(true)
+  const [mediumOpen, setMediumOpen] = useState(false)
+
+  const selectedLarge = longOptions.find(
+    (option) => option.value === largeValue
+  )
+  const selectedMedium = mediumOptions.find(
+    (option) => option.value === mediumValue
+  )
+
+  const filterMediumOptions = mediumOptions
+    .filter((option) =>
+      selectedLarge
+        ? option.parentId === ((selectedLarge.id - 1) % 2) + 1
+        : false
+    )
+    .map(({ id, value }) => ({ id, value }))
+
+  const filterSmallOptions = smallOptions
+    .filter((option) => option.parentId === selectedMedium?.id)
+    .map(({ id, value }) => ({ id, value }))
 
   return (
     <div className="min-h-[760px] w-[360px] bg-white px-8 py-6">
@@ -135,19 +161,26 @@ const FilterPage = () => {
             setMediumValue(undefined)
             setSmallValue(undefined)
             setLargeOpen(false)
+            setMediumOpen(true)
           }}
         />
         <Dropdown
           variant="inline"
-          options={largeOptions}
+          options={filterMediumOptions}
           placeHolder="중분류"
           value={mediumValue}
-          onSelect={(option) => setMediumValue(option.value)}
+          open={mediumOpen}
+          onOpenChange={setMediumOpen}
+          onSelect={(option) => {
+            setMediumValue(option.value)
+            setSmallValue(undefined)
+            setMediumOpen(false)
+          }}
           disabled={!largeValue}
         />
         <Dropdown
           variant="inline"
-          options={smallOptions.map(({ id, value }) => ({ id, value }))}
+          options={filterSmallOptions}
           placeHolder="소분류"
           value={smallValue}
           onSelect={(option) => setSmallValue(option.value)}

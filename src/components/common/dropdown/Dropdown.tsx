@@ -1,7 +1,7 @@
 import { Button } from '@/components'
 import { cn } from '@/utils/cn'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 function useControllableState<T>(
   controlledValue: T | undefined,
@@ -10,15 +10,24 @@ function useControllableState<T>(
 ) {
   const [internalValue, setInternalValue] = useState(defaultValue)
 
+  const onChangeRef = useRef(onChange)
+
+  useEffect(() => {
+    onChangeRef.current = onChange
+  }, [onChange])
+
   const isControlled = controlledValue !== undefined
   const value = isControlled ? controlledValue : internalValue
 
-  const setValue = (next: T) => {
-    if (!isControlled) {
-      setInternalValue(next)
-    }
-    onChange?.(next)
-  }
+  const setValue = useCallback(
+    (next: T) => {
+      if (!isControlled) {
+        setInternalValue(next)
+      }
+      onChangeRef.current?.(next)
+    },
+    [isControlled]
+  )
 
   return [value, setValue] as const
 }
@@ -110,7 +119,7 @@ export default function Dropdown({
 
             return (
               <li
-                onClick={handleSelect.bind(null, item)}
+                onClick={() => handleSelect(item)}
                 className={cn(
                   'hover:bg-primary-100 flex cursor-pointer items-center justify-between p-3',
                   isSelected && 'text-primary'
