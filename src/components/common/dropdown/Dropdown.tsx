@@ -1,7 +1,10 @@
 import { Button } from '@/components'
+import useOutsideClick from '@/hooks/useOutsideClick'
 import { cn } from '@/utils/cn'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
+
+type SetValueAction<T> = T | ((prev: T) => T)
 
 function useControllableState<T>(
   controlledValue: T | undefined,
@@ -20,13 +23,16 @@ function useControllableState<T>(
   const value = isControlled ? controlledValue : internalValue
 
   const setValue = useCallback(
-    (next: T) => {
+    (next: SetValueAction<T>) => {
+      const resolvedValue =
+        typeof next === 'function' ? (next as (prev: T) => T)(value) : next
+
       if (!isControlled) {
-        setInternalValue(next)
+        setInternalValue(resolvedValue)
       }
-      onChangeRef.current?.(next)
+      onChangeRef.current?.(resolvedValue)
     },
-    [isControlled]
+    [isControlled, value]
   )
 
   return [value, setValue] as const
@@ -48,6 +54,7 @@ type DropdownProps = {
   disabled?: boolean
   className?: string
 }
+
 export default function Dropdown({
   variant = 'overlay',
   options,
@@ -66,22 +73,10 @@ export default function Dropdown({
   )
   const dropdownRef = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (!dropdownRef.current?.contains(e.target as Node)) {
-        setOpen(false)
-      }
-    }
-
-    document.addEventListener('pointerdown', handleOutsideClick)
-
-    return () => {
-      document.removeEventListener('pointerdown', handleOutsideClick)
-    }
-  }, [setOpen])
+  useOutsideClick(dropdownRef, () => setOpen(false))
 
   const handleClick = () => {
-    setOpen(!isOpen)
+    setOpen((prev) => !prev)
   }
 
   const handleSelect = (option: Option) => {

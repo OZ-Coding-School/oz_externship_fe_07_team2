@@ -97,8 +97,8 @@ body {
 
   /* Shadow */
 
-  --shadow-box-color: var(--shadow-box);
-  --shadow-modal-color: var(--shadow-modal);
+  --shadow-box-color: var(--shadow-box-value);
+  --shadow-modal-color: var(--shadow-modal-value);
 
   /*Overlay*/
   --bg-overlay: var(--gray-primary);
