@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
-import type { MouseEventHandler, ComponentPropsWithRef } from 'react'
 import { ArrowUpDown } from 'lucide-react'
+import {
+  useRef,
+  useState,
+  type ComponentPropsWithRef,
+  type MouseEventHandler,
+} from 'react'
 
+import useOutsideClick from '@/hooks/useOutsideClick'
 import { cn } from '@/utils/cn'
 
 type ModalOption = {
@@ -34,22 +39,7 @@ export default function ModalButton({
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
+  useOutsideClick(wrapperRef, () => setOpen(false))
 
   const selectedOption = options.find((option) => option.value === value)
 
@@ -87,7 +77,7 @@ export default function ModalButton({
       </button>
 
       {open && !disabled && (
-        <div className="bg-surface-default absolute top-full left-0 z-50 mt-2 w-28 rounded-md px-4 py-5 shadow-[var(--shadow-modal)]">
+        <div className="bg-surface-default shadow-modal absolute top-full left-0 z-50 mt-2 w-28 rounded-md px-4 py-5">
           <ul role="listbox" className="flex flex-col gap-1">
             {options.map((option) => {
               const isSelected = option.value === value
