@@ -6,6 +6,7 @@ import '@fontsource/pretendard/700.css'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import { BrowserRouter } from 'react-router'
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -22,7 +23,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </StrictMode>
   )
 })
