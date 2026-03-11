@@ -44,7 +44,7 @@ export default function QnaDetailHeader({ question }: QnaDetailHeaderProps) {
 
           <div className="m-4 flex shrink-0 items-center gap-2">
             <Avatar src={author.avatarUrl} alt={author.name} size="md" />
-            <span className="text-text-main text-sm font-semibold">
+            <span className="text-text-sub text-sm font-semibold">
               {author.name}
             </span>
           </div>
@@ -55,7 +55,7 @@ export default function QnaDetailHeader({ question }: QnaDetailHeaderProps) {
             <div className="flex flex-col">
               <div className="flex items-center gap-2"></div>
 
-              <div className="text-text-sub flex items-center gap-2 text-sm">
+              <div className="text-text-light flex items-center gap-2 text-sm">
                 <span>조회수 {viewCount}</span>
                 <span>·</span>
                 <span>{createdAt}</span>
@@ -69,7 +69,7 @@ export default function QnaDetailHeader({ question }: QnaDetailHeaderProps) {
           </button>
         </div>
 
-        <div className="text-text-sub text-base leading-7 whitespace-pre-line">
+        <div className="text-text-primary text-base leading-7 whitespace-pre-line">
           {content}
         </div>
       </div>
