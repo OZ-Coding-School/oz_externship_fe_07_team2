@@ -2,14 +2,17 @@ import { Routes, Route } from 'react-router'
 import './App.css'
 import { NotFoundPage } from '@/pages'
 import { ROUTES_PATHS } from '@/constants/url'
+import { RootLayout } from '@/components'
 
 function App() {
   return (
     <Routes>
-      <Route
-        path={ROUTES_PATHS.NOT_FOUND}
-        element={<NotFoundPage type="notFound" />}
-      />
+      <Route element={<RootLayout />}>
+        <Route
+          path={ROUTES_PATHS.NOT_FOUND}
+          element={<NotFoundPage type="notFound" />}
+        />
+      </Route>
     </Routes>
   )
 }
