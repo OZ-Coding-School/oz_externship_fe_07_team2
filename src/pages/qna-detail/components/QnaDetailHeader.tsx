@@ -7,10 +7,7 @@ type QnaDetailHeaderProps = {
   onShare?: () => void
 }
 
-export default function QnaDetailHeader({
-  question,
-  onShare,
-}: QnaDetailHeaderProps) {
+export default function QnaDetailHeader({ question }: QnaDetailHeaderProps) {
   const {
     category_name,
     sub_category_name,
