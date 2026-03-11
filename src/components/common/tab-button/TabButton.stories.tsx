@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
-import { TabButton } from '@/components'
+import { TabButton, EmptyState } from '@/components'
 
 const SAMPLE_TABS = [
   { value: 'all', label: '전체보기' },
@@ -66,4 +66,19 @@ const TwoTabsButton = () => {
 
 export const TwoTabs: Story = {
   render: () => <TwoTabsButton />,
+}
+
+// 탭 + EmptyState 조합
+const TabWithEmptyState = () => {
+  const [value, setValue] = useState('all')
+  return (
+    <div className="w-150">
+      <TabButton tabs={SAMPLE_TABS} value={value} onValueChange={setValue} />
+      <EmptyState type="emptyState" />
+    </div>
+  )
+}
+
+export const WithEmptyState: Story = {
+  render: () => <TabWithEmptyState />,
 }
