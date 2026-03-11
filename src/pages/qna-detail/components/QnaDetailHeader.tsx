@@ -61,11 +61,7 @@ export default function QnaDetailHeader({
           </div>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-text-chatbot border-border-line bg-surface-default flex gap-1 rounded-full border px-3 py-3 text-xs hover:bg-gray-100"
-        >
+        <Button variant="ghost" size="sm" rounded="full">
           <Link className="h-4 w-4" />
           공유하기
         </Button>

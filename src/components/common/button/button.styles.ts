@@ -14,6 +14,8 @@ export const buttonVariants = cva(
           'bg-transparent text-primary hover:bg-primary-100 hover:font-bold',
         textMuted:
           'bg-transparent text-text-sub hover:bg-gray-200 active:bg-primary-100 active:text-primary',
+        ghost:
+          'text-text-chatbot border-border-line flex gap-1 rounded-full border px-3 py-3 text-xs hover:bg-gray-100',
       },
       size: {
         sm: 'px-5 py-2.5',
