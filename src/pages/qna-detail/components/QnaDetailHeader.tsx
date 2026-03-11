@@ -26,6 +26,16 @@ export default function QnaDetailHeader({
     ...(sub_category_name ? sub_category_name.split(' > ') : []),
   ]
 
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      //   추후 Popup 또는 Toast로 변경 예정
+      alert('링크가 클립보드에 복사되었습니다.')
+    } catch (error) {
+      console.error('클립보드 복사 실패', error)
+    }
+  }
+
   return (
     <header className="border-border-line pb-10">
       <CategoryPath path={categoryPath} variant="detail" className="mb-4" />
@@ -61,7 +71,12 @@ export default function QnaDetailHeader({
           </div>
         </div>
 
-        <Button variant="ghost" size="sm" rounded="full">
+        <Button
+          variant="ghost"
+          size="sm"
+          rounded="full"
+          onClick={handleCopyLink}
+        >
           <Link className="h-4 w-4" />
           공유하기
         </Button>
