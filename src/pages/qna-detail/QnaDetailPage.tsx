@@ -1,4 +1,5 @@
 // import { useParams } from 'react-router-dom'
+import { EmptyState } from '@/components'
 import QnaDetailHeader from './components/QnaDetailHeader'
 import { mockQuestion } from './mock'
 
@@ -17,18 +18,15 @@ export default function QnaDetailPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-[960px] px-6 py-10">
+    <div className="px-8">
       {/* 질문 헤더 */}
       <QnaDetailHeader question={question} onShare={handleShare} />
 
       {/* 답변 영역 (추후 구현) */}
       <section className="mt-12">
         <h2 className="text-xl font-semibold">답변 0개</h2>
-
-        <div className="mt-6 rounded-xl border border-gray-200 p-6 text-center text-gray-500">
-          아직 등록된 답변이 없습니다.
-        </div>
+        <EmptyState type="emptyState" />
       </section>
-    </main>
+    </div>
   )
 }

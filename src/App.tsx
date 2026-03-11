@@ -14,12 +14,8 @@ function App() {
           path={ROUTES_PATHS.NOT_FOUND}
           element={<NotFoundPage type="notFound" />}
         />
+        <Route path={ROUTES_PATHS.QNA_DETAIL} element={<QnaDetailPage />} />
       </Route>
-      <Route
-        path={ROUTES_PATHS.NOT_FOUND}
-        element={<NotFoundPage type="notFound" />}
-      />
-      <Route path="/qna-detail" element={<QnaDetailPage />} />
     </Routes>
   )
 }
