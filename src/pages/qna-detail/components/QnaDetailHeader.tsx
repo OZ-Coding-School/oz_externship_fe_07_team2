@@ -7,35 +7,15 @@ type QnaDetailHeaderProps = {
   onShare?: () => void
 }
 
-export default function QnaDetailHeader({ question }: QnaDetailHeaderProps) {
-  const {
-    category_name,
-    sub_category_name,
-    title,
-    content,
-    author,
-    view_count,
-    created_at,
-  } = question
-
-  const categoryPath = [
-    category_name,
-    ...(sub_category_name ? sub_category_name.split(' > ') : []),
-  ]
-
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href)
-      //   추후 Popup 또는 Toast로 변경 예정
-      alert('링크가 클립보드에 복사되었습니다.')
-    } catch (error) {
-      console.error('클립보드 복사 실패', error)
-    }
-  }
+export default function QnaDetailHeader({
+  question,
+  onShare,
+}: QnaDetailHeaderProps) {
+  const { name, title, content, author, view_count, created_at } = question
 
   return (
     <header className="border-border-line pb-10">
-      <CategoryPath path={categoryPath} variant="detail" className="mb-4" />
+      <CategoryPath path={name} variant="detail" className="mb-4" />
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <span className="text-primary text-6xl leading-none font-bold">
@@ -68,12 +48,7 @@ export default function QnaDetailHeader({ question }: QnaDetailHeaderProps) {
           </div>
         </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          rounded="full"
-          onClick={handleCopyLink}
-        >
+        <Button variant="ghost" size="sm" rounded="full" onClick={onShare}>
           <Link className="h-4 w-4" />
           공유하기
         </Button>

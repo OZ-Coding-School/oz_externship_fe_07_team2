@@ -6,10 +6,9 @@ export type QnaAuthor = {
 
 export type QnaQuestion = {
   id: number
+  name: string[]
   title: string
   content: string
-  category_name: string
-  sub_category_name?: string
   author: QnaAuthor
   view_count: number
   created_at: string

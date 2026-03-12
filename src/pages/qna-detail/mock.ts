@@ -2,8 +2,7 @@ import type { QnaQuestion } from './types'
 
 export const mockQuestion: QnaQuestion = {
   id: 1,
-  category_name: '프론트엔드',
-  sub_category_name: '프로그래밍 언어 > Python',
+  name: ['프론트엔드', '프로그래밍 언어', 'Python'],
   title:
     'print를 5번 쓰지 않고, print를 1번만 쓰고 5줄을 모두 표시하는 법이 있나요?',
   content:
