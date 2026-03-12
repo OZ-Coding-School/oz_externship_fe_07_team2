@@ -4,6 +4,8 @@ import { NotFoundPage } from '@/pages'
 import { ROUTES_PATHS } from '@/constants/url'
 import { RootLayout } from '@/components'
 
+import QnaDetailPage from '@/pages/qna-detail/QnaDetailPage'
+
 function App() {
   return (
     <Routes>
@@ -12,6 +14,7 @@ function App() {
           path={ROUTES_PATHS.NOT_FOUND}
           element={<NotFoundPage type="notFound" />}
         />
+        <Route path={ROUTES_PATHS.QNA_DETAIL} element={<QnaDetailPage />} />
       </Route>
     </Routes>
   )
