@@ -1,11 +1,13 @@
+import { useEffect, useMemo, useState } from 'react'
+
+import { RotateCw, X } from 'lucide-react'
+
 import { Button, Loading } from '@/components'
 import { findSelectedCategory } from '@/features/qna-list/utils/categoryFilter'
 import useCategoriesQuery from '@/queries/useCategoriesQuery'
 import CategoryDropdown, {
   type SelectedCategory,
 } from '@/shared/CategoryDropdown'
-import { RotateCw, X } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
 
 type FilterSidebarProps = {
   isFilterOpen: boolean

@@ -1,6 +1,7 @@
-import { cn } from '@/utils'
 import MDEditor, { commands } from '@uiw/react-md-editor'
 import { ClassNames } from 'storybook/theming'
+
+import { cn } from '@/utils'
 
 type EditorProps = {
   content: string

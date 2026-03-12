@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router'
+
 import { Button } from '@/components'
 import { ERROR_CONTENT } from '@/constants/error'
-import { useNavigate } from 'react-router'
 
 type NotFoundPageProps = {
   type: keyof typeof ERROR_CONTENT

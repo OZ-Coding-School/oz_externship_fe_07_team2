@@ -8,6 +8,7 @@ import reactHooks from 'eslint-plugin-react-hooks' // React Hooks 관련 규칙
 import reactRefresh from 'eslint-plugin-react-refresh' // Vite HMR 최적화 규칙
 import prettier from 'eslint-config-prettier' // Prettier와 충돌하는 ESLint 규칙 비활성화
 import globals from 'globals' // 글로벌 변수 정의 (window, document 등)
+import simpleImportSort from 'eslint-plugin-simple-import-sort' // 자동import정렬
 
 export default tseslint.config(
   // 1. 무시할 파일/폴더 설정
@@ -37,6 +38,7 @@ export default tseslint.config(
       react, // React 컴포넌트 관련
       'react-hooks': reactHooks, // React Hooks 관련
       'react-refresh': reactRefresh, // Vite HMR 관련
+      'simple-import-sort': simpleImportSort, // import 자동정렬
     },
 
     // 언어 및 파싱 설정
@@ -84,6 +86,22 @@ export default tseslint.config(
           varsIgnorePattern: '^_', // _로 시작하는 변수는 미사용 허용
         },
       ],
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'], // 타입정의 type 사용
+
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+        },
+      ],
+
+      'simple-import-sort/imports': [
+        'error',
+        {
+          groups: [['^react'], ['^@?\\w'], ['^@/'], ['^\\.']],
+        },
+      ],
+      'simple-import-sort/exports': 'error',
 
       // ===== TypeScript 기본 규칙 =====
       '@typescript-eslint/no-explicit-any': 'warn', // any 타입 사용시 경고만 (에러 아님)

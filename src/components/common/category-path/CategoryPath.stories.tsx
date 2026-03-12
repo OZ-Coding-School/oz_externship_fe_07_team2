@@ -1,7 +1,8 @@
+import { useState } from 'react'
+
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import CategoryPath from './CategoryPath'
-import { useState } from 'react'
 
 const SAMPLE_CATEGORY = ['프론트엔드', '프로그래밍 언어', 'Python']
 

@@ -1,9 +1,11 @@
-import { cn } from '@/utils/cn'
 import type { VariantProps } from 'class-variance-authority'
+
+import { cn } from '@/utils/cn'
+
 import { buttonVariants } from './button.styles'
 
-interface ButtonProps
-  extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {}
+type ButtonProps = {} & React.ComponentProps<'button'> &
+  VariantProps<typeof buttonVariants>
 
 export default function Button({
   variant = 'primary',

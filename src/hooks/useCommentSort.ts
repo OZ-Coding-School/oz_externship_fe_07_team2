@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react'
+import { useMemo, useState } from 'react'
+
 import type { QnaAnswer } from '@/features/qna-detail/types'
 
 type Comment = QnaAnswer['comments'][number]

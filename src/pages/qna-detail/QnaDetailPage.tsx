@@ -1,10 +1,11 @@
 // import { useParams } from 'react-router-dom'
 import { EmptyState } from '@/components'
 import {
-  QnaDetailHeader,
-  QnaDetailAnswer,
   QnaAnswer,
+  QnaDetailAnswer,
+  QnaDetailHeader,
 } from '@/features/qna-detail'
+
 import { mockQuestionDetail, mockUsers } from './mock'
 
 export default function QnaDetailPage() {

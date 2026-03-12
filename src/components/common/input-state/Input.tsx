@@ -1,10 +1,11 @@
-import { cn } from '@/utils/cn'
 import type { InputHTMLAttributes } from 'react'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+import { cn } from '@/utils/cn'
+
+type InputProps = {
   status?: 'error' | 'success'
   className?: string
-}
+} & InputHTMLAttributes<HTMLInputElement>
 
 export default function Input({ status, className, ...props }: InputProps) {
   const baseClasses =

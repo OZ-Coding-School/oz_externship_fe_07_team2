@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router'
+
+import { Pencil } from 'lucide-react'
+
 import { Button, SearchBar } from '@/components'
 import { ROUTES_PATHS } from '@/constants/url'
-import { Pencil } from 'lucide-react'
-import { useNavigate } from 'react-router'
 
 type QnaListHeaderProps = {
   value: string
@@ -25,7 +27,7 @@ export default function QnaListHeader({ value, onChange }: QnaListHeaderProps) {
         <Button
           size="md"
           rounded="md"
-          onClick={() => navigate(ROUTES_PATHS.CEATE_QNA)}
+          onClick={() => navigate(ROUTES_PATHS.CREATE_QNA)}
         >
           <Pencil className="mr-2 h-5 w-5" />
           질문하기

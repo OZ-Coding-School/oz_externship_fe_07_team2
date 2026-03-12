@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ChevronsLeft, ChevronRight } from 'lucide-react'
+import { ChevronRight, ChevronsLeft } from 'lucide-react'
 import { fn } from 'storybook/test'
 
 import NavButton from './NavButton'

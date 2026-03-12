@@ -1,11 +1,12 @@
-import { Button, Input, Editor } from '@/components'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
+
+import { Button, Editor, Input } from '@/components'
 import { ROUTES_PATHS } from '@/constants/url'
 import CategoryDropdown, {
   type SelectedCategory,
 } from '@/shared/CategoryDropdown'
 import type { Category } from '@/types'
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
 
 export default function QnACreatePage() {
   const [title, setTitle] = useState('')

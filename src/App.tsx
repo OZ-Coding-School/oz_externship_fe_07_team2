@@ -1,13 +1,15 @@
-import { Routes, Route } from 'react-router'
-import './App.css'
+import { Route, Routes } from 'react-router'
+
+import { RootLayout } from '@/components'
+import { ROUTES_PATHS } from '@/constants/url'
 import {
   NotFoundPage,
-  QnaListPage,
-  QnaDetailPage,
   QnACreatePage,
+  QnaDetailPage,
+  QnaListPage,
 } from '@/pages'
-import { ROUTES_PATHS } from '@/constants/url'
-import { RootLayout } from '@/components'
+
+import './App.css'
 
 function App() {
   return (

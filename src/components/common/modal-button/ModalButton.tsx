@@ -1,10 +1,11 @@
-import { ArrowDownUp } from 'lucide-react'
 import {
-  useRef,
-  useState,
   type ComponentPropsWithRef,
   type MouseEventHandler,
+  useRef,
+  useState,
 } from 'react'
+
+import { ArrowDownUp } from 'lucide-react'
 
 import useOutsideClick from '@/hooks/useOutsideClick'
 import { cn } from '@/utils/cn'

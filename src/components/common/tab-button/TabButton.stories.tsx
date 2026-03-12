@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
-import { TabButton, EmptyState } from '@/components'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+
+import { EmptyState, TabButton } from '@/components'
 
 const SAMPLE_TABS = [
   { value: 'all', label: '전체보기' },
