@@ -1,6 +1,6 @@
 import { AnswerBadge, Avatar, CategoryPath } from '@/components'
+import type { QnaQuestion } from '@/types'
 import { cn, formatTimeAgo } from '@/utils'
-import type { QnaQuestion } from '../types/qna.type'
 
 type QnaCardProps = {
   question: QnaQuestion
@@ -14,7 +14,8 @@ export default function QnaCard({ question }: QnaCardProps) {
   return (
     <div
       className={cn(
-        `p-2 md:p-6 ${hasThumbnail ? 'flex flex-col md:flex-row md:gap-6' : ''}`
+        'p-2 md:p-6',
+        hasThumbnail ? 'flex flex-col md:flex-row md:gap-6' : ' '
       )}
     >
       <div className="flex-1">
