@@ -1,4 +1,5 @@
 // utils
 
-export { getPageNumbers } from './getPageNumbers'
 export { cn } from './cn'
+export { formatTimeAgo } from './formatTimeAgo'
+export { getPageNumbers } from './getPageNumbers'
