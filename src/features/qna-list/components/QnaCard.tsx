@@ -1,5 +1,5 @@
-import { AnswerBadge, Avatar } from '@/components'
-import { formatTimeAgo } from '@/utils'
+import { AnswerBadge, Avatar, CategoryPath } from '@/components'
+import { cn, formatTimeAgo } from '@/utils'
 import type { QnaQuestion } from '../types/qna.type'
 
 type QnaCardProps = {
@@ -13,12 +13,12 @@ export default function QnaCard({ question }: QnaCardProps) {
 
   return (
     <div
-      className={`p-2 md:p-6 ${hasThumbnail ? 'flex flex-col md:flex-row md:gap-6' : ''}`}
+      className={cn(
+        `p-2 md:p-6 ${hasThumbnail ? 'flex flex-col md:flex-row md:gap-6' : ''}`
+      )}
     >
       <div className="flex-1">
-        <div className="text-text-light text-sm">
-          {question.category.names.join(' > ')}
-        </div>
+        <CategoryPath path={question.category.names} variant="list" />
 
         <h3 className="text-text-main mt-1 text-lg font-semibold">
           {question.title}
@@ -52,7 +52,7 @@ export default function QnaCard({ question }: QnaCardProps) {
       </div>
 
       {hasThumbnail && (
-        <div className="order-first mb-4 h-[200px] w-full shrink-0 md:order-0 md:mb-0 md:h-[163px] md:w-[228px]">
+        <div className="order-first mb-4 h-50 w-full shrink-0 md:order-0 md:mb-0 md:h-40.75 md:w-57">
           <img
             src={question.thumbnail_img_url!}
             alt="thumbnail"
