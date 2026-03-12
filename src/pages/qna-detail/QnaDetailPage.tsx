@@ -1,14 +1,14 @@
 // import { useParams } from 'react-router-dom'
 import { EmptyState } from '@/components'
 import QnaDetailHeader from './components/QnaDetailHeader'
-import { mockQuestion } from './mock'
+import { mockQuestionDetail } from './mock'
 
 export default function QnaDetailPage() {
   // 임시 데이터용 questionId, 실제로는 API에서 받아올 예정
   //   const { questionId } = useParams()
 
   // 지금은 mock 데이터 사용
-  const question = mockQuestion
+  const question = mockQuestionDetail
 
   const handleShare = () => {
     const url = window.location.href

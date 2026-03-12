@@ -1,9 +1,9 @@
-import type { QnaQuestion } from '../types'
+import type { QnaQuestionDetail } from '../types'
 import { Avatar, Button, CategoryPath } from '@/components'
 import { Link } from 'lucide-react'
 
 type QnaDetailHeaderProps = {
-  question: QnaQuestion
+  question: QnaQuestionDetail
   onShare?: () => void
 }
 
@@ -11,11 +11,13 @@ export default function QnaDetailHeader({
   question,
   onShare,
 }: QnaDetailHeaderProps) {
-  const { name, title, content, author, view_count, created_at } = question
+  const { category, title, content, author, view_count, created_at } = question
+
+  const avatarSrc = author.profile_image_url ?? undefined
 
   return (
     <header className="border-border-line pb-10">
-      <CategoryPath path={name} variant="detail" className="mb-4" />
+      <CategoryPath path={category.names} variant="detail" className="mb-4" />
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <span className="text-primary text-6xl leading-none font-bold">
@@ -28,9 +30,9 @@ export default function QnaDetailHeader({
         </div>
 
         <div className="m-4 flex shrink-0 items-center gap-2">
-          <Avatar src={author.avatar_url} alt={author.name} size="md" />
+          <Avatar src={avatarSrc} alt={author.nickname} size="md" />{' '}
           <span className="text-text-sub text-sm font-semibold">
-            {author.name}
+            {author.nickname}
           </span>
         </div>
       </div>
