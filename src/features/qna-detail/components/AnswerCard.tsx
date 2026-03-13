@@ -1,11 +1,8 @@
 import { MessageCircle } from 'lucide-react'
-import { Avatar } from '@/components'
-import { cn } from '@/utils/cn'
-import { formatRelativeTime } from '@/utils/formatRelativeTime'
-
+import { Avatar, ModalButton } from '@/components'
+import { cn, formatRelativeTime } from '@/utils'
+import { useCommentSort } from '@/hooks'
 import type { QnaAnswer } from '../types'
-import ModalButton from '@/components/common/modal-button/ModalButton'
-import { useCommentSort } from '@/hooks/useCommentSort'
 
 type AnswerCardProps = {
   answer: QnaAnswer

@@ -1,6 +1,6 @@
-import type { QnaQuestionDetail } from '@/features/qna-detail/types'
+import type { QnaQuestionDetail } from '../types'
 import { Avatar, Button, CategoryPath } from '@/components'
-import { formatRelativeTime } from '@/utils/formatRelativeTime'
+import { formatRelativeTime } from '@/utils'
 
 import { Link } from 'lucide-react'
 
