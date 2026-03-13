@@ -1,5 +1,5 @@
 import { AnswerBadge, Avatar, CategoryPath } from '@/components'
-import type { QnaQuestion } from '@/types'
+import type { QnaQuestion } from '@/features/qna-list'
 import { cn, formatTimeAgo } from '@/utils'
 
 type QnaCardProps = {
@@ -14,14 +14,13 @@ export default function QnaCard({ question }: QnaCardProps) {
   return (
     <div
       className={cn(
-        'p-2 md:p-6',
-        hasThumbnail ? 'flex flex-col md:flex-row md:gap-6' : ' '
+        'hover:bg-surface-sub flex flex-col p-10 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
       )}
     >
-      <div className="flex-1">
+      <div className="flex flex-1 flex-col">
         <CategoryPath path={question.category.names} variant="list" />
 
-        <h3 className="text-text-main mt-1 text-lg font-semibold">
+        <h3 className="text-text-main mt-5 line-clamp-1 max-w-full text-lg font-semibold">
           {question.title}
         </h3>
 
@@ -29,7 +28,7 @@ export default function QnaCard({ question }: QnaCardProps) {
           {question.content_preview}
         </p>
 
-        <div className="mt-9 flex items-center justify-between text-sm">
+        <div className="mt-5 flex items-center justify-between text-sm md:mt-auto">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <AnswerBadge
@@ -53,7 +52,7 @@ export default function QnaCard({ question }: QnaCardProps) {
       </div>
 
       {hasThumbnail && (
-        <div className="order-first mb-4 h-50 w-full shrink-0 md:order-0 md:mb-0 md:h-40.75 md:w-57">
+        <div className="order-first mb-5 w-full shrink-0 md:order-0 md:mb-0 md:w-57">
           <img
             src={question.thumbnail_img_url!}
             alt="thumbnail"
