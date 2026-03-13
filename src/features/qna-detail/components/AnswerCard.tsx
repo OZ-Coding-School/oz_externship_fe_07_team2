@@ -53,7 +53,7 @@ export default function AnswerCard({
           </div>
         </div>
 
-        <div className="text-text-body text-sm leading-7 whitespace-pre-line">
+        <div className="text-text-main text-sm leading-7 whitespace-pre-line">
           {content}
         </div>
 

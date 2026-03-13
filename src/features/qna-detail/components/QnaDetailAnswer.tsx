@@ -13,8 +13,8 @@ export default function QnaDetailAnswer({ answers }: QnaDetailAnswerProps) {
 
   return (
     <section className="">
-      <div className="border-border-line mb-12 border-b" />
-      <div className="mb-4 flex items-center gap-3">
+      <div className="border-border-line mb-8 border-b" />
+      <div className="mb-6 flex items-center gap-3">
         <AnswerBadge variant={'detail'} size={'md'} className="my-4" />
         <h2 className="text-text-main text-xl font-bold">
           {answers.length}개의 답변이 있어요

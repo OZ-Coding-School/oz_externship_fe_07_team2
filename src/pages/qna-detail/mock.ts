@@ -1,4 +1,4 @@
-import type { QnaQuestionDetail } from './types'
+import type { QnaQuestionDetail } from '@/features/qna-detail/types'
 
 export const mockQuestionDetail: QnaQuestionDetail = {
   id: 10501,

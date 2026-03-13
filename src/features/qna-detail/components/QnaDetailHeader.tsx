@@ -1,4 +1,4 @@
-import type { QnaQuestionDetail } from '../types'
+import type { QnaQuestionDetail } from '@/features/qna-detail/types'
 import { Avatar, Button, CategoryPath } from '@/components'
 import { formatRelativeTime } from '@/utils/formatRelativeTime'
 
