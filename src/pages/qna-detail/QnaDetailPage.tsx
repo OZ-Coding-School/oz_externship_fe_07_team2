@@ -2,6 +2,7 @@
 import { EmptyState } from '@/components'
 import QnaDetailHeader from './components/QnaDetailHeader'
 import { mockQuestionDetail } from './mock'
+import AnswerCard from './components/QnaDetailAnswer'
 
 export default function QnaDetailPage() {
   // 임시 데이터용 questionId, 실제로는 API에서 받아올 예정
@@ -18,15 +19,15 @@ export default function QnaDetailPage() {
   }
 
   return (
-    <div className="px-8">
+    <div className="px-8 py-10">
       {/* 질문 헤더 */}
       <QnaDetailHeader question={question} onShare={handleShare} />
 
-      {/* 답변 영역 (추후 구현) */}
-      <section className="mt-12">
-        <h2 className="text-xl font-semibold">답변 0개</h2>
-        <EmptyState type="emptyState" />
-      </section>
+      {/* 답변 카드 */}
+      <AnswerCard answers={question.answers} />
+
+      {/* 답변이 없을 때 */}
+      {question.answers.length === 0 && <EmptyState type="emptyState" />}
     </div>
   )
 }

@@ -45,6 +45,16 @@ export const mockQuestionDetail: QnaQuestionDetail = {
             profile_image_url: null,
           },
         },
+        {
+          id: 1002,
+          content: '댓글2',
+          created_at: '2025-03-02 12:00:00',
+          author: {
+            id: 211,
+            nickname: '한솔_회장',
+            profile_image_url: null,
+          },
+        },
       ],
     },
     {
