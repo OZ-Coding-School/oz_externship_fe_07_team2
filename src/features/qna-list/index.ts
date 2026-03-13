@@ -1,5 +1,7 @@
 export { default as FilterSidebar } from './components/FilterSidebar'
 export { default as QnaCard } from './components/QnaCard'
 export { default as QnaListHeader } from './components/QnaListHeader'
+export { default as useCategoryFilter } from './hooks/useCategoryFilter'
 export { default as useDebounce } from './hooks/useDebounce'
-export type { QnaListResponse, QnaQuestion } from './types/qna.type'
+export { default as useQnaFilters } from './hooks/useQnaFilters'
+export type { QnaFilters, QnaListItem, QnaListResponse } from './types/qna.type'
