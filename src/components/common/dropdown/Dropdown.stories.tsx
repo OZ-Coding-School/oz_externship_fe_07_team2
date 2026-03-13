@@ -75,7 +75,6 @@ const QuestionWritePage = () => {
       <div className="rounded-2xl border border-gray-200 p-6">
         <div className="grid grid-cols-3 gap-2">
           <Dropdown
-            variant="overlay"
             options={largeOptions}
             placeHolder="대분류 선택"
             value={largeValue}
@@ -89,7 +88,6 @@ const QuestionWritePage = () => {
             }}
           />
           <Dropdown
-            variant="overlay"
             options={filteredMediumOptions}
             placeHolder="중분류 선택"
             value={mediumValue}
@@ -100,7 +98,6 @@ const QuestionWritePage = () => {
             disabled={!largeValue}
           />
           <Dropdown
-            variant="overlay"
             options={filteredSmallOptions}
             placeHolder="소분류 선택"
             value={smallValue}
@@ -140,7 +137,7 @@ const FilterPage = () => {
     .map(({ id, value }) => ({ id, value }))
 
   return (
-    <div className="min-h-[760px] w-[360px] bg-white px-8 py-6">
+    <div className="min-h-190 w-90 bg-white px-8 py-6">
       <div className="mb-8 flex items-center justify-between">
         <div className="text-4xl font-bold text-black">필터</div>
         <button className="text-4xl leading-none text-gray-400">×</button>
@@ -150,7 +147,6 @@ const FilterPage = () => {
       </div>
       <div className="space-y-3">
         <Dropdown
-          variant="inline"
           options={longOptions}
           placeHolder="대분류"
           value={largeValue}
@@ -165,7 +161,6 @@ const FilterPage = () => {
           }}
         />
         <Dropdown
-          variant="inline"
           options={filterMediumOptions}
           placeHolder="중분류"
           value={mediumValue}
@@ -179,7 +174,6 @@ const FilterPage = () => {
           disabled={!largeValue}
         />
         <Dropdown
-          variant="inline"
           options={filterSmallOptions}
           placeHolder="소분류"
           value={smallValue}
