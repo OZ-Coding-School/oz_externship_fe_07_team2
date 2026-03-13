@@ -3,7 +3,7 @@ import type { Category } from '@/types/api-response/category'
 import { cn } from '@/utils'
 import { useState } from 'react'
 
-type SelectedCategory = {
+export type SelectedCategory = {
   large: Category | null
   medium: Category | null
   small: Category | null
@@ -13,12 +13,14 @@ type CategoryDropdownProps = {
   direction?: 'row' | 'column'
   categories: Category[]
   onSelect: (selected: SelectedCategory) => void
+  className?: string
 }
 
 export default function CategoryDropdown({
   categories,
   direction = 'row',
   onSelect,
+  className,
 }: CategoryDropdownProps) {
   const [selected, setSelected] = useState<SelectedCategory>({
     large: null,
@@ -65,7 +67,8 @@ export default function CategoryDropdown({
     <div
       className={cn(
         'flex gap-4',
-        direction === 'column' ? 'flex-col' : 'flex-row'
+        direction === 'column' ? 'flex-col' : 'flex-row',
+        className
       )}
     >
       <Dropdown
