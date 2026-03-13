@@ -3,6 +3,7 @@ import { Avatar, ModalButton } from '@/components'
 import { cn, formatTimeAgo } from '@/utils'
 import { useCommentSort } from '@/hooks'
 import type { QnaAnswer } from '../types'
+import type { SortType } from '@/hooks/useCommentSort'
 
 type AnswerCardProps = {
   answer: QnaAnswer
@@ -70,7 +71,7 @@ export default function AnswerCard({
               <ModalButton
                 value={sortType}
                 options={sortOptions}
-                onChange={(value) => setSortType(value as 'latest' | 'oldest')}
+                onChange={(value: SortType) => setSortType(value)}
                 className="w-auto"
               />
             </div>

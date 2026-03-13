@@ -2,11 +2,17 @@ import { useState, useMemo } from 'react'
 import type { QnaAnswer } from '@/features/qna-detail/types'
 
 type Comment = QnaAnswer['comments'][number]
+export type SortType = 'latest' | 'oldest'
+
+type SortOption = {
+  label: string
+  value: SortType
+}
 
 export function useCommentSort(comments: Comment[]) {
-  const [sortType, setSortType] = useState<'latest' | 'oldest'>('latest')
+  const [sortType, setSortType] = useState<SortType>('latest')
 
-  const sortOptions = [
+  const sortOptions: SortOption[] = [
     { label: '최신순', value: 'latest' },
     { label: '오래된순', value: 'oldest' },
   ]
