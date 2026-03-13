@@ -11,7 +11,7 @@ export default function QnACreatePage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [categoryId, setCategoryId] = useState<number | null>(null)
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories] = useState<Category[]>([])
   const navigate = useNavigate()
 
   const handleCategorySelect = (selected: SelectedCategory) => {

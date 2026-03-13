@@ -47,19 +47,9 @@ export default function FilterSidebar({ open, onClose }: FilterSidebarProps) {
             </div>
 
             <div className="space-y-5">
-              <Dropdown variant="inline" options={[]} placeHolder="대분류" />
-              <Dropdown
-                variant="inline"
-                options={[]}
-                placeHolder="중분류"
-                disabled
-              />
-              <Dropdown
-                variant="inline"
-                options={[]}
-                placeHolder="소분류"
-                disabled
-              />
+              <Dropdown options={[]} placeHolder="대분류" />
+              <Dropdown options={[]} placeHolder="중분류" disabled />
+              <Dropdown options={[]} placeHolder="소분류" disabled />
             </div>
           </div>
         </div>
