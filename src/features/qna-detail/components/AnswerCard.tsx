@@ -1,6 +1,6 @@
 import { MessageCircle } from 'lucide-react'
 import { Avatar, ModalButton } from '@/components'
-import { cn, formatRelativeTime } from '@/utils'
+import { cn, formatTimeAgo } from '@/utils'
 import { useCommentSort } from '@/hooks'
 import type { QnaAnswer } from '../types'
 
@@ -56,7 +56,7 @@ export default function AnswerCard({
 
         <div className="border-border-line mt-6 border-b pb-2 text-right">
           <span className="text-text-light text-xs">
-            {formatRelativeTime(created_at)}
+            {formatTimeAgo(created_at)}
           </span>
         </div>
         {comments.length > 0 && (
@@ -88,7 +88,7 @@ export default function AnswerCard({
                       {comment.author.nickname}
                     </span>
                     <span className="text-text-light text-xs">
-                      {formatRelativeTime(comment.created_at)}
+                      {formatTimeAgo(comment.created_at)}
                     </span>
                   </div>
 

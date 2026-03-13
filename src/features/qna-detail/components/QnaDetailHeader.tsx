@@ -1,6 +1,6 @@
 import type { QnaQuestionDetail } from '../types'
 import { Avatar, Button, CategoryPath } from '@/components'
-import { formatRelativeTime } from '@/utils'
+import { formatTimeAgo } from '@/utils'
 
 import { Link } from 'lucide-react'
 
@@ -47,7 +47,7 @@ export default function QnaDetailHeader({
             <div className="text-text-light flex items-center gap-2 pt-3 text-sm">
               <span>조회수 {view_count}</span>
               <span>·</span>
-              <span>{formatRelativeTime(created_at)}</span>
+              <span>{formatTimeAgo(created_at)}</span>
             </div>
           </div>
         </div>

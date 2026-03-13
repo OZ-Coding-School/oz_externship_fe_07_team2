@@ -38,7 +38,7 @@ export const mockQuestionDetail: QnaQuestionDetail = {
         {
           id: 1001,
           content: '답변 감사합니다! 덕분에 이해됐어요.',
-          created_at: '2025-03-01 12:00:00',
+          created_at: '2026-03-01 12:00:00',
           author: {
             id: 211,
             nickname: '한솔_회장',
@@ -47,8 +47,8 @@ export const mockQuestionDetail: QnaQuestionDetail = {
         },
         {
           id: 1002,
-          content: '댓글2',
-          created_at: '2025-03-02 12:00:00',
+          content: '댓글2(test용)',
+          created_at: '2026-03-13 12:00:00',
           author: {
             id: 211,
             nickname: '한솔_회장',
