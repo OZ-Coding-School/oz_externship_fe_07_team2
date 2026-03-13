@@ -9,24 +9,24 @@ import {
 import useOutsideClick from '@/hooks/useOutsideClick'
 import { cn } from '@/utils/cn'
 
-type ModalOption = {
+export type ModalOption<T extends string> = {
   label: string
-  value: string
+  value: T
 }
 
-type ModalButtonProps = Omit<
+type ModalButtonProps<T extends string> = Omit<
   ComponentPropsWithRef<'button'>,
   'value' | 'onChange' | 'children'
 > & {
-  value: string
-  options: ModalOption[]
-  onChange: (value: string) => void
+  value: T
+  options: ModalOption<T>[]
+  onChange: (value: T) => void
   placeholder?: string
   className?: string
   dropdownClassName?: string
 }
 
-export default function ModalButton({
+export default function ModalButton<T extends string>({
   value,
   options,
   onChange,
@@ -37,7 +37,7 @@ export default function ModalButton({
   type = 'button',
   onClick,
   ...buttonProps
-}: ModalButtonProps) {
+}: ModalButtonProps<T>) {
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
@@ -45,7 +45,7 @@ export default function ModalButton({
 
   const selectedOption = options.find((option) => option.value === value)
 
-  const handleSelect = (nextValue: string) => {
+  const handleSelect = (nextValue: T) => {
     onChange(nextValue)
     setOpen(false)
   }

@@ -1,17 +1,73 @@
-import type { QnaQuestion } from './types'
+import type { QnaQuestionDetail } from '@/features/qna-detail/types'
 
-export const mockQuestion: QnaQuestion = {
-  id: 1,
-  name: ['프론트엔드', '프로그래밍 언어', 'Python'],
-  title:
-    'print를 5번 쓰지 않고, print를 1번만 쓰고 5줄을 모두 표시하는 법이 있나요?',
-  content:
-    'print 명령어를 5번 쓰는 대신 print 한 번만 쓰고 내용을 모두 넣고 표시하는 방법이 있나요?',
-  author: {
-    id: 1,
-    name: '김태산',
-    avatar_url: 'https://avatars.githubusercontent.com/u/12345678?v=4',
+export const mockQuestionDetail: QnaQuestionDetail = {
+  id: 10501,
+  title: 'Django에서 ForeignKey 역참조는 어떻게 하나요?',
+  content: 'Django 모델에서 related_name을 지정했을 때...',
+  category: {
+    id: 12,
+    depth: 2,
+    names: ['백엔드', 'Django', 'ORM'],
   },
-  view_count: 60,
-  created_at: '15시간 전',
+  images: [
+    {
+      id: 3,
+      img_url: 'https://cdn.ozcodingschool.com/qna/img_20250301_101530.png',
+    },
+  ],
+  view_count: 88,
+  created_at: '2025-03-01 10:25:33',
+  author: {
+    id: 211,
+    nickname: '한솔_회장',
+    profile_image_url: null,
+  },
+  answers: [
+    {
+      id: 501,
+      content:
+        'related_name을 지정하면 역참조 시 해당 이름으로 접근할 수 있습니다. 예를 들어 `post.comments.all()` 형태로 사용합니다.',
+      created_at: '2025-03-01 11:30:00',
+      is_adopted: true,
+      author: {
+        id: 102,
+        nickname: 'django_master',
+        profile_image_url: 'https://cdn.ozcodingschool.com/profile/user102.png',
+      },
+      comments: [
+        {
+          id: 1001,
+          content: '답변 감사합니다! 덕분에 이해됐어요.',
+          created_at: '2026-03-01 12:00:00',
+          author: {
+            id: 211,
+            nickname: '한솔_회장',
+            profile_image_url: null,
+          },
+        },
+        {
+          id: 1002,
+          content: '댓글2(test용)',
+          created_at: '2026-03-13 12:00:00',
+          author: {
+            id: 211,
+            nickname: '한솔_회장',
+            profile_image_url: null,
+          },
+        },
+      ],
+    },
+    {
+      id: 502,
+      content: 'select_related와 prefetch_related 차이도 알아두시면 좋습니다.',
+      created_at: '2025-03-01 14:00:00',
+      is_adopted: false,
+      author: {
+        id: 305,
+        nickname: 'orm_lover',
+        profile_image_url: null,
+      },
+      comments: [],
+    },
+  ],
 }
