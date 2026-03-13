@@ -1,6 +1,8 @@
 import { AnswerBadge, Avatar, CategoryPath } from '@/components'
+import { ROUTES_PATHS } from '@/constants/url'
 import type { QnaListItem } from '@/features/qna-list'
 import { cn, formatTimeAgo } from '@/utils'
+import { useNavigate } from 'react-router'
 
 type QnaCardProps = {
   question: QnaListItem
@@ -28,6 +30,7 @@ function highlightText(text: string, keyword: string) {
 }
 
 export default function QnaCard({ question, keyword }: QnaCardProps) {
+  const navigate = useNavigate()
   const hasThumbnail = Boolean(question.thumbnail_img_url)
   const isAnswered = question.answer_count > 0
   const date = formatTimeAgo(question.created_at)
@@ -35,8 +38,9 @@ export default function QnaCard({ question, keyword }: QnaCardProps) {
   return (
     <div
       className={cn(
-        'hover:bg-surface-sub flex flex-col p-10 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
+        'hover:bg-surface-sub flex cursor-pointer flex-col p-10 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
       )}
+      onClick={() => navigate(ROUTES_PATHS.QNA_DETAIL)}
     >
       <div className="flex flex-1 flex-col">
         <CategoryPath path={question.category.names} variant="list" />
