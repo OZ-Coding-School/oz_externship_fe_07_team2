@@ -12,4 +12,9 @@ export const ERROR_CONTENT = {
     title: '아직 등록된 질문이 없어요',
     description: '궁금한 점을 남겨보세요!',
   },
+  searchEmpty: {
+    image: emptyState,
+    title: '검색 결과가 없습니다',
+    description: '다른 검색어나 필터를 시도해보세요!',
+  },
 } as const
