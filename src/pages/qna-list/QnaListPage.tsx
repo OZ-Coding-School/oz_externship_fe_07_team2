@@ -11,7 +11,7 @@ import {
   QnaListHeader,
   useDebounce,
   useQnaFilters,
-  type QnaFilters,
+  useQnaListSearchParams,
 } from '@/features/qna-list'
 import { mockQuestions } from '@/mocks/data/qna-list-mock'
 import { SlidersHorizontal } from 'lucide-react'
@@ -28,20 +28,14 @@ const TABS = [
   { value: 'pending', label: '답변 대기중' },
 ]
 
-export default function QnaListPage() {
-  const initialFilters: QnaFilters = {
-    search: '',
-    tab: 'all',
-    sort: 'latest',
-    category: null,
-  }
+const PAGE_SIZE = 10 // 페이지 수
 
-  const [filters, setFilters] = useState<QnaFilters>({
-    ...initialFilters,
-  })
-  const { search, tab, sort } = filters
+export default function QnaListPage() {
+  const { defaultFilters, filters, page, updateFilters } =
+    useQnaListSearchParams()
+  const { tab, sort } = filters
+  const [search, setSearch] = useState(defaultFilters.search)
   const debouncedSearch = useDebounce(search, 300)
-  const [page, setPage] = useState(1)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const questionsList = mockQuestions
 
@@ -50,31 +44,28 @@ export default function QnaListPage() {
     search: debouncedSearch,
   })
 
-  const PAGE_SIZE = 10 // 페이지 수
-
   //전체 페이지 수 계산
   const totalPages = Math.ceil(filteredQuestions.length / PAGE_SIZE)
 
+  const currentPage = Math.min(page, Math.max(totalPages, 1))
   // 현재 페이지에 해당하는 질문 목록만 잘라서 가져옴
   const paginatedQuestions = filteredQuestions.slice(
-    (page - 1) * PAGE_SIZE,
-    page * PAGE_SIZE
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
   )
 
   const hasNoResults = filteredQuestions.length === 0
-
-  const handleResetList = () => {
-    setFilters(initialFilters)
-    setPage(1)
-  }
 
   return (
     <div className="flex flex-1 flex-col">
       <QnaListHeader
         value={search}
         onChange={(value: string) => {
-          setFilters((prev) => ({ ...prev, search: value }))
-          setPage(1)
+          setSearch(value)
+          updateFilters({
+            nextFilters: filters,
+            nextPage: 1,
+          })
         }}
       />
 
@@ -84,8 +75,13 @@ export default function QnaListPage() {
             tabs={TABS}
             value={tab}
             onValueChange={(value: string) => {
-              setFilters((prev) => ({ ...prev, tab: value }))
-              setPage(1)
+              updateFilters({
+                nextFilters: {
+                  ...filters,
+                  tab: value,
+                },
+                nextPage: 1,
+              })
             }}
           />
 
@@ -94,8 +90,13 @@ export default function QnaListPage() {
               value={sort}
               options={SORT_OPTIONS}
               onChange={(value: string) => {
-                setFilters((prev) => ({ ...prev, sort: value }))
-                setPage(1)
+                updateFilters({
+                  nextFilters: {
+                    ...filters,
+                    sort: value,
+                  },
+                  nextPage: 1,
+                })
               }}
               className="text-modal w-fit p-0 text-base"
               dropdownClassName="w-34.5 right-0 left-auto top-9"
@@ -113,17 +114,9 @@ export default function QnaListPage() {
         </div>
 
         {/* list 목록 */}
-
         {hasNoResults ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4">
             <EmptyState type="searchEmpty" />
-            <Button
-              variant="outline"
-              className="py-2 text-base font-normal"
-              onClick={handleResetList}
-            >
-              전체 질문 보기
-            </Button>
           </div>
         ) : (
           paginatedQuestions.map((list) => (
@@ -133,18 +126,17 @@ export default function QnaListPage() {
 
         {/*필터 클릭시 사이드바*/}
         <FilterSidebar
-          open={isFilterOpen}
-          onClose={() => setIsFilterOpen(false)}
-          appliedCategoryId={filters.category}
-          onApply={(categoryId) => {
-            // 사이드바에서 전달한 선택값을 그대로 저장시 적용/해제 상태가 일관
-            setFilters((prev) => ({
-              ...prev,
-              category: categoryId,
-            }))
-
-            // 필터 변경 시 페이지를 1로 초기화
-            setPage(1)
+          isFilterOpen={isFilterOpen}
+          onFilterClose={() => setIsFilterOpen(false)}
+          isAppliedCategory={filters.category}
+          onCategoryFilterApply={(categoryId) => {
+            updateFilters({
+              nextFilters: {
+                ...filters,
+                category: categoryId,
+              },
+              nextPage: 1,
+            })
           }}
         />
       </section>
@@ -152,9 +144,14 @@ export default function QnaListPage() {
       {!hasNoResults && (
         <div className="my-8 flex justify-center">
           <Pagination
-            currentPage={page}
+            currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={setPage}
+            onPageChange={(nextPage) =>
+              updateFilters({
+                nextFilters: filters,
+                nextPage,
+              })
+            }
           />
         </div>
       )}
