@@ -1,33 +1,87 @@
-import { Button, Dropdown } from '@/components'
+import { Button } from '@/components'
+import { findSelectedCategory } from '@/features/qna-list/utils/categoryFilter'
+import { mockCategories } from '@/mocks/data/category-mock'
+import CategoryDropdown, {
+  type SelectedCategory,
+} from '@/shared/CategoryDropdown'
 import { RotateCw, X } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 type FilterSidebarProps = {
-  open: boolean
-  onClose: () => void
+  isFilterOpen: boolean
+  onFilterClose: () => void
+  isAppliedCategory: number | null
+  onCategoryFilterApply?: (categoryId: number | null) => void
 }
 
-export default function FilterSidebar({ open, onClose }: FilterSidebarProps) {
-  //스크롤  없애기
+//filter open 시 스크롤 없애기
+function useBodyScrollLock(isFilterOpen: boolean) {
   useEffect(() => {
-    if (!open) {
+    if (!isFilterOpen) {
       document.body.style.overflow = 'auto'
       return
     }
-
     document.body.style.overflow = 'hidden'
-
     return () => {
       document.body.style.overflow = 'auto'
     }
-  }, [open])
+  }, [isFilterOpen])
+}
 
-  if (!open) return null
+export default function FilterSidebar({
+  isFilterOpen,
+  onFilterClose,
+  isAppliedCategory,
+  onCategoryFilterApply,
+}: FilterSidebarProps) {
+  const appliedSelection = useMemo(
+    () => findSelectedCategory(mockCategories, isAppliedCategory),
+    [isAppliedCategory]
+  )
+  const [pendingSelection, setPendingSelection] =
+    useState<SelectedCategory>(appliedSelection)
+  const [dropdownKey, setDropdownKey] = useState(0)
+
+  //filter Open 시 스크롤 없애기
+  useBodyScrollLock(isFilterOpen)
+
+  useEffect(() => {
+    if (!isFilterOpen) return
+
+    setPendingSelection(appliedSelection)
+    setDropdownKey((prev) => prev + 1)
+  }, [appliedSelection, isFilterOpen])
+
+  const selectedCategoryId =
+    pendingSelection.small?.id ??
+    pendingSelection.medium?.id ??
+    pendingSelection.large?.id ??
+    null
+
+  const isApplyDisabled = selectedCategoryId === isAppliedCategory
+
+  const handleReset = () => {
+    const emptySelection = {
+      large: null,
+      medium: null,
+      small: null,
+    }
+
+    setPendingSelection(emptySelection)
+    setDropdownKey((prev) => prev + 1)
+  }
+
+  const handleApply = () => {
+    onCategoryFilterApply?.(selectedCategoryId)
+    onFilterClose()
+  }
+
+  if (!isFilterOpen) return null
 
   return (
     <div
       className="fixed inset-0 z-50 flex justify-end bg-black/50"
-      onClick={onClose}
+      onClick={onFilterClose}
     >
       <div
         className="bg-surface-default flex h-full w-full flex-col rounded-l-xl rounded-bl-xl md:h-270 md:w-135"
@@ -36,29 +90,43 @@ export default function FilterSidebar({ open, onClose }: FilterSidebarProps) {
         <div className="px-11.5">
           <div className="mt-11.25 flex items-center justify-between">
             <div className="text-[32px]">필터</div>
-            <Button variant={'text'} onClick={onClose} className="p-0">
+            <Button variant={'text'} onClick={onFilterClose} className="p-0">
               <X size={34} className="text-text-light" />
             </Button>
           </div>
 
           <div className="mt-15">
-            <div className="text-text-sub mb-5 text-xl font-bold">
-              카테고리 선택
+            <div className="mb-5 flex items-center gap-2">
+              <div className="text-text-sub text-xl font-bold">
+                카테고리 선택
+              </div>
+              {isAppliedCategory !== null && (
+                <span className="bg-primary-100 text-primary rounded-full px-2.5 py-1 text-xs font-semibold">
+                  필터 적용 중
+                </span>
+              )}
             </div>
 
             <div className="space-y-5">
-              <Dropdown options={[]} placeHolder="대분류" />
-              <Dropdown options={[]} placeHolder="중분류" disabled />
-              <Dropdown options={[]} placeHolder="소분류" disabled />
+              <CategoryDropdown
+                key={dropdownKey}
+                categories={mockCategories}
+                direction="column"
+                initialValue={pendingSelection}
+                onSelect={setPendingSelection}
+              />
             </div>
           </div>
         </div>
 
         <div className="shadow-modal bg-surface-sub mt-auto flex w-full justify-between rounded-bl-xl px-5 py-5 text-xl [&>button]:w-full">
-          <Button variant={'text'} size={'lg'}>
+          <Button variant={'text'} size={'lg'} onClick={handleReset}>
             <RotateCw className="mr-1" /> 선택 초기화
           </Button>
-          <Button size={'lg'}>필터 적용하기</Button>
+
+          <Button size={'lg'} onClick={handleApply} disabled={isApplyDisabled}>
+            필터 적용하기
+          </Button>
         </div>
       </div>
     </div>

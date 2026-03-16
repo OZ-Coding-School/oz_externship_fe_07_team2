@@ -3,11 +3,11 @@ export type QnaListResponse = {
   count: number
   next: string | null
   previous: string | null
-  results: QnaQuestion[]
+  results: QnaListItem[]
 }
 
 // 질문(카드) 데이터 타입
-export type QnaQuestion = {
+export type QnaListItem = {
   id: number
   category: {
     id: number
@@ -25,4 +25,12 @@ export type QnaQuestion = {
   view_count: number
   created_at: string
   thumbnail_img_url: string | null
+}
+
+//filter 타입
+export type QnaFilters = {
+  search: string
+  tab: string
+  sort: string
+  category: number | null
 }

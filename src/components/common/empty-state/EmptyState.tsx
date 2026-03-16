@@ -7,7 +7,7 @@ type EmptyStateProps = {
 export default function EmptyState({ type }: EmptyStateProps) {
   const { image, title, description } = ERROR_CONTENT[type]
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-5">
+    <div className="flex flex-col items-center justify-center gap-5">
       <img src={image} alt="empty 상태 페이지" />
       <div className="text-text-light text-center">
         <p>{title}</p>

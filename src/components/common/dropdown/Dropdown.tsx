@@ -46,7 +46,7 @@ type Option = {
 type DropdownProps = {
   options: Option[]
   placeHolder?: string
-  value?: string
+  value?: string | null
   open?: boolean
   onSelect?: (option: Option) => void
   onOpenChange?: (value: boolean) => void

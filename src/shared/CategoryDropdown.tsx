@@ -14,6 +14,7 @@ type CategoryDropdownProps = {
   categories: Category[]
   onSelect: (selected: SelectedCategory) => void
   className?: string
+  initialValue?: SelectedCategory
 }
 
 export default function CategoryDropdown({
@@ -21,12 +22,15 @@ export default function CategoryDropdown({
   direction = 'row',
   onSelect,
   className,
+  initialValue,
 }: CategoryDropdownProps) {
-  const [selected, setSelected] = useState<SelectedCategory>({
-    large: null,
-    medium: null,
-    small: null,
-  })
+  const [selected, setSelected] = useState<SelectedCategory>(
+    initialValue ?? {
+      large: null,
+      medium: null,
+      small: null,
+    }
+  )
 
   const toOptions = (cats?: Category[]) =>
     cats?.map((c) => ({ id: c.id, value: c.name })) ?? []
@@ -73,12 +77,14 @@ export default function CategoryDropdown({
     >
       <Dropdown
         className={itemClassName}
+        value={selected.large?.name ?? null}
         options={largeOptions}
         placeHolder="대분류"
         onSelect={handleSelect('large')}
       />
       <Dropdown
         className={itemClassName}
+        value={selected.medium?.name ?? null}
         options={mediumOptions}
         placeHolder="중분류"
         disabled={!selected.large}
@@ -86,6 +92,7 @@ export default function CategoryDropdown({
       />
       <Dropdown
         className={itemClassName}
+        value={selected.small?.name ?? null}
         options={smallOptions}
         placeHolder="소분류"
         disabled={!selected.medium}
