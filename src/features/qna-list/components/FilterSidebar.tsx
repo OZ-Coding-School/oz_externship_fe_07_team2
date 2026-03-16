@@ -1,8 +1,11 @@
-import { Button, Dropdown } from '@/components'
-import useCategoryFilter from '@/features/qna-list/hooks/category/useCategoryFilter'
-import useCategoryOptions from '@/features/qna-list/hooks/category/useCategoryOptions'
+import { Button } from '@/components'
+import { findSelectedCategory } from '@/features/qna-list/utils/categoryFilter'
+import { mockCategories } from '@/mocks/data/category-mock'
+import CategoryDropdown, {
+  type SelectedCategory,
+} from '@/shared/CategoryDropdown'
 import { RotateCw, X } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 type FilterSidebarProps = {
   isFilterOpen: boolean
@@ -31,62 +34,45 @@ export default function FilterSidebar({
   isAppliedCategory,
   onCategoryFilterApply,
 }: FilterSidebarProps) {
-  const {
-    selectedLarge,
-    selectedMedium,
-    selectedSmall,
-    mediumDisable,
-    smallDisable,
-    handleLargeChange,
-    handleMediumChange,
-    handleSmallChange,
-    selectedCategoryId,
-    resetCategoryFilter,
-    syncCategoryFilter,
-  } = useCategoryFilter()
-
-  const {
-    appliedCategoryPath,
-    largeDropdownOptions,
-    mediumDropdownOptions,
-    smallDropdownOptions,
-    largeCategoryValue,
-    mediumCategoryValue,
-    smallCategoryValue,
-  } = useCategoryOptions({
-    appliedCategoryId: isAppliedCategory,
-    selectedLarge,
-    selectedMedium,
-    selectedSmall,
-  })
+  const appliedSelection = useMemo(
+    () => findSelectedCategory(mockCategories, isAppliedCategory),
+    [isAppliedCategory]
+  )
+  const [pendingSelection, setPendingSelection] =
+    useState<SelectedCategory>(appliedSelection)
+  const [dropdownKey, setDropdownKey] = useState(0)
 
   //filter Open 시 스크롤 없애기
   useBodyScrollLock(isFilterOpen)
 
-  // 사이드바가 열릴 때 현재 적용된 카테고리 상태를 내부 필터 상태와 동기화
-  // 부모 페이지에서 전달된 isAppliedCategory 값을 기준으로
-  // 대 / 중 / 소 카테고리 선택 상태를 복원한다.
   useEffect(() => {
-    // 사이드바가 닫혀있을 때는 동기화할 필요 없음
     if (!isFilterOpen) return
 
-    // 현재 적용된 카테고리를 훅 내부 상태(selectedLarge, selectedMedium, selectedSmall)에 반영
-    syncCategoryFilter(appliedCategoryPath)
-  }, [appliedCategoryPath, isFilterOpen, syncCategoryFilter])
+    setPendingSelection(appliedSelection)
+    setDropdownKey((prev) => prev + 1)
+  }, [appliedSelection, isFilterOpen])
+
+  const selectedCategoryId =
+    pendingSelection.small?.id ??
+    pendingSelection.medium?.id ??
+    pendingSelection.large?.id ??
+    null
 
   const isApplyDisabled = selectedCategoryId === isAppliedCategory
 
-  // 선택 초기화: 대분류 선택을 초기 상태로 되돌림
   const handleReset = () => {
-    resetCategoryFilter()
+    const emptySelection = {
+      large: null,
+      medium: null,
+      small: null,
+    }
+
+    setPendingSelection(emptySelection)
+    setDropdownKey((prev) => prev + 1)
   }
 
-  // 필터 적용: 사이드바 닫기 (실제 필터링은 부모 페이지에서 처리)
   const handleApply = () => {
-    // 선택된 카테고리를 부모 페이지로 전달
     onCategoryFilterApply?.(selectedCategoryId)
-
-    // 사이드바 닫기
     onFilterClose()
   }
 
@@ -122,25 +108,12 @@ export default function FilterSidebar({
             </div>
 
             <div className="space-y-5">
-              <Dropdown
-                value={largeCategoryValue}
-                options={largeDropdownOptions}
-                placeHolder="대분류"
-                onSelect={(option) => handleLargeChange(option.id)}
-              />
-              <Dropdown
-                value={mediumCategoryValue}
-                options={mediumDropdownOptions}
-                placeHolder="중분류"
-                disabled={mediumDisable}
-                onSelect={(option) => handleMediumChange(option.id)}
-              />
-              <Dropdown
-                value={smallCategoryValue}
-                options={smallDropdownOptions}
-                placeHolder="소분류"
-                disabled={smallDisable}
-                onSelect={(option) => handleSmallChange(option.id)}
+              <CategoryDropdown
+                key={dropdownKey}
+                categories={mockCategories}
+                direction="column"
+                initialValue={pendingSelection}
+                onSelect={setPendingSelection}
               />
             </div>
           </div>
