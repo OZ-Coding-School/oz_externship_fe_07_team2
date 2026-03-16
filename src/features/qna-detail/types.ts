@@ -42,3 +42,11 @@ export type QnaQuestionDetail = {
   author: QnaAuthor
   answers: QnaAnswer[]
 }
+
+export type AnswerPermissions = {
+  isGuest: boolean
+  canComment: boolean
+  canEdit: boolean
+  canDelete: boolean
+  canAdopt: boolean
+}

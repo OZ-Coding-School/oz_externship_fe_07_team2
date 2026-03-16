@@ -76,7 +76,7 @@ export default function AnswerCard({
               />
             </div>
 
-            <div className="border-border-line flex flex-col divide-y">
+            <div className="border-border-line divide-border-line flex flex-col divide-y">
               {sortedComments.map((comment) => (
                 <div key={comment.id} className="py-4 first:pt-0 last:pb-0">
                   <div className="mb-2 flex items-center gap-2">
