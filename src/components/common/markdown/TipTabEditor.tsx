@@ -5,15 +5,14 @@ import FontFamily from '@tiptap/extension-font-family'
 import Highlight from '@tiptap/extension-highlight'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
+import { Placeholder } from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
 import { TextStyle } from '@tiptap/extension-text-style'
 import Underline from '@tiptap/extension-underline'
-import { Placeholder } from '@tiptap/extensions'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 import { EditorToolbar } from './EditorToolBar'
-import { FontSize } from './extentions/FontSize'
 import { TextView } from './TextView'
 
 type EditorProps = {
@@ -35,7 +34,6 @@ export default function TipTabEditor({ content, contentChange }: EditorProps) {
       Color,
       FontFamily,
       Highlight.configure({ multicolor: true }),
-      FontSize,
       Placeholder.configure({
         placeholder: '내용을 입력해 주세요.',
       }),
@@ -43,7 +41,7 @@ export default function TipTabEditor({ content, contentChange }: EditorProps) {
     // 이미지 드래그로 이미지 url 변환
     // TODO: API연동 후 교체 예정
     editorProps: {
-      handleDrop(view, event) {
+      handleDrop(_view, event) {
         const file = event.dataTransfer?.files?.[0]
         if (!file || !file.type.startsWith('image/')) return false
 
