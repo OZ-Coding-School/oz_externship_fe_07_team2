@@ -1,12 +1,36 @@
 import { AnswerBadge, Avatar, CategoryPath } from '@/components'
-import type { QnaQuestion } from '@/features/qna-list'
+import { ROUTES_PATHS } from '@/constants/url'
+import type { QnaListItem } from '@/features/qna-list'
 import { cn, formatTimeAgo } from '@/utils'
+import { useNavigate } from 'react-router'
 
 type QnaCardProps = {
-  question: QnaQuestion
+  question: QnaListItem
+  keyword: string
 }
 
-export default function QnaCard({ question }: QnaCardProps) {
+function highlightText(text: string, keyword: string) {
+  if (!keyword) return text
+
+  // 검색어에 정규식 특수문자가 들어와도 안전하게 사용하기 위해 escape 처리
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+  // 검색어 기준으로 텍스트 분리 (대소문자 구분 없이 전체 매칭)
+  const parts = text.split(new RegExp(`(${escaped})`, 'gi'))
+
+  return parts.map((part, i) =>
+    part.toLowerCase() === keyword.toLowerCase() ? (
+      <mark className="text-primary bg-transparent" key={i}>
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  )
+}
+
+export default function QnaCard({ question, keyword }: QnaCardProps) {
+  const navigate = useNavigate()
   const hasThumbnail = Boolean(question.thumbnail_img_url)
   const isAnswered = question.answer_count > 0
   const date = formatTimeAgo(question.created_at)
@@ -14,18 +38,19 @@ export default function QnaCard({ question }: QnaCardProps) {
   return (
     <div
       className={cn(
-        'hover:bg-surface-sub flex flex-col p-10 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
+        'hover:bg-surface-sub flex cursor-pointer flex-col p-10 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
       )}
+      onClick={() => navigate(ROUTES_PATHS.QNA_DETAIL)}
     >
       <div className="flex flex-1 flex-col">
         <CategoryPath path={question.category.names} variant="list" />
 
         <h3 className="text-text-main mt-5 line-clamp-1 max-w-full text-lg font-semibold">
-          {question.title}
+          {highlightText(question.title, keyword)}
         </h3>
 
         <p className="text-text-light mt-5 line-clamp-2 text-sm">
-          {question.content_preview}
+          {highlightText(question.content_preview, keyword)}
         </p>
 
         <div className="mt-5 flex items-center justify-between text-sm md:mt-auto">

@@ -44,10 +44,9 @@ type Option = {
 }
 
 type DropdownProps = {
-  variant?: 'overlay' | 'inline'
   options: Option[]
   placeHolder?: string
-  value?: string
+  value?: string | null
   open?: boolean
   onSelect?: (option: Option) => void
   onOpenChange?: (value: boolean) => void
@@ -56,7 +55,6 @@ type DropdownProps = {
 }
 
 export default function Dropdown({
-  variant = 'overlay',
   options,
   placeHolder = 'placeholder',
   value,
@@ -88,14 +86,14 @@ export default function Dropdown({
   return (
     <div
       ref={dropdownRef}
-      className={cn('w-full', variant === 'overlay' && 'relative', className)}
+      className={cn('relative w-full', className)}
       data-testid="dropdown"
     >
       <Button
         disabled={disabled}
-        variant="text"
+        variant="ghost"
         onClick={handleClick}
-        className="border-gray-primary flex w-full justify-between gap-3 border p-4 font-normal"
+        className="border-gray-primary flex h-12 w-full justify-between gap-3 border p-4 text-sm font-normal"
       >
         <span>{selectedValue ?? placeHolder}</span>
         {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -103,10 +101,8 @@ export default function Dropdown({
       {isOpen && (
         <ul
           className={cn(
-            'border-gray-primary mt-1.5 max-h-[220px] overflow-y-auto rounded border bg-white p-1.5',
-            variant === 'overlay'
-              ? 'absolute top-full left-0 z-20 w-full shadow-md'
-              : 'w-full'
+            'border-gray-primary absolute top-full left-0 z-20 mt-1.5',
+            'max-h-55 w-full overflow-y-auto rounded border bg-white p-1.5 text-sm shadow-md'
           )}
         >
           {options.map((item) => {
@@ -117,7 +113,7 @@ export default function Dropdown({
                 onClick={() => handleSelect(item)}
                 className={cn(
                   'hover:bg-primary-100 flex cursor-pointer items-center justify-between p-3',
-                  isSelected && 'text-primary'
+                  isSelected && 'text-primary font-semibold'
                 )}
                 key={item.id}
               >

@@ -7,6 +7,7 @@ body {
 }
 
 :root {
+  scrollbar-gutter: stable;
   /* =====================================================
    PRIMITIVE COLOR TOKENS
 ===================================================== */
@@ -167,4 +168,32 @@ body {
       transform: translateY(-8px);
     }
   }
+}
+
+div.w-md-editor .w-md-editor-toolbar {
+  min-height: 100px !important;
+  max-height: 100px !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+div.w-md-editor .w-md-editor-toolbar > ul {
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 40px !important;
+}
+
+div.w-md-editor .w-md-editor-toolbar > ul > li {
+  display: flex !important;
+  align-items: center !important;
+}
+
+div.w-md-editor .w-md-editor-toolbar > ul > li > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }

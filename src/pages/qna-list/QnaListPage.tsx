@@ -1,83 +1,103 @@
-import { Button, ModalButton, Pagination, TabButton } from '@/components'
+import {
+  Button,
+  EmptyState,
+  ModalButton,
+  Pagination,
+  TabButton,
+} from '@/components'
 import {
   FilterSidebar,
   QnaCard,
   QnaListHeader,
   useDebounce,
+  useQnaFilters,
+  useQnaListSearchParams,
 } from '@/features/qna-list'
+import { mockQuestions } from '@/mocks/data/qna-list-mock'
 import { SlidersHorizontal } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { mockQuestions } from './mock'
+import { useState } from 'react'
 
-/**
- * TODO
- * - filter 로직 hook 분리 (search / tab / category / sort)
- * - pagination 로직 hook 분리
- */
+const SORT_OPTIONS = [
+  { value: 'latest', label: '최신순' },
+  { value: 'oldest', label: '오래된순' },
+]
+
+const TABS = [
+  { value: 'all', label: '전체' },
+  { value: 'answered', label: '답변완료' },
+  { value: 'pending', label: '답변 대기중' },
+]
+
+const PAGE_SIZE = 10 // 페이지 수
 
 export default function QnaListPage() {
-  const [search, setSearch] = useState('')
+  const { defaultFilters, filters, page, updateFilters } =
+    useQnaListSearchParams()
+  const { tab, sort } = filters
+  const [search, setSearch] = useState(defaultFilters.search)
   const debouncedSearch = useDebounce(search, 300)
-  const [tab, setTab] = useState('all')
-  const [sort, setSort] = useState('latest')
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  // const questionsList = mockQuestions
-  const [page, setPage] = useState(1)
+  const questionsList = mockQuestions
 
-  //페이지네이션 테스트용 지울 예정
-  const questionsList = [...Array(100)].map((_, i) => {
-    const base = i < 50 ? mockQuestions[0] : mockQuestions[1]
-
-    return {
-      ...base,
-      id: i + 1,
-    }
+  const filteredQuestions = useQnaFilters(questionsList, {
+    ...filters,
+    search: debouncedSearch,
   })
 
-  const PAGE_SIZE = 10 // 페이지 수
-
   //전체 페이지 수 계산
-  const totalPages = Math.ceil(questionsList.length / PAGE_SIZE)
+  const totalPages = Math.ceil(filteredQuestions.length / PAGE_SIZE)
 
+  const currentPage = Math.min(page, Math.max(totalPages, 1))
   // 현재 페이지에 해당하는 질문 목록만 잘라서 가져옴
-  // 시작 index: (현재페이지 - 1) * PAGE_SIZE
-  // 끝 index: 현재페이지 * PAGE_SIZE
-  // 예: page = 2, PAGE_SIZE = 5
-  // → slice(5, 10) → 6~10번째 데이터
-  const paginatedQuestions = questionsList.slice(
-    (page - 1) * PAGE_SIZE,
-    page * PAGE_SIZE
+  const paginatedQuestions = filteredQuestions.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
   )
 
-  const SORT_OPTIONS = [
-    { value: 'latest', label: '최신순' },
-    { value: 'oldest', label: '오래된순' },
-  ]
-
-  const tabs = [
-    { value: 'all', label: '전체' },
-    { value: 'answered', label: '답변완료' },
-    { value: 'pending', label: '답변 대기중' },
-  ]
-
-  //확인용 지울 예정
-  useEffect(() => {
-    console.log('debouncedSearch:', debouncedSearch)
-  }, [debouncedSearch])
+  const hasNoResults = filteredQuestions.length === 0
 
   return (
-    <>
-      <QnaListHeader value={search} onChange={setSearch} />
+    <div className="flex flex-1 flex-col">
+      <QnaListHeader
+        value={search}
+        onChange={(value: string) => {
+          setSearch(value)
+          updateFilters({
+            nextFilters: filters,
+            nextPage: 1,
+          })
+        }}
+      />
 
-      <section className="flex flex-1 flex-col gap-5">
+      <section className="flex h-full flex-1 flex-col gap-5">
         <div className="border-border-line flex w-full justify-between border-b [&>div]:border-b-0">
-          <TabButton tabs={tabs} value={tab} onValueChange={setTab} />
+          <TabButton
+            tabs={TABS}
+            value={tab}
+            onValueChange={(value: string) => {
+              updateFilters({
+                nextFilters: {
+                  ...filters,
+                  tab: value,
+                },
+                nextPage: 1,
+              })
+            }}
+          />
 
           <div className="flex items-center gap-3 pb-4">
             <ModalButton
               value={sort}
               options={SORT_OPTIONS}
-              onChange={setSort}
+              onChange={(value: string) => {
+                updateFilters({
+                  nextFilters: {
+                    ...filters,
+                    sort: value,
+                  },
+                  nextPage: 1,
+                })
+              }}
               className="text-modal w-fit p-0 text-base"
               dropdownClassName="w-34.5 right-0 left-auto top-9"
             />
@@ -94,27 +114,47 @@ export default function QnaListPage() {
         </div>
 
         {/* list 목록 */}
-        <div>
-          {paginatedQuestions.map((list) => (
-            <div key={list.id}>
-              <QnaCard question={list} />
-            </div>
-          ))}
-        </div>
+        {hasNoResults ? (
+          <div className="flex flex-1 flex-col items-center justify-center gap-4">
+            <EmptyState type="searchEmpty" />
+          </div>
+        ) : (
+          paginatedQuestions.map((list) => (
+            <QnaCard key={list.id} question={list} keyword={debouncedSearch} />
+          ))
+        )}
 
         {/*필터 클릭시 사이드바*/}
         <FilterSidebar
-          open={isFilterOpen}
-          onClose={() => setIsFilterOpen(false)}
+          isFilterOpen={isFilterOpen}
+          onFilterClose={() => setIsFilterOpen(false)}
+          isAppliedCategory={filters.category}
+          onCategoryFilterApply={(categoryId) => {
+            updateFilters({
+              nextFilters: {
+                ...filters,
+                category: categoryId,
+              },
+              nextPage: 1,
+            })
+          }}
         />
       </section>
-      <div className="my-8 flex justify-center">
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      </div>
-    </>
+
+      {!hasNoResults && (
+        <div className="my-8 flex justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(nextPage) =>
+              updateFilters({
+                nextFilters: filters,
+                nextPage,
+              })
+            }
+          />
+        </div>
+      )}
+    </div>
   )
 }

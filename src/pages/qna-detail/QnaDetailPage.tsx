@@ -11,6 +11,8 @@ export default function QnaDetailPage() {
   // 임시 데이터용 questionId, 실제로는 API에서 받아올 예정
   //   const { questionId } = useParams()
 
+  // TODO: 회원일 경우 질문자와 답변자에 따라 다른 UI 보여주기
+
   // 지금은 mock 데이터 사용
   const question = mockQuestionDetail
 
