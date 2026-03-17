@@ -1,4 +1,4 @@
-import type { QnaImage, QnaQuestionDetail } from '@/features/qna-detail/types'
+import type { QnaImage, QnaQuestionDetail } from './detail'
 
 // 질문 목록 조회 시 사용하는 답변 상태 query 값
 export type AnswerStatus = 'answered' | 'waiting'

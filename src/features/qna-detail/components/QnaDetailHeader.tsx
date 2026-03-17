@@ -1,9 +1,8 @@
 import { Link } from 'lucide-react'
 
 import { Avatar, Button, CategoryPath } from '@/components'
+import type { QnaQuestionDetail } from '@/types'
 import { formatTimeAgo } from '@/utils'
-
-import type { QnaQuestionDetail } from '../types'
 
 type QnaDetailHeaderProps = {
   question: QnaQuestionDetail

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 
-import type { QnaAnswer } from '@/features/qna-detail/types'
+import type { QnaAnswer } from '@/types'
 
 type Comment = QnaAnswer['comments'][number]
 export type SortType = 'latest' | 'oldest'

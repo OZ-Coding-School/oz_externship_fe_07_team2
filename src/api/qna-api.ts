@@ -1,11 +1,11 @@
 import { QNA_API } from '@/constants/qna'
-import type { QnaQuestionDetail } from '@/features/qna-detail/types'
 import type { QnaListResponse } from '@/features/qna-list'
 import type {
   CategoryResponse,
   CreateQuestionRequest,
   CreateQuestionResponse,
   GetQnaListParams,
+  QnaQuestionDetail,
   UpdateQuestionRequest,
   UpdateQuestionResponse,
 } from '@/types'
