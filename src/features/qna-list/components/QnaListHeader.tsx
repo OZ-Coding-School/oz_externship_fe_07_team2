@@ -27,7 +27,7 @@ export default function QnaListHeader({ value, onChange }: QnaListHeaderProps) {
         <Button
           size="md"
           rounded="md"
-          onClick={() => navigate(ROUTES_PATHS.CREATE_QNA)}
+          onClick={() => navigate(ROUTES_PATHS.QNA_CREATE)}
         >
           <Pencil className="mr-2 h-5 w-5" />
           질문하기
