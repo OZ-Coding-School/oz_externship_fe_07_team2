@@ -1,5 +1,6 @@
-import type { QnaFilters } from '@/features/qna-list'
 import { useSearchParams } from 'react-router'
+
+import type { QnaFilters } from '@/features/qna-list'
 
 // 기본 필터 값
 // URL에 아무 파라미터가 없을 때 사용되는 초기 상태
