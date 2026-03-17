@@ -1,6 +1,7 @@
 import {
   Button,
   EmptyState,
+  Loading,
   ModalButton,
   Pagination,
   TabButton,
@@ -10,10 +11,9 @@ import {
   QnaCard,
   QnaListHeader,
   useDebounce,
-  useQnaFilters,
   useQnaListSearchParams,
 } from '@/features/qna-list'
-import { mockQuestions } from '@/mocks/data/qna-list-mock'
+import useQnaListQuery from '@/queries/useQnaListQuery'
 import { SlidersHorizontal } from 'lucide-react'
 import { useState } from 'react'
 
@@ -37,24 +37,55 @@ export default function QnaListPage() {
   const [search, setSearch] = useState(defaultFilters.search)
   const debouncedSearch = useDebounce(search, 300)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const questionsList = mockQuestions
+  const answerStatus =
+    tab === 'answered' ? 'answered' : tab === 'pending' ? 'waiting' : undefined
 
-  const filteredQuestions = useQnaFilters(questionsList, {
-    ...filters,
-    search: debouncedSearch,
+  const { data, isPending, isError } = useQnaListQuery({
+    page,
+    size: PAGE_SIZE,
+    search_keyword: debouncedSearch || undefined,
+    category_id: filters.category ?? undefined,
+    answer_status: answerStatus,
+    sort,
   })
 
-  //전체 페이지 수 계산
-  const totalPages = Math.ceil(filteredQuestions.length / PAGE_SIZE)
+  const questionsList = data?.results ?? []
+  const totalPages = Math.max(1, Math.ceil((data?.count ?? 0) / PAGE_SIZE))
+  const currentPage = Math.min(page, totalPages)
+  const hasNoResults = !isPending && questionsList.length === 0
 
-  const currentPage = Math.min(page, Math.max(totalPages, 1))
-  // 현재 페이지에 해당하는 질문 목록만 잘라서 가져옴
-  const paginatedQuestions = filteredQuestions.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE
-  )
+  // 목록 영역에서만 로딩/에러/빈 상태를 분기하고, 상단 필터 UI는 그대로 유지한다.
+  const renderContent = () => {
+    //전체 최초 로딩
+    if (isPending) {
+      return (
+        <div className="flex flex-1 items-center justify-center py-20">
+          <Loading />
+        </div>
+      )
+    }
 
-  const hasNoResults = filteredQuestions.length === 0
+    if (isError) {
+      return (
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+          <EmptyState type="notFound" />
+        </div>
+      )
+    }
+
+    //검색 결과 없음
+    if (hasNoResults) {
+      return (
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+          <EmptyState type="searchEmpty" />
+        </div>
+      )
+    }
+
+    return questionsList.map((list) => (
+      <QnaCard key={list.id} question={list} keyword={debouncedSearch} />
+    ))
+  }
 
   return (
     <div className="flex flex-1 flex-col">
@@ -114,15 +145,7 @@ export default function QnaListPage() {
         </div>
 
         {/* list 목록 */}
-        {hasNoResults ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4">
-            <EmptyState type="searchEmpty" />
-          </div>
-        ) : (
-          paginatedQuestions.map((list) => (
-            <QnaCard key={list.id} question={list} keyword={debouncedSearch} />
-          ))
-        )}
+        <div>{renderContent()}</div>
 
         {/*필터 클릭시 사이드바*/}
         <FilterSidebar
@@ -141,7 +164,7 @@ export default function QnaListPage() {
         />
       </section>
 
-      {!hasNoResults && (
+      {!isPending && !hasNoResults && !isError && (
         <div className="my-8 flex justify-center">
           <Pagination
             currentPage={currentPage}

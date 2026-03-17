@@ -1,6 +1,6 @@
-import { Button } from '@/components'
+import { Button, Loading } from '@/components'
 import { findSelectedCategory } from '@/features/qna-list/utils/categoryFilter'
-import { mockCategories } from '@/mocks/data/category-mock'
+import useCategoriesQuery from '@/queries/useCategoriesQuery'
 import CategoryDropdown, {
   type SelectedCategory,
 } from '@/shared/CategoryDropdown'
@@ -34,9 +34,11 @@ export default function FilterSidebar({
   isAppliedCategory,
   onCategoryFilterApply,
 }: FilterSidebarProps) {
+  const { data: categories = [], isPending, isError } = useCategoriesQuery()
+
   const appliedSelection = useMemo(
-    () => findSelectedCategory(mockCategories, isAppliedCategory),
-    [isAppliedCategory]
+    () => findSelectedCategory(categories, isAppliedCategory),
+    [categories, isAppliedCategory]
   )
   const [pendingSelection, setPendingSelection] =
     useState<SelectedCategory>(appliedSelection)
@@ -108,13 +110,23 @@ export default function FilterSidebar({
             </div>
 
             <div className="space-y-5">
-              <CategoryDropdown
-                key={dropdownKey}
-                categories={mockCategories}
-                direction="column"
-                initialValue={pendingSelection}
-                onSelect={setPendingSelection}
-              />
+              {isPending ? (
+                <div className="flex justify-center py-10">
+                  <Loading />
+                </div>
+              ) : isError ? (
+                <div className="text-text-light py-10 text-center text-sm">
+                  카테고리를 불러오지 못했습니다.
+                </div>
+              ) : (
+                <CategoryDropdown
+                  key={dropdownKey}
+                  categories={categories}
+                  direction="column"
+                  initialValue={pendingSelection}
+                  onSelect={setPendingSelection}
+                />
+              )}
             </div>
           </div>
         </div>
