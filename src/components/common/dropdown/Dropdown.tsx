@@ -1,8 +1,10 @@
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+import { Check, ChevronDown, ChevronUp } from 'lucide-react'
+
 import { Button } from '@/components'
 import useOutsideClick from '@/hooks/useOutsideClick'
 import { cn } from '@/utils/cn'
-import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
 
 type SetValueAction<T> = T | ((prev: T) => T)
 

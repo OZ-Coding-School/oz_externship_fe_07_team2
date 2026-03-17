@@ -1,7 +1,8 @@
+import { useState } from 'react'
+
 import { Dropdown } from '@/components'
 import type { Category } from '@/types/api-response/category'
 import { cn } from '@/utils'
-import { useState } from 'react'
 
 export type SelectedCategory = {
   large: Category | null

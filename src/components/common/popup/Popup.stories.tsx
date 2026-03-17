@@ -1,7 +1,8 @@
+import { useState } from 'react'
+
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { Popup } from '@/components'
-import { useState } from 'react'
 
 const POPUP_MESSAGES = {
   DELETE_POST:

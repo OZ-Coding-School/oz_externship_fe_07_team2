@@ -1,16 +1,21 @@
-import { cn } from '@/utils/cn'
 import type { InputHTMLAttributes } from 'react'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+import { cn } from '@/utils/cn'
+
+type InputProps = {
   status?: 'error' | 'success'
   className?: string
-}
+} & InputHTMLAttributes<HTMLInputElement>
 
 export default function Input({ status, className, ...props }: InputProps) {
   const baseClasses =
-    'text-sm py-2.5 px-4 rounded border border-border-line text-text-disabled'
+    'h-15 rounded border border-transparent bg-primary-100 px-4 text-[18px] text-text-disabled'
 
-  const focusClasses = 'focus:border-primary focus:outline-none'
+  const focusClasses =
+    'focus:border-primary focus:bg-transparent focus:text-text-main focus:outline-none'
+
+  const withValueClasses = 'not-placeholder-shown:text-text-main bg-primary-100'
+
   const disabledClasses =
     'disabled:cursor-not-allowed disabled:bg-surface-disabled'
 
@@ -24,6 +29,7 @@ export default function Input({ status, className, ...props }: InputProps) {
       className={cn(
         baseClasses,
         focusClasses,
+        withValueClasses,
         disabledClasses,
         status && statusClasses[status],
         className

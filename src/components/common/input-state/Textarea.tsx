@@ -1,10 +1,11 @@
-import { cn } from '@/utils/cn'
 import type { ReactNode, TextareaHTMLAttributes } from 'react'
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+import { cn } from '@/utils/cn'
+
+type TextareaProps = {
   className?: string
   action?: ReactNode
-}
+} & TextareaHTMLAttributes<HTMLTextAreaElement>
 
 export default function Textarea({
   className,

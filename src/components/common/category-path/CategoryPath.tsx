@@ -1,5 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import { ChevronRight } from 'lucide-react'
+
 import { cn } from '@/utils/cn'
 
 const categoryPathVariants = cva('', {

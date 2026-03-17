@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+
 import defaultAvatar from '@/assets/images/default-avatar.png'
 import { cn } from '@/utils/cn'
 

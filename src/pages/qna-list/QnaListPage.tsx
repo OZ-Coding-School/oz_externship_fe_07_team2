@@ -1,3 +1,7 @@
+import { useState } from 'react'
+
+import { SlidersHorizontal } from 'lucide-react'
+
 import {
   Button,
   EmptyState,
@@ -14,8 +18,6 @@ import {
   useQnaListSearchParams,
 } from '@/features/qna-list'
 import useQnaListQuery from '@/queries/useQnaListQuery'
-import { SlidersHorizontal } from 'lucide-react'
-import { useState } from 'react'
 
 const SORT_OPTIONS = [
   { value: 'latest', label: '최신순' },

@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 
+import { Button } from '@/components'
+
 type PopupProps = {
   isOpen: boolean
   content: ReactNode
@@ -7,13 +9,6 @@ type PopupProps = {
   onCancel?: () => void
   confirmLabel?: string
   cancelLabel?: string
-}
-/*
- * TODO: Button 공통컴포넌트 merge 후 삭제 예정
- */
-const buttonStyle = {
-  cancel: 'bg-primary-100 text-primary rounded-full px-6 py-3 font-semibold',
-  confirm: 'bg-primary text-surface-sub rounded-full px-6 py-3 font-semibold',
 }
 
 export default function Popup({
@@ -38,15 +33,24 @@ export default function Popup({
           {content}
         </p>
         <div className="flex justify-end gap-3">
-          {/* Button 공통컴포넌트 merge 후 변경 예정 */}
           {onCancel && (
-            <button onClick={onCancel} className={buttonStyle.cancel}>
+            <Button
+              onClick={onCancel}
+              variant="outline"
+              size="md"
+              rounded="full"
+            >
               {cancelLabel}
-            </button>
+            </Button>
           )}
-          <button onClick={onConfirm} className={buttonStyle.confirm}>
+          <Button
+            onClick={onConfirm}
+            variant="primary"
+            size="md"
+            rounded="full"
+          >
             {confirmLabel}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

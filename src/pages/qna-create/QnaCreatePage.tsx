@@ -1,17 +1,20 @@
-import { Button, Input, Editor } from '@/components'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
+
+import { Button, Input, Popup } from '@/components'
+import TipTabEditor from '@/components/common/markdown/TipTabEditor'
 import { ROUTES_PATHS } from '@/constants/url'
 import CategoryDropdown, {
   type SelectedCategory,
 } from '@/shared/CategoryDropdown'
 import type { Category } from '@/types'
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
 
 export default function QnACreatePage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [categories] = useState<Category[]>([])
+  const [alertMessage, setAlertMessage] = useState<string | null>(null)
   const navigate = useNavigate()
 
   const handleCategorySelect = (selected: SelectedCategory) => {
@@ -21,8 +24,21 @@ export default function QnACreatePage() {
   /*
    *TODO: API axios 설정 후 작업 예정
    */
+
+  const validate = (): string | null => {
+    if (!categoryId) return '카테고리를 선택해 주세요.'
+    if (!title.trim()) return '제목을 입력해 주세요.'
+    if (!content.trim() || content === '<p></p>' || content === '<p><br></p>')
+      return '질문 내용을 입력해 주세요.'
+    return null
+  }
+
   const handleSubmit = async () => {
-    if (!categoryId) return
+    const error = validate()
+    if (error) {
+      setAlertMessage(error)
+      return
+    }
 
     navigate(ROUTES_PATHS.QNA_LIST)
   }
@@ -46,13 +62,12 @@ export default function QnACreatePage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 입력해 주세요"
-            className="text-text-main bg-primary-100 h-15 w-full border-none text-[18px]"
+            className="w-full"
           />
         </div>
 
-        {/* TODO: MDEditor -> Tiptap으로 변경 예정 */}
         <div className="border-border-line mb-5 rounded-2xl border md:mb-3 md:rounded-[20px]">
-          <Editor
+          <TipTabEditor
             content={content}
             contentChange={(value) => setContent(value ?? '')}
           />
@@ -68,6 +83,13 @@ export default function QnACreatePage() {
           등록하기
         </Button>
       </div>
+      <Popup
+        isOpen={!!alertMessage}
+        content={alertMessage}
+        confirmLabel="확인"
+        onConfirm={() => setAlertMessage(null)}
+        onCancel={() => setAlertMessage(null)}
+      />
     </main>
   )
 }
