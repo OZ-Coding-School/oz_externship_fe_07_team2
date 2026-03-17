@@ -1,7 +1,6 @@
 export { default as ChatBadge } from './components/ChatBadge'
 export { default as ChatBody } from './components/ChatBody'
 export { default as ChatBubble } from './components/ChatBubble'
-export { default as ChatEntryActions } from './components/ChatEntryActions'
 export { default as ChatHeader } from './components/ChatHeader'
 export { default as ChatInput } from './components/ChatInput'
 export { default as ChatRoomList } from './components/ChatRoomList'

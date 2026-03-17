@@ -1,6 +1,7 @@
 import { ArrowLeft, X } from 'lucide-react'
 
 import { Button } from '@/components'
+import { cn } from '@/utils'
 
 import ChatBadge from './ChatBadge'
 
@@ -10,15 +11,15 @@ type ChatHeaderProps = {
 }
 
 export default function ChatHeader({ actionType, onAction }: ChatHeaderProps) {
-  const actionButtonClassName =
-    actionType === 'back' ? 'absolute left-5' : 'absolute right-5'
-
   return (
     <div className="bg-primary-400 relative flex h-18 w-full items-center justify-center px-5 text-white">
       <Button
         variant="text"
         onClick={onAction}
-        className={`${actionButtonClassName} p-0 text-white hover:bg-transparent`}
+        className={cn(
+          'absolute p-0 text-white hover:bg-transparent',
+          actionType === 'back' ? 'left-5' : 'right-5'
+        )}
         aria-label={
           actionType === 'back' ? '채팅방 목록으로 이동' : '챗봇 닫기'
         }

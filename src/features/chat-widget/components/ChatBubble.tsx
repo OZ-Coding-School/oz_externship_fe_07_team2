@@ -12,7 +12,7 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
     return (
       <div className="flex items-start gap-3 text-sm font-light">
         <ChatBadge size="sm" />
-        <div className="max-w-55 rounded-2xl bg-[#F5F5F5] px-3.5 py-2.5 text-[#707070]">
+        <div className="bg-surface-chat text-text-chatbot max-w-55 rounded-2xl px-3.5 py-2.5">
           {message.message}
         </div>
       </div>

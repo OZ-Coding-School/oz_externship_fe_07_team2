@@ -17,7 +17,7 @@ export default function ChatInput() {
   }
 
   return (
-    <div className="relative border-t border-[#CECECE] bg-[#F2F2F7] p-3">
+    <div className="border-border-line relative border-t bg-[#F2F2F7] p-3">
       <Textarea
         onChange={handleChange}
         maxLength={maxLength}

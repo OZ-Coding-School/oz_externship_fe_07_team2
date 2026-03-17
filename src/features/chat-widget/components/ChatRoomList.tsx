@@ -45,7 +45,7 @@ export default function ChatRoomList({
             />
           ))
         ) : (
-          <div className="flex h-full items-center justify-center px-6 text-center text-sm font-light text-[#707070]">
+          <div className="text-text-chatbot flex h-full items-center justify-center px-6 text-center text-sm font-light">
             새로운 채팅을 하세요
           </div>
         )}
