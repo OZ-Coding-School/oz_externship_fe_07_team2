@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { Button, Editor, Input } from '@/components'
+import { Button, Input, Popup } from '@/components'
+import TipTabEditor from '@/components/common/markdown/TipTabEditor'
 import { ROUTES_PATHS } from '@/constants/url'
 import CategoryDropdown, {
   type SelectedCategory,
@@ -13,6 +14,7 @@ export default function QnACreatePage() {
   const [content, setContent] = useState('')
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [categories] = useState<Category[]>([])
+  const [alertMessage, setAlertMessage] = useState<string | null>(null)
   const navigate = useNavigate()
 
   const handleCategorySelect = (selected: SelectedCategory) => {
@@ -23,7 +25,19 @@ export default function QnACreatePage() {
    *TODO: API axios 설정 후 작업 예정
    */
   const handleSubmit = async () => {
-    if (!categoryId) return
+    // 순서대로 검증
+    if (!categoryId) {
+      setAlertMessage('카테고리를 선택해 주세요.')
+      return
+    }
+    if (!title.trim()) {
+      setAlertMessage('제목을 입력해 주세요.')
+      return
+    }
+    if (!content.trim() || content === '<p></p>') {
+      setAlertMessage('질문 내용을 입력해 주세요.')
+      return
+    }
 
     navigate(ROUTES_PATHS.QNA_LIST)
   }
@@ -47,13 +61,12 @@ export default function QnACreatePage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 입력해 주세요"
-            className="text-text-main bg-primary-100 h-15 w-full border-none text-[18px]"
+            className="w-full"
           />
         </div>
 
-        {/* TODO: MDEditor -> Tiptap으로 변경 예정 */}
         <div className="border-border-line mb-5 rounded-2xl border md:mb-3 md:rounded-[20px]">
-          <Editor
+          <TipTabEditor
             content={content}
             contentChange={(value) => setContent(value ?? '')}
           />
@@ -69,6 +82,13 @@ export default function QnACreatePage() {
           등록하기
         </Button>
       </div>
+      <Popup
+        isOpen={!!alertMessage}
+        content={alertMessage}
+        confirmLabel="확인"
+        onConfirm={() => setAlertMessage(null)}
+        onCancel={() => setAlertMessage(null)}
+      />
     </main>
   )
 }
