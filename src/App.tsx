@@ -21,7 +21,7 @@ function App() {
           element={<NotFoundPage type="notFound" />}
         />
         <Route path={ROUTES_PATHS.QNA_DETAIL} element={<QnaDetailPage />} />
-        <Route path={ROUTES_PATHS.CEATE_QNA} element={<QnACreatePage />} />
+        <Route path={ROUTES_PATHS.CREATE_QNA} element={<QnACreatePage />} />
       </Route>
     </Routes>
   )
