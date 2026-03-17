@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router'
 
-import { PageContainer } from '@/components'
+import { FloatingChatButton, PageContainer } from '@/components'
 
 export default function RootLayout() {
   return (
     <PageContainer>
       <Outlet />
+      <FloatingChatButton />
     </PageContainer>
   )
 }
