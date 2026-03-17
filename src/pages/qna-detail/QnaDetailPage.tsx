@@ -5,7 +5,7 @@ import {
   QnaDetailAnswer,
   QnaAnswer,
 } from '@/features/qna-detail'
-import { mockQuestionDetail } from './mock'
+import { mockQuestionDetail, mockUsers } from './mock'
 
 export default function QnaDetailPage() {
   // 임시 데이터용 questionId, 실제로는 API에서 받아올 예정
@@ -15,10 +15,13 @@ export default function QnaDetailPage() {
   const question = mockQuestionDetail
 
   // TODO: API에서 현재 로그인한 사용자 정보 받아오기
-  const currentUser = {
-    id: 2,
-    nickname: '오즈오즈',
-  }
+
+  const currentUser = mockUsers.member
+  // const currentUser = mockUsers.guest
+  // const currentUser = mockUsers.questionAuthor
+  // null
+  // const currentUser = null
+
   const isLoggedIn = Boolean(currentUser)
   const isQuestionAuthor = currentUser?.id === question.author.id
   const shouldShowAnswerEditor = isLoggedIn && !isQuestionAuthor
@@ -33,8 +36,11 @@ export default function QnaDetailPage() {
   return (
     <div className="px-8 py-10">
       {/* 질문 헤더 */}
-      <QnaDetailHeader question={question} onShare={handleShare} />
-
+      <QnaDetailHeader
+        question={question}
+        onShare={handleShare}
+        isQuestionAuthor={isQuestionAuthor}
+      />
       {/* 답변 작성 영역 */}
       {shouldShowAnswerEditor && <QnaAnswer nickname={currentUser.nickname} />}
 

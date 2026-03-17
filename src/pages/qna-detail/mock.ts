@@ -71,3 +71,19 @@ export const mockQuestionDetail: QnaQuestionDetail = {
     },
   ],
 }
+
+export const mockUsers = {
+  guest: null,
+  questionAuthor: {
+    id: 211,
+    nickname: '한솔_회장',
+  },
+  answerAuthor: {
+    id: 102,
+    nickname: 'django_master',
+  },
+  member: {
+    id: 999,
+    nickname: '김오즈',
+  },
+}
