@@ -1,9 +1,11 @@
 import { toMswApiUrl } from '@/constants/apiPath'
 import { QNA_API } from '@/constants/qna'
+import type { QnaListResponse } from '@/features/qna-list'
 import {
   createQnaFiltersFromApiParams,
   filterQnaList,
 } from '@/features/qna-list/lib/filterQnaList'
+import { parsePositiveInt } from '@/features/qna-list/lib/parsePositiveInt'
 import { mockCategories } from '@/mocks/data/category-mock'
 import { mockQuestions } from '@/mocks/data/qna-list-mock'
 import type { AnswerStatus } from '@/types'
@@ -11,43 +13,36 @@ import { delay, http, HttpResponse } from 'msw'
 
 const DEFAULT_PAGE = 1
 const DEFAULT_SIZE = 10
+const qnaListApiUrl = toMswApiUrl(QNA_API.questions)
 
-// query string으로 전달된 page/size 값을 양의 정수로 변환하고, 잘못된 값이면 기본값을 사용한다.
-function parsePositiveInt(value: string | null, fallback: number) {
-  if (!value) {
-    return fallback
+function parseQnaListParams(url: URL) {
+  return {
+    searchKeyword: url.searchParams.get('search_keyword') ?? '',
+    answerStatus: url.searchParams.get('answer_status') as AnswerStatus | null,
+    sort: url.searchParams.get('sort') ?? 'latest',
+    categoryId: url.searchParams.get('category_id')
+      ? Number(url.searchParams.get('category_id'))
+      : null,
+    page: parsePositiveInt(url.searchParams.get('page'), DEFAULT_PAGE),
+    size: parsePositiveInt(url.searchParams.get('size'), DEFAULT_SIZE),
   }
+}
 
-  const parsed = Number(value)
+function buildPageUrl(currentParams: URLSearchParams, page: number): string {
+  const nextParams = new URLSearchParams(currentParams)
+  nextParams.set('page', String(page))
 
-  if (!Number.isInteger(parsed) || parsed < 1) {
-    return fallback
-  }
-
-  return parsed
+  return `${qnaListApiUrl}?${nextParams.toString()}`
 }
 
 // QnA 질문 목록 조회 API
 export const qnaListHandlers = [
-  http.get(toMswApiUrl(QNA_API.questions), async ({ request }) => {
+  http.get(qnaListApiUrl, async ({ request }) => {
     await delay(700)
 
     const requestUrl = new URL(request.url)
-    const searchKeyword = requestUrl.searchParams.get('search_keyword') ?? ''
-    const answerStatus = requestUrl.searchParams.get(
-      'answer_status'
-    ) as AnswerStatus | null
-    const sort = requestUrl.searchParams.get('sort') ?? 'latest'
-    const rawCategoryId = requestUrl.searchParams.get('category_id')
-    const categoryId = rawCategoryId ? Number(rawCategoryId) : null
-    const page = parsePositiveInt(
-      requestUrl.searchParams.get('page'),
-      DEFAULT_PAGE
-    )
-    const size = parsePositiveInt(
-      requestUrl.searchParams.get('size'),
-      DEFAULT_SIZE
-    )
+    const { searchKeyword, answerStatus, sort, categoryId, page, size } =
+      parseQnaListParams(requestUrl)
 
     const filteredQuestions = filterQnaList(
       mockQuestions,
@@ -67,13 +62,11 @@ export const qnaListHandlers = [
       count: filteredQuestions.length,
       next:
         endIndex < filteredQuestions.length
-          ? `${toMswApiUrl(QNA_API.questions)}?page=${page + 1}&size=${size}`
+          ? buildPageUrl(requestUrl.searchParams, page + 1)
           : null,
       previous:
-        page > 1
-          ? `${toMswApiUrl(QNA_API.questions)}?page=${page - 1}&size=${size}`
-          : null,
+        page > 1 ? buildPageUrl(requestUrl.searchParams, page - 1) : null,
       results: filteredQuestions.slice(startIndex, endIndex),
-    })
+    } satisfies QnaListResponse)
   }),
 ]
