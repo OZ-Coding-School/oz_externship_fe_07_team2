@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { API_BASE_URL, MSW_BASE_URL } from '@/constants/apiPath'
 
 export const api = axios.create({

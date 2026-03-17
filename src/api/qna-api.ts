@@ -9,6 +9,7 @@ import type {
   UpdateQuestionRequest,
   UpdateQuestionResponse,
 } from '@/types'
+
 import { api } from './api'
 
 // 카테고리 조회 api 호출

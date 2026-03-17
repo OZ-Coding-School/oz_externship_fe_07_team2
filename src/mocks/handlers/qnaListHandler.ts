@@ -1,3 +1,5 @@
+import { delay, http, HttpResponse } from 'msw'
+
 import { toMswApiUrl } from '@/constants/apiPath'
 import { QNA_API } from '@/constants/qna'
 import type { QnaListResponse } from '@/features/qna-list'
@@ -9,7 +11,6 @@ import { parsePositiveInt } from '@/features/qna-list/lib/parsePositiveInt'
 import { mockCategories } from '@/mocks/data/category-mock'
 import { mockQuestions } from '@/mocks/data/qna-list-mock'
 import type { AnswerStatus } from '@/types'
-import { delay, http, HttpResponse } from 'msw'
 
 const DEFAULT_PAGE = 1
 const DEFAULT_SIZE = 10

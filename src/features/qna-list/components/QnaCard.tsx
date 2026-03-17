@@ -1,8 +1,9 @@
+import { useNavigate } from 'react-router'
+
 import { AnswerBadge, Avatar, CategoryPath } from '@/components'
 import { ROUTES_PATHS } from '@/constants/url'
 import type { QnaListItem } from '@/features/qna-list'
 import { cn, formatTimeAgo } from '@/utils'
-import { useNavigate } from 'react-router'
 
 type QnaCardProps = {
   question: QnaListItem
