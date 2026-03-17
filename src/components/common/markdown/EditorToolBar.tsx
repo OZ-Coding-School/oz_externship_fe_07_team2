@@ -12,7 +12,7 @@ import {
   TextFormatGroup,
 } from './toolbar'
 
-export const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
+export const EditorToolBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) return null
 
   return (

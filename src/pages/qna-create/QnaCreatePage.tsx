@@ -24,18 +24,19 @@ export default function QnACreatePage() {
   /*
    *TODO: API axios 설정 후 작업 예정
    */
+
+  const validate = (): string | null => {
+    if (!categoryId) return '카테고리를 선택해 주세요.'
+    if (!title.trim()) return '제목을 입력해 주세요.'
+    if (!content.trim() || content === '<p></p>' || content === '<p><br></p>')
+      return '질문 내용을 입력해 주세요.'
+    return null
+  }
+
   const handleSubmit = async () => {
-    // 순서대로 검증
-    if (!categoryId) {
-      setAlertMessage('카테고리를 선택해 주세요.')
-      return
-    }
-    if (!title.trim()) {
-      setAlertMessage('제목을 입력해 주세요.')
-      return
-    }
-    if (!content.trim() || content === '<p></p>') {
-      setAlertMessage('질문 내용을 입력해 주세요.')
+    const error = validate()
+    if (error) {
+      setAlertMessage(error)
       return
     }
 

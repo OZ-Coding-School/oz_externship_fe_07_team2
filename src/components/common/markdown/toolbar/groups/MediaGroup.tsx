@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/react'
 import { Image, Link2 } from 'lucide-react'
 
 import { Popup } from '@/components'

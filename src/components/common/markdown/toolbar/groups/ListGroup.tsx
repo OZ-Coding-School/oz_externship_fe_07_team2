@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/react'
 import { ChevronDown, List, ListOrdered } from 'lucide-react'
 
 import { Group, IconBtn } from '../ToolbarPrimitives'

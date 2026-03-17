@@ -12,7 +12,7 @@ import Underline from '@tiptap/extension-underline'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
-import { EditorToolbar } from './EditorToolBar'
+import { EditorToolBar } from './EditorToolBar'
 import { TextView } from './TextView'
 
 type EditorProps = {
@@ -71,7 +71,7 @@ export default function TipTabEditor({ content, contentChange }: EditorProps) {
 
   return (
     <div>
-      <EditorToolbar editor={editor} />
+      <EditorToolBar editor={editor} />
       <TextView editor={editor} previewHtml={previewHtml} />
     </div>
   )

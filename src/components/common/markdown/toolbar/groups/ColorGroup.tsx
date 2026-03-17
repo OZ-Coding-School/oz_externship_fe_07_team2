@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/react'
 import { ChevronDown } from 'lucide-react'
 
 import { Group } from '../ToolbarPrimitives'

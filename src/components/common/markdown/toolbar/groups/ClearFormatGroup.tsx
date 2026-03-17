@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/react'
 import { RemoveFormatting } from 'lucide-react'
 
 import { IconBtn } from '../ToolbarPrimitives'
@@ -11,7 +11,7 @@ export default function ClearFormatGroup({
   if (!editor) return null
 
   const handleClear = () =>
-    editor.chain().focus().unsetAllMarks().clearNodes().run
+    editor.chain().focus().unsetAllMarks().clearNodes().run()
 
   return (
     <IconBtn title="서식 지우기" onClick={handleClear}>

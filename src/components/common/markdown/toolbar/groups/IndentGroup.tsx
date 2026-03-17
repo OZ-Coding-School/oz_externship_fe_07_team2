@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/react'
 import { IndentDecrease, IndentIncrease } from 'lucide-react'
 
 import { Group, IconBtn } from '../ToolbarPrimitives'

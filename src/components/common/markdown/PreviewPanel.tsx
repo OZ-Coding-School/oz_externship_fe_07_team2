@@ -1,9 +1,12 @@
+import DOMPurify from 'dompurify'
+
 type PreviewProps = {
   html: string
 }
 
 export default function PreviewPanel({ html }: PreviewProps) {
   const isEmpty = !html || html === '<p></p>'
+  const sanitizedHtml = DOMPurify.sanitize(html)
 
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50/50 px-6 py-4">
@@ -14,7 +17,7 @@ export default function PreviewPanel({ html }: PreviewProps) {
       ) : (
         <div
           className="tiptap-preview"
-          dangerouslySetInnerHTML={{ __html: html }}
+          dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
         />
       )}
     </div>

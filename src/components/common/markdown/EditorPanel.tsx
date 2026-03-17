@@ -1,5 +1,4 @@
-import type { Editor } from '@tiptap/core'
-import { EditorContent } from '@tiptap/react'
+import { type Editor, EditorContent } from '@tiptap/react'
 
 type EditorPanelProps = {
   editor: Editor
