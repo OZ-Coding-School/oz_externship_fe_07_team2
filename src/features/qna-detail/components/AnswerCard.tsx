@@ -11,14 +11,10 @@ type AnswerCardProps = {
   className?: string
 }
 
-export default function AnswerCard({
-  answer,
-  variant = 'default',
-  className,
-}: AnswerCardProps) {
+export default function AnswerCard({ answer, className }: AnswerCardProps) {
   const { content, created_at, is_adopted, author, comments } = answer
 
-  const isAdoptedCard = variant === 'adopted' || is_adopted
+  const isAdoptedCard = is_adopted
   const { sortType, setSortType, sortOptions, sortedComments } =
     useCommentSort(comments)
 
