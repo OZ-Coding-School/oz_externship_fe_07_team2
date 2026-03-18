@@ -7,7 +7,7 @@ body {
 }
 
 :root {
-  scrollbar-gutter: stable;
+  scrollbar-gutter: auto;
   /* =====================================================
    PRIMITIVE COLOR TOKENS
 ===================================================== */

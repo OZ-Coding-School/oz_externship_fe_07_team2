@@ -24,7 +24,9 @@ type ModalButtonProps<T extends string> = Omit<
   onChange: (value: T) => void
   placeholder?: string
   className?: string
+  buttonClassName?: string
   dropdownClassName?: string
+  hideLabelBelowMd?: boolean
 }
 
 export default function ModalButton<T extends string>({
@@ -34,7 +36,9 @@ export default function ModalButton<T extends string>({
   placeholder = '선택',
   disabled = false,
   className,
+  buttonClassName,
   dropdownClassName,
+  hideLabelBelowMd = false,
   type = 'button',
   onClick,
   ...buttonProps
@@ -73,10 +77,12 @@ export default function ModalButton<T extends string>({
           disabled
             ? 'bg-surface-disabled text-text-disabled cursor-not-allowed'
             : 'bg-surface-default text-text-sub border-border-line hover:bg-surface-sub',
-          className
+          buttonClassName
         )}
       >
-        {selectedOption?.label ?? placeholder}
+        <span className={cn(hideLabelBelowMd && 'hidden md:inline')}>
+          {selectedOption?.label ?? placeholder}
+        </span>
         <ArrowDownUp size={20} className="shrink-0" />
       </button>
 
