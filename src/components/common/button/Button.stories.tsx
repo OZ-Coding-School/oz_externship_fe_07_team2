@@ -9,11 +9,18 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'outline', 'soft', 'text'],
+      options: [
+        'primary',
+        'outline',
+        'text',
+        'textAccent',
+        'textMuted',
+        'ghost',
+      ],
     },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg'],
+      options: ['sm', 'md', 'lg'],
     },
     rounded: {
       control: 'select',
@@ -46,6 +53,7 @@ export const Outline: Story = {
 export const Small: Story = {
   args: {
     children: '확인',
+    variant: 'primary',
     rounded: 'full',
     size: 'sm',
   },
@@ -60,7 +68,7 @@ export const Text: Story = {
   },
 }
 
-export const textAccent: Story = {
+export const TextAccent: Story = {
   args: {
     children: '최신순',
     variant: 'textAccent',
@@ -68,17 +76,28 @@ export const textAccent: Story = {
   },
 }
 
-export const WithRightIcon: Story = {
+export const TextMuted: Story = {
   args: {
-    children: '최신순',
-    variant: 'text',
+    children: '오래된순',
+    variant: 'textMuted',
+    size: 'md',
+  },
+}
+
+export const Ghost: Story = {
+  args: {
+    children: '챗봇에게 물어보기',
+    variant: 'ghost',
     size: 'sm',
+    rounded: 'full',
   },
 }
 
 export const Disabled: Story = {
   args: {
     children: 'Disabled Button',
+    variant: 'primary',
+    size: 'lg',
     disabled: true,
   },
 }
