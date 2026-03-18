@@ -4,28 +4,29 @@ import { X } from 'lucide-react'
 
 import chatBotIcon from '@/assets/images/chat-bot.svg'
 import { Button } from '@/components'
-import ChatRoomList from '@/features/chat-widget/components/ChatRoomList'
+import ChatSessionList from '@/features/chat-widget/components/ChatSessionList'
 import ChatWindow from '@/features/chat-widget/components/ChatWindow'
 import {
   mockChatMessagesByRoomId,
   mockInitialChatMessages,
 } from '@/mocks/data/chat-message-mock'
-import { mockChatRooms } from '@/mocks/data/chat-room-mock'
 
 export default function FloatingChatButton() {
   const [isOpen, setIsOpen] = useState(false)
-  const [activeView, setActiveView] = useState<'rooms' | 'messages'>('rooms')
+  const [activeView, setActiveView] = useState<'sessions' | 'messages'>(
+    'sessions'
+  )
   const [openType, setOpenType] = useState<'floating' | 'followUp'>('floating')
-  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null)
-  const latestRoomId = mockChatRooms[0]?.id ?? null
-  const hasPreviousChat = latestRoomId !== null
+  const [selectedSessionId, setSelectedSessionId] = useState<number | null>(
+    null
+  )
 
   const handleToggle = () => {
     setIsOpen((prev) => {
       if (prev) {
-        setActiveView('rooms')
+        setActiveView('sessions')
         setOpenType('floating')
-        setSelectedRoomId(null)
+        setSelectedSessionId(null)
       }
 
       return !prev
@@ -35,21 +36,21 @@ export default function FloatingChatButton() {
   return (
     <div className="fixed right-6 bottom-6 z-50 flex flex-col items-end gap-3">
       {isOpen &&
-        (activeView === 'rooms' ? (
-          <ChatRoomList
+        (activeView === 'sessions' ? (
+          <ChatSessionList
             onClose={() => {
               setIsOpen(false)
-              setActiveView('rooms')
+              setActiveView('sessions')
               setOpenType('floating')
-              setSelectedRoomId(null)
+              setSelectedSessionId(null)
             }}
             onNewChat={() => {
-              setSelectedRoomId(null)
+              setSelectedSessionId(null)
               setActiveView('messages')
               setOpenType('floating')
             }}
-            onSelectRoom={(roomId) => {
-              setSelectedRoomId(roomId)
+            onSelectSession={(sessionId) => {
+              setSelectedSessionId(sessionId)
               setActiveView('messages')
               setOpenType('floating')
             }}
@@ -57,27 +58,20 @@ export default function FloatingChatButton() {
         ) : (
           <ChatWindow
             onBack={() => {
-              setActiveView('rooms')
+              setActiveView('sessions')
               setOpenType('floating')
             }}
             openType={openType}
-            hasPreviousChat={hasPreviousChat}
-            onLoadPrevious={() => {
-              if (latestRoomId === null) return
-
-              setSelectedRoomId(latestRoomId)
-              setActiveView('messages')
-              setOpenType('floating')
-            }}
+            hasPreviousChat={false}
             onStartNewChat={() => {
-              setSelectedRoomId(null)
+              setSelectedSessionId(null)
               setActiveView('messages')
               setOpenType('floating')
             }}
             messages={
-              selectedRoomId === null
+              selectedSessionId === null
                 ? mockInitialChatMessages
-                : mockChatMessagesByRoomId[selectedRoomId]
+                : mockChatMessagesByRoomId[selectedSessionId]
             }
           />
         ))}
@@ -92,7 +86,7 @@ export default function FloatingChatButton() {
             setIsOpen(true)
             setActiveView('messages')
             setOpenType('followUp')
-            setSelectedRoomId(null)
+            setSelectedSessionId(null)
           }}
         >
           추가질문하기
