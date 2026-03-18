@@ -54,6 +54,8 @@ type DropdownProps = {
   onOpenChange?: (value: boolean) => void
   disabled?: boolean
   className?: string
+  buttonClassName?: string
+  listItemClassName?: string
 }
 
 export default function Dropdown({
@@ -65,6 +67,8 @@ export default function Dropdown({
   onSelect,
   disabled,
   className,
+  buttonClassName,
+  listItemClassName,
 }: DropdownProps) {
   const [isOpen, setOpen] = useControllableState(open, false, onOpenChange)
   const [selectedValue, setSelectedValue] = useControllableState<string | null>(
@@ -95,7 +99,10 @@ export default function Dropdown({
         disabled={disabled}
         variant="ghost"
         onClick={handleClick}
-        className="border-gray-primary flex h-12 w-full justify-between gap-3 border p-4 text-sm font-normal"
+        className={cn(
+          'border-gray-primary flex w-full justify-between gap-3 border p-2 text-sm font-normal md:p-4',
+          buttonClassName
+        )}
       >
         <span>{selectedValue ?? placeHolder}</span>
         {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -115,7 +122,8 @@ export default function Dropdown({
                 onClick={() => handleSelect(item)}
                 className={cn(
                   'hover:bg-primary-100 flex cursor-pointer items-center justify-between p-3',
-                  isSelected && 'text-primary font-semibold'
+                  isSelected && 'text-primary font-semibold',
+                  listItemClassName
                 )}
                 key={item.id}
               >
