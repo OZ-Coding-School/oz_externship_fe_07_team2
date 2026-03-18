@@ -5,8 +5,7 @@ import {
   QnaDetailAnswer,
   QnaDetailHeader,
 } from '@/features/qna-detail'
-
-import { mockQuestionDetail, mockUsers } from './mock'
+import { mockQuestionDetail, mockUsers } from '@/mocks/data/qna-detail-mock'
 
 export default function QnaDetailPage() {
   // 임시 데이터용 questionId, 실제로는 API에서 받아올 예정
