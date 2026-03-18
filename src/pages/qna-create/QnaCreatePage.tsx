@@ -62,18 +62,17 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
 
   return (
     <main className="flex h-auto w-full flex-col">
-      <h1 className="text-text-default mb-5 text-[32px] font-bold">
+      <h1 className="mb-3 text-[clamp(1.5rem,calc(0.884vw+1.293rem),2rem)] leading-tight font-bold md:mb-5">
         질문 작성하기
       </h1>
-      <hr className="border-border-line mb-10 w-full border-[0.5px]" />
+      <hr className="border-border-line mb-6 w-full border-[0.5px] md:mb-10" />
 
       <div className="w-full">
-        <div className="border-border-line mb-5 rounded-2xl border px-9 py-10 md:mb-3 md:rounded-[20px]">
+        <div className="border-border-line mb-3 rounded-2xl border px-5 py-6 md:mb-5 md:rounded-[20px] md:px-9 md:py-10">
           <CategoryDropdown
             categories={categories}
-            direction="row"
             onSelect={handleCategorySelect}
-            className="mb-5"
+            className="mb-3 md:mb-5"
           />
           <Input
             value={title}
@@ -83,18 +82,18 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
           />
         </div>
 
-        <div className="border-border-line mb-5 rounded-2xl border md:mb-3 md:rounded-[20px]">
+        <div className="border-border-line mb-3 rounded-2xl border md:mb-5 md:rounded-[20px]">
           <TipTabEditor
             content={content}
             contentChange={(value) => setContent(value ?? '')}
           />
         </div>
       </div>
-      <div className="mt-3 flex w-full justify-end">
+      <div className="mt-8 flex w-full justify-end md:mt-13">
         <Button
           variant="primary"
           size="lg"
-          className="h-13.5 w-35 text-[20px]"
+          className="h-9.5 w-28 p-0 text-[clamp(0.875rem,calc(0.663vw+0.72rem),1.25rem)] md:h-13.5 md:w-35"
           onClick={handleSubmit}
           disabled={isPending}
         >

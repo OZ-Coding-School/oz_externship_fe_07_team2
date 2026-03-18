@@ -27,9 +27,9 @@ export default function Popup({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-surface-default shadow-modal h-auto w-107 rounded-xl p-7"
+        className="bg-surface-default shadow-modal h-auto w-80 rounded-xl p-[clamp(16px,4vw,28px)] sm:w-107"
       >
-        <p className="text-text-modal mb-13 text-base whitespace-pre-line">
+        <p className="text-text-modal mb-13 text-[clamp(0.75rem,3vw,1rem)] whitespace-pre-line">
           {content}
         </p>
         <div className="flex justify-end gap-3">
