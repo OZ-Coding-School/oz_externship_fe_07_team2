@@ -29,10 +29,10 @@ export default function ColorGroup({ editor }: { editor: Editor | null }) {
         type="button"
         title="배경색"
         onClick={() => highlightRef.current?.click()}
-        className="flex h-8 items-center gap-0.5 rounded px-1.5 hover:bg-gray-100"
+        className="flex h-[clamp(1.5rem,calc(0.442vw+1.334rem),2rem)] w-auto! items-center gap-0.5 rounded px-1.5 hover:bg-gray-100"
       >
         <span
-          className="h-4 w-4 rounded-sm border border-gray-300"
+          className="h-[clamp(0.75rem,calc(0.221vw+0.667rem),1rem)] w-[clamp(0.75rem,calc(0.221vw+0.667rem),1rem)] rounded-sm border border-gray-300"
           style={{ backgroundColor: highlight }}
         />
         <ChevronDown size={10} className="text-gray-500" />
@@ -51,14 +51,17 @@ export default function ColorGroup({ editor }: { editor: Editor | null }) {
         type="button"
         title="글자색"
         onClick={() => textColorRef.current?.click()}
-        className="flex h-8 items-center justify-center rounded px-2 hover:bg-gray-100"
+        className="flex h-[clamp(1.5rem,calc(0.442vw+1.334rem),2rem)] w-auto! items-center justify-center rounded px-2 hover:bg-gray-100"
       >
         <span className="flex flex-col items-center leading-none">
-          <span className="text-sm font-bold" style={{ color: textColor }}>
+          <span
+            className="text-[clamp(0.75rem,calc(0.221vw+0.667rem),0.875rem)] font-bold"
+            style={{ color: textColor }}
+          >
             A
           </span>
           <span
-            className="mt-0.5 h-1 w-4 rounded-sm"
+            className="mt-0.5 h-1 w-[clamp(0.75rem,calc(0.221vw+0.667rem),1rem)] rounded-sm"
             style={{ backgroundColor: textColor }}
           />
         </span>

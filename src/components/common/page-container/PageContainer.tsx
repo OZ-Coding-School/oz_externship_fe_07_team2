@@ -12,7 +12,7 @@ export default function PageContainer({
   return (
     <div
       className={cn(
-        'mx-auto flex min-h-screen w-full max-w-236 flex-col pt-27',
+        'mx-auto flex min-h-screen w-full max-w-236 flex-col px-4 pt-27',
         className
       )}
     >
