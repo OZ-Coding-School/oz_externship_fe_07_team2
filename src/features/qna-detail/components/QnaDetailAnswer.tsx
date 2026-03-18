@@ -1,6 +1,6 @@
 import { AnswerBadge } from '@/components'
+import type { QnaAnswer } from '@/types'
 
-import type { QnaAnswer } from '../types'
 import AnswerCard from './AnswerCard'
 
 type QnaDetailAnswerProps = {

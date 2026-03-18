@@ -1,6 +1,11 @@
 export const ROUTES_PATHS = {
-  QNA_LIST: '/',
+  QNA_LIST: '/questions',
+  QNA_DETAIL: `/questions/:id`,
+  QNA_CREATE: '/questions/new',
+  QNA_EDIT: '/questions/:id/edit',
   NOT_FOUND: '*',
-  QNA_DETAIL: '/qna-detail',
-  CREATE_QNA: '/questions/new',
+
+  // navigate 용
+  QNA_DETAIL_URL: (id: number) => `/questions/${id}`,
+  QNA_EDIT_URL: (id: number) => `/questions/${id}/edit`,
 } as const

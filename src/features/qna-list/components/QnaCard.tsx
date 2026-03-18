@@ -41,7 +41,7 @@ export default function QnaCard({ question, keyword }: QnaCardProps) {
       className={cn(
         'hover:bg-surface-sub flex cursor-pointer flex-col p-10 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
       )}
-      onClick={() => navigate(ROUTES_PATHS.QNA_DETAIL)}
+      onClick={() => navigate(ROUTES_PATHS.QNA_DETAIL_URL(question.id))}
     >
       <div className="flex flex-1 flex-col">
         <CategoryPath path={question.category.names} variant="list" />

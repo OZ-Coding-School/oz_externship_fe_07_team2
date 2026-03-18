@@ -4,26 +4,38 @@ import { useNavigate } from 'react-router'
 import { Button, Input, Popup } from '@/components'
 import TipTabEditor from '@/components/common/markdown/TipTabEditor'
 import { ROUTES_PATHS } from '@/constants/url'
+import useCategoriesQuery from '@/queries/useCategoriesQuery'
+import useCreateQuestionMutation from '@/queries/useCreateQuestionMutation'
 import CategoryDropdown, {
   type SelectedCategory,
 } from '@/shared/CategoryDropdown'
-import type { Category } from '@/types'
 
-export default function QnACreatePage() {
+type QnACreatePageProps = {
+  mode: 'create' | 'edit'
+  questionId?: number
+}
+
+export default function QnACreatePage({ mode }: QnACreatePageProps) {
+  // TODO: DetailQuery API 연결 예정
+
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [categoryId, setCategoryId] = useState<number | null>(null)
-  const [categories] = useState<Category[]>([])
+  const [selectedCategory, setSelectedCategory] =
+    useState<SelectedCategory | null>(null)
+  const { data: categories = [] } = useCategoriesQuery()
   const [alertMessage, setAlertMessage] = useState<string | null>(null)
   const navigate = useNavigate()
+  const {
+    mutate: createQuestion,
+    isPending,
+    isError,
+  } = useCreateQuestionMutation()
 
   const handleCategorySelect = (selected: SelectedCategory) => {
-    setCategoryId(selected.small?.id ?? null)
+    setSelectedCategory(selected)
   }
 
-  /*
-   *TODO: API axios 설정 후 작업 예정
-   */
+  const categoryId = selectedCategory?.small?.id
 
   const validate = (): string | null => {
     if (!categoryId) return '카테고리를 선택해 주세요.'
@@ -33,14 +45,19 @@ export default function QnACreatePage() {
     return null
   }
 
-  const handleSubmit = async () => {
-    const error = validate()
-    if (error) {
-      setAlertMessage(error)
-      return
-    }
+  const handleCreate = () => {
+    createQuestion(
+      { title, content, category: categoryId! },
+      { onSuccess: () => navigate(ROUTES_PATHS.QNA_LIST) }
+    )
+  }
 
-    navigate(ROUTES_PATHS.QNA_LIST)
+  const handleSubmit = () => {
+    const error = validate()
+    if (error) return setAlertMessage(error)
+
+    if (mode === 'create') return handleCreate()
+    // TODO: edit 모드는 DetailQuery merge 후 작업 예정
   }
 
   return (
@@ -79,12 +96,17 @@ export default function QnACreatePage() {
           size="lg"
           className="h-13.5 w-35 text-[20px]"
           onClick={handleSubmit}
+          disabled={isPending}
         >
-          등록하기
+          {mode === 'create'
+            ? isPending
+              ? '등록 중...'
+              : '등록하기'
+            : '저장하기'}
         </Button>
       </div>
       <Popup
-        isOpen={!!alertMessage}
+        isOpen={!!alertMessage || isError}
         content={alertMessage}
         confirmLabel="확인"
         onConfirm={() => setAlertMessage(null)}
