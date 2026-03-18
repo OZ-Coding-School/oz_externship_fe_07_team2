@@ -173,7 +173,7 @@ body {
 }
 
 .tiptap-editor > .ProseMirror {
-  min-height: 36rem;
+  min-height: clamp(26rem, calc(17.68vw + 13.37rem), 36rem);
   outline: none;
   cursor: text;
 }
@@ -184,7 +184,25 @@ body {
   pointer-events: none;
   float: left;
   height: 0;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, calc(0.221vw + 0.771rem), 1rem);
+}
+
+.tiptap-editor > .ProseMirror p {
+  font-size: clamp(0.875rem, calc(0.221vw + 0.771rem), 1rem); /* 14px → 16px */
+}
+
+.tiptap-toolbar button {
+  width: clamp(
+    1.5rem,
+    calc(0.442vw + 1.334rem),
+    2rem
+  ) !important; /* 24px → 32px */
+  height: clamp(1.5rem, calc(0.442vw + 1.334rem), 2rem) !important;
+}
+
+.tiptap-toolbar svg {
+  width: clamp(0.875rem, calc(0.221vw + 0.771rem), 1.125rem); /* 14px → 18px */
+  height: clamp(0.875rem, calc(0.221vw + 0.771rem), 1.125rem);
 }
 
 /* 제목 */
@@ -235,7 +253,7 @@ body {
   background: #f3f4f6;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
-  font-size: 0.875rem;
+  font-size: clamp(0.875rem, calc(0.221vw + 0.771rem), 1rem);
 }
 
 /* Preview 패널 */
