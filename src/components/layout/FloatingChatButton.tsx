@@ -6,10 +6,6 @@ import chatBotIcon from '@/assets/images/chat-bot.svg'
 import { Button } from '@/components'
 import ChatSessionList from '@/features/chat-widget/components/ChatSessionList'
 import ChatWindow from '@/features/chat-widget/components/ChatWindow'
-import {
-  mockChatMessagesByRoomId,
-  mockInitialChatMessages,
-} from '@/mocks/data/chat-message-mock'
 
 export default function FloatingChatButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -61,6 +57,7 @@ export default function FloatingChatButton() {
               setActiveView('sessions')
               setOpenType('floating')
             }}
+            sessionId={selectedSessionId}
             openType={openType}
             hasPreviousChat={false}
             onStartNewChat={() => {
@@ -68,11 +65,6 @@ export default function FloatingChatButton() {
               setActiveView('messages')
               setOpenType('floating')
             }}
-            messages={
-              selectedSessionId === null
-                ? mockInitialChatMessages
-                : mockChatMessagesByRoomId[selectedSessionId]
-            }
           />
         ))}
 

@@ -1,12 +1,14 @@
 import type { ChatMessagePreview } from '@/features/chat-widget'
+import { mockInitialChatMessages } from '@/mocks/data/chat-message-mock'
+import useChatMessagesQuery from '@/queries/useChatMessagesQuery'
 
-import ChatBody from './ChatBody'
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
+import ChatMessageList from './ChatMessageList'
 
 type ChatWindowProps = {
   onBack: () => void
-  messages: ChatMessagePreview[]
+  sessionId: number | null
   openType?: 'floating' | 'followUp'
   hasPreviousChat?: boolean
   onLoadPrevious?: () => void
@@ -15,18 +17,33 @@ type ChatWindowProps = {
 
 export default function ChatWindow({
   onBack,
-  messages,
+  sessionId,
   openType = 'floating',
   hasPreviousChat = false,
   onLoadPrevious,
   onStartNewChat,
 }: ChatWindowProps) {
+  const {
+    data: chatMessagesData,
+    isPending,
+    isError,
+  } = useChatMessagesQuery({
+    sessionId,
+  })
+
+  const messages: ChatMessagePreview[] =
+    sessionId === null
+      ? mockInitialChatMessages
+      : (chatMessagesData?.results ?? [])
+
   return (
     <div className="bg-surface-default shadow-box flex h-152.5 w-90 flex-col overflow-hidden rounded-xl">
       <ChatHeader actionType="back" onAction={onBack} />
-      <ChatBody
+      <ChatMessageList
         mode={openType === 'followUp' ? 'entry' : 'messages'}
         messages={messages}
+        isPending={isPending}
+        isError={isError}
         hasPreviousChat={hasPreviousChat}
         onLoadPrevious={onLoadPrevious}
         onStartNewChat={onStartNewChat}

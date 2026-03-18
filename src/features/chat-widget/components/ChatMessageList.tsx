@@ -1,24 +1,28 @@
-import { Avatar, Button } from '@/components'
+import { Avatar, Button, Loading } from '@/components'
 import type { ChatMessagePreview } from '@/features/chat-widget'
 
 import ChatBadge from './ChatBadge'
 import ChatBubble from './ChatBubble'
 
-type ChatBodyProps = {
+type ChatMessageListProps = {
   mode: 'messages' | 'entry'
   messages: ChatMessagePreview[]
+  isPending?: boolean
+  isError?: boolean
   hasPreviousChat?: boolean
   onLoadPrevious?: () => void
   onStartNewChat?: () => void
 }
 
-export default function ChatBody({
+export default function ChatMessageList({
   mode,
   messages,
+  isPending = false,
+  isError = false,
   hasPreviousChat = false,
   onLoadPrevious,
   onStartNewChat,
-}: ChatBodyProps) {
+}: ChatMessageListProps) {
   if (mode === 'entry') {
     return (
       <div className="flex flex-1 flex-col px-4 py-5">
@@ -54,6 +58,22 @@ export default function ChatBody({
             새 채팅하기
           </Button>
         </div>
+      </div>
+    )
+  }
+
+  if (isPending) {
+    return (
+      <div className="flex flex-1 items-center justify-center px-4 py-5">
+        <Loading />
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="text-text-chatbot flex flex-1 items-center justify-center px-6 text-center text-sm font-light">
+        채팅 내역을 불러오지 못했습니다.
       </div>
     )
   }
