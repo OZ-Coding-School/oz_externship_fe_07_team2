@@ -1,5 +1,5 @@
 import { Avatar, Button } from '@/components'
-import type { ChatMessagePreview } from '@/features/chat-widget/type/chat'
+import type { ChatMessagePreview } from '@/features/chat-widget'
 
 import ChatBadge from './ChatBadge'
 import ChatBubble from './ChatBubble'

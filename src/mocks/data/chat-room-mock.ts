@@ -1,4 +1,4 @@
-import type { ChatRoomPreview } from '@/features/chat-widget/type/chat'
+import type { ChatRoomPreview } from '@/features/chat-widget'
 
 export const mockChatRooms: ChatRoomPreview[] = [
   {

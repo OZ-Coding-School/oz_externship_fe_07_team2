@@ -1,4 +1,4 @@
-import type { ChatMessagePreview } from '@/features/chat-widget/type/chat'
+import type { ChatMessagePreview } from '@/features/chat-widget'
 
 export const mockInitialChatMessages: ChatMessagePreview[] = [
   {
