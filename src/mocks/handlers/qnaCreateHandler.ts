@@ -2,7 +2,7 @@ import { delay, http, HttpResponse } from 'msw'
 
 import { toMswApiUrl } from '@/constants/apiPath'
 import { QNA_API } from '@/constants/qna'
-import { mockQuestionDetail } from '@/pages/qna-detail/mock'
+import { mockQuestionDetail } from '@/mocks/data/qna-detail-mock'
 import type { CreateQuestionRequest } from '@/types'
 
 export const qnaCreateHandlers = [

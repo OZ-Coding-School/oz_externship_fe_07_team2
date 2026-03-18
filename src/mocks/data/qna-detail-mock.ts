@@ -1,7 +1,7 @@
 import type { QnaQuestionDetail } from '@/types'
 
 export const mockQuestionDetail: QnaQuestionDetail = {
-  id: 10501,
+  id: 1,
   title: 'Django에서 ForeignKey 역참조는 어떻게 하나요?',
   content: 'Django 모델에서 related_name을 지정했을 때...',
   category: {
