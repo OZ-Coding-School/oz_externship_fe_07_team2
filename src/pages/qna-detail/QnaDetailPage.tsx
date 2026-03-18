@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { EmptyState, Loading } from '@/components'
@@ -26,10 +25,7 @@ export default function QnaDetailPage() {
   const currentUser = mockUsers.member
   const isLoggedIn = Boolean(currentUser)
 
-  const isQuestionAuthor = useMemo(
-    () => !!question && currentUser?.id === question.author.id,
-    [currentUser, question]
-  )
+  const isQuestionAuthor = !!question && currentUser?.id === question.author.id
 
   const shouldShowAnswerEditor = isLoggedIn && !isQuestionAuthor
 

@@ -17,10 +17,12 @@ export default function useQnaDetailQuery(
   questionId: number,
   options?: QnaDetailQueryOptions
 ) {
+  const isValidQuestionId = Number.isFinite(questionId) && questionId > 0
+
   return useQuery({
-    queryKey: ['qna-detail', questionId] as ['qna-detail', number],
-    queryFn: () => getQuestionDetail(questionId),
-    enabled: questionId > 0 && (options?.enabled ?? true),
     ...options,
+    queryKey: ['qna-detail', questionId],
+    queryFn: () => getQuestionDetail(questionId),
+    enabled: isValidQuestionId && (options?.enabled ?? true),
   })
 }
