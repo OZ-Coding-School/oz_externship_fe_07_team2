@@ -9,7 +9,7 @@ import ChatMessageList from './ChatMessageList'
 type ChatWindowProps = {
   onBack: () => void
   sessionId: number | null
-  openType?: 'floating' | 'followUp'
+  openType?: 'floating' | 'followUpEntry'
   hasPreviousChat?: boolean
   onLoadPrevious?: () => void
   onStartNewChat?: () => void
@@ -35,15 +35,17 @@ export default function ChatWindow({
     sessionId === null
       ? mockInitialChatMessages
       : (chatMessagesData?.results ?? [])
+  const isMessagePending = sessionId !== null && isPending
+  const isMessageError = sessionId !== null && isError
 
   return (
     <div className="bg-surface-default shadow-box flex h-152.5 w-90 flex-col overflow-hidden rounded-xl">
       <ChatHeader actionType="back" onAction={onBack} />
       <ChatMessageList
-        mode={openType === 'followUp' ? 'entry' : 'messages'}
+        mode={openType === 'followUpEntry' ? 'entry' : 'messages'}
         messages={messages}
-        isPending={isPending}
-        isError={isError}
+        isPending={isMessagePending}
+        isError={isMessageError}
         hasPreviousChat={hasPreviousChat}
         onLoadPrevious={onLoadPrevious}
         onStartNewChat={onStartNewChat}

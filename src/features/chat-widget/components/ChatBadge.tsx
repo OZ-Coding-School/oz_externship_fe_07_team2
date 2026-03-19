@@ -1,25 +1,18 @@
 import chatBotIcon from '@/assets/images/chat-bot.svg'
+import { Avatar } from '@/components'
 import { cn } from '@/utils'
 
 type ChatBadgeProps = {
   size?: 'sm' | 'md'
-  className?: string
 }
 
-export default function ChatBadge({ size = 'md', className }: ChatBadgeProps) {
+export default function ChatBadge({ size = 'md' }: ChatBadgeProps) {
   return (
-    <div
-      className={cn(
-        'bg-primary-200 shadow-box flex shrink-0 items-center justify-center rounded-full p-2'
-      )}
-    >
-      <img
+    <div className="bg-primary-200 shadow-box flex shrink-0 items-center justify-center rounded-full p-2">
+      <Avatar
         src={chatBotIcon}
-        className={cn(
-          size === 'sm' && 'h-5 w-5',
-          size === 'md' && 'h-6 w-6',
-          className
-        )}
+        size="sm"
+        className={cn(size === 'sm' && 'h-5 w-5', size === 'md' && 'h-6 w-6')}
         alt="AI OZ"
       />
     </div>

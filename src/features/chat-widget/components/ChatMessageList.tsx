@@ -14,6 +14,13 @@ type ChatMessageListProps = {
   onStartNewChat?: () => void
 }
 
+/* 챗 메시지 UI 우선순위 (위에서부터 먼저 만족하면 바로 렌더링)
+  1. entry 모드 (채팅 시작 전)
+  2. 로딩 상태 (isPending)
+  3. 에러 상태 (isError)
+  4. 정상 메시지
+*/
+
 export default function ChatMessageList({
   mode,
   messages,
