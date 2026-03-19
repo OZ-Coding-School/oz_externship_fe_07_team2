@@ -2,26 +2,26 @@ import { Button } from '@/components'
 
 import ChatBadge from './ChatBadge'
 
-type ChatRoomListItemProps = {
+type ChatSessionListItemProps = {
   title: string
   unreadCount?: number
   timeLabel: string
   onClick?: () => void
 }
 
-export default function ChatRoomListItem({
+export default function ChatSessionListItem({
   title,
   unreadCount = 0,
   timeLabel,
   onClick,
-}: ChatRoomListItemProps) {
+}: ChatSessionListItemProps) {
   return (
     <Button
       variant={'text'}
       type="button"
       size={'lg'}
       onClick={onClick}
-      className="hover:bg-primary-100 w-full gap-1.5 border-b border-[#E7E7E7] px-4 text-left font-normal transition"
+      className="hover:bg-primary-100 w-full gap-1.5 border-b border-[#E7E7E7] px-6! text-left font-normal transition"
     >
       <ChatBadge size="sm" />
 
