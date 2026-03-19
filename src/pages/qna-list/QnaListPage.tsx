@@ -56,8 +56,39 @@ export default function QnaListPage() {
   const currentPage = Math.min(page, totalPages)
   const hasNoResults = !isPending && questionsList.length === 0
 
-  // 목록 영역에서만 로딩/에러/빈 상태를 분기하고, 상단 필터 UI는 그대로 유지한다.
-  const isStateView = isPending || isError || hasNoResults
+  const renderContent = () => {
+    if (isPending) {
+      return (
+        <div className="flex flex-1 items-center justify-center">
+          <Loading />
+        </div>
+      )
+    }
+
+    if (isError) {
+      return (
+        <div className="flex flex-1 items-center justify-center">
+          <EmptyState type="notFound" />
+        </div>
+      )
+    }
+
+    if (hasNoResults) {
+      return (
+        <div className="flex flex-1 items-center justify-center">
+          <EmptyState type="searchEmpty" />
+        </div>
+      )
+    }
+
+    return (
+      <div className="space-y-12 md:space-y-0">
+        {questionsList.map((list) => (
+          <QnaCard key={list.id} question={list} keyword={debouncedSearch} />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-1 flex-col">
@@ -88,7 +119,7 @@ export default function QnaListPage() {
             }}
           />
 
-          <div className="flex items-center gap-0 pb-4 md:gap-3">
+          <div className="flex items-center pb-4 md:gap-3">
             <ModalButton
               value={sort}
               options={SORT_OPTIONS}
@@ -121,27 +152,7 @@ export default function QnaListPage() {
         </div>
 
         {/* list 목록 */}
-        {isStateView ? (
-          <div className="flex flex-1 items-center justify-center">
-            {isPending ? (
-              <Loading />
-            ) : isError ? (
-              <EmptyState type="notFound" />
-            ) : (
-              <EmptyState type="searchEmpty" />
-            )}
-          </div>
-        ) : (
-          <div className="space-y-12 md:space-y-0">
-            {questionsList.map((list) => (
-              <QnaCard
-                key={list.id}
-                question={list}
-                keyword={debouncedSearch}
-              />
-            ))}
-          </div>
-        )}
+        {renderContent()}
 
         {/*필터 클릭시 사이드바*/}
         <FilterSidebar

@@ -99,7 +99,7 @@ export default function FilterSidebar({
       onClick={onFilterClose}
     >
       <div
-        className="bg-surface-default lg:h-[1080px flex h-195 w-full flex-col rounded-l-xl rounded-bl-xl md:h-270 md:w-135"
+        className="bg-surface-default flex h-195 w-full flex-col rounded-l-xl rounded-bl-xl md:h-270 md:w-135 lg:h-270"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-11.5">
