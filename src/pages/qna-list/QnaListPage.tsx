@@ -56,12 +56,10 @@ export default function QnaListPage() {
   const currentPage = Math.min(page, totalPages)
   const hasNoResults = !isPending && questionsList.length === 0
 
-  // 목록 영역에서만 로딩/에러/빈 상태를 분기하고, 상단 필터 UI는 그대로 유지한다.
   const renderContent = () => {
-    //전체 최초 로딩
     if (isPending) {
       return (
-        <div className="flex flex-1 items-center justify-center py-20">
+        <div className="flex flex-1 items-center justify-center">
           <Loading />
         </div>
       )
@@ -69,24 +67,27 @@ export default function QnaListPage() {
 
     if (isError) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <div className="flex flex-1 items-center justify-center">
           <EmptyState type="notFound" />
         </div>
       )
     }
 
-    //검색 결과 없음
     if (hasNoResults) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <div className="flex flex-1 items-center justify-center">
           <EmptyState type="searchEmpty" />
         </div>
       )
     }
 
-    return questionsList.map((list) => (
-      <QnaCard key={list.id} question={list} keyword={debouncedSearch} />
-    ))
+    return (
+      <div className="space-y-12 md:space-y-0">
+        {questionsList.map((list) => (
+          <QnaCard key={list.id} question={list} keyword={debouncedSearch} />
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -118,7 +119,7 @@ export default function QnaListPage() {
             }}
           />
 
-          <div className="flex items-center gap-3 pb-4">
+          <div className="flex items-center pb-4 md:gap-3">
             <ModalButton
               value={sort}
               options={SORT_OPTIONS}
@@ -131,23 +132,27 @@ export default function QnaListPage() {
                   nextPage: 1,
                 })
               }}
-              className="text-modal w-fit p-0 text-base"
+              className="text-modal"
+              buttonClassName="text-modal w-11 md:w-fit p-0 text-base"
               dropdownClassName="w-34.5 right-0 left-auto top-9"
+              hideLabelBelowMd
+              aria-label="정렬 선택"
             />
 
             <Button
-              className="text-modal p-0 font-medium"
+              className="text-modal h-11 w-fit p-0 font-medium md:h-auto"
               variant={'text'}
+              aria-label="필터 열기"
               onClick={() => setIsFilterOpen(true)}
             >
-              필터
-              <SlidersHorizontal size={20} className="ml-1" />
+              <span className="hidden md:inline">필터</span>
+              <SlidersHorizontal size={20} className="md:ml-1" />
             </Button>
           </div>
         </div>
 
         {/* list 목록 */}
-        <div>{renderContent()}</div>
+        {renderContent()}
 
         {/*필터 클릭시 사이드바*/}
         <FilterSidebar

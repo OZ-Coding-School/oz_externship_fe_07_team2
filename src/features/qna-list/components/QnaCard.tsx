@@ -39,7 +39,7 @@ export default function QnaCard({ question, keyword }: QnaCardProps) {
   return (
     <div
       className={cn(
-        'hover:bg-surface-sub flex cursor-pointer flex-col p-10 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
+        'hover:bg-surface-sub flex cursor-pointer flex-col p-4 md:h-52.75 md:flex-row md:items-stretch md:gap-6 md:p-6'
       )}
       onClick={() => navigate(ROUTES_PATHS.QNA_DETAIL_URL(question.id))}
     >

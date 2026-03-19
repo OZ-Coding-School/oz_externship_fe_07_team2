@@ -20,12 +20,23 @@ type FilterSidebarProps = {
 function useBodyScrollLock(isFilterOpen: boolean) {
   useEffect(() => {
     if (!isFilterOpen) {
-      document.body.style.overflow = 'auto'
       return
     }
-    document.body.style.overflow = 'hidden'
+
+    const { body, documentElement } = document
+    const previousOverflow = body.style.overflow
+    const previousPaddingRight = body.style.paddingRight
+    const scrollbarWidth = window.innerWidth - documentElement.clientWidth
+
+    body.style.overflow = 'hidden'
+
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`
+    }
+
     return () => {
-      document.body.style.overflow = 'auto'
+      body.style.overflow = previousOverflow
+      body.style.paddingRight = previousPaddingRight
     }
   }, [isFilterOpen])
 }
@@ -84,11 +95,11 @@ export default function FilterSidebar({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-end bg-black/50"
+      className="fixed inset-0 z-50 flex justify-end overflow-hidden bg-black/50"
       onClick={onFilterClose}
     >
       <div
-        className="bg-surface-default flex h-full w-full flex-col rounded-l-xl rounded-bl-xl md:h-270 md:w-135"
+        className="bg-surface-default flex h-195 w-full flex-col rounded-l-xl rounded-bl-xl md:h-270 md:w-135 lg:h-270"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-11.5">
@@ -127,6 +138,7 @@ export default function FilterSidebar({
                   direction="column"
                   initialValue={pendingSelection}
                   onSelect={setPendingSelection}
+                  className="[&_[data-testid='dropdown']_button]:px-6 [&_[data-testid='dropdown']_button]:py-4 [&_[data-testid='dropdown']_button]:text-base [&_li]:min-h-12 [&_li]:px-5 [&_li]:py-4 [&_span]:text-base [&_ul]:static [&_ul]:p-3"
                 />
               )}
             </div>
