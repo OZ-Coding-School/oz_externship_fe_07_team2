@@ -65,9 +65,10 @@ export default function QnaDetailHeader({
         </div>
       </div>
 
-      <div className="text-text-primary pt-6 pb-16 text-base leading-7 break-words whitespace-pre-line">
-        {content}
-      </div>
+      <div
+        className="text-text-primary pt-6 pb-16 text-base leading-7 break-words whitespace-pre-line"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
       <div className="border-border-line flex justify-end border-b p-4">
         <Button variant="ghost" size="sm" rounded="full" onClick={onShare}>
           <Link className="h-4 w-4" />

@@ -5,6 +5,7 @@ import { QNA_API } from '@/constants/qna'
 import { mockQuestionDetail } from '@/mocks/data/qna-detail-mock'
 
 const qnaDetailApiUrl = toMswApiUrl(QNA_API.questions)
+let mockData = { ...mockQuestionDetail }
 
 /**
  * 공통 검증 함수
@@ -23,7 +24,7 @@ const validateQuestionId = (rawId: unknown) => {
     }
   }
 
-  if (questionId !== mockQuestionDetail.id) {
+  if (questionId !== mockData.id) {
     return {
       error: HttpResponse.json(
         { message: '질문을 찾을 수 없습니다.' },
@@ -42,7 +43,7 @@ export const qnaDetailHandlers = [
     const { error } = validateQuestionId(params.questionId)
     if (error) return error
 
-    return HttpResponse.json(mockQuestionDetail)
+    return HttpResponse.json(mockData)
   }),
 
   http.put(`${qnaDetailApiUrl}/:questionId`, async ({ params, request }) => {
@@ -55,9 +56,9 @@ export const qnaDetailHandlers = [
       content: string
       category: number
     }
-
+    mockData = { ...mockData, title: body.title, content: body.content }
     return HttpResponse.json({
-      ...mockQuestionDetail,
+      ...mockData,
       title: body.title,
       content: body.content,
     })
