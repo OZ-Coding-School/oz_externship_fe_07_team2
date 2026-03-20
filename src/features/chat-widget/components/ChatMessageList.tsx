@@ -1,77 +1,60 @@
-import { Avatar, Button, Loading } from '@/components'
-import type { ChatMessagePreview } from '@/features/chat-widget'
+import { memo } from 'react'
 
-import ChatBadge from './ChatBadge'
+import { ArrowDown } from 'lucide-react'
+
+import { Button, Loading } from '@/components'
+import useChatAutoScroll from '@/features/chat-widget/hooks/useChatAutoScroll'
+import type { ChatMessagePreview } from '@/features/chat-widget/type/chat'
+
 import ChatBubble from './ChatBubble'
 
 type ChatMessageListProps = {
-  mode: 'messages' | 'entry'
   messages: ChatMessagePreview[]
+  isStreaming?: boolean
+  scrollToLatestKey?: number
   isPending?: boolean
   isError?: boolean
-  hasPreviousChat?: boolean
-  onLoadPrevious?: () => void
-  onStartNewChat?: () => void
 }
 
-/* 챗 메시지 UI 우선순위 (위에서부터 먼저 만족하면 바로 렌더링)
-  1. entry 모드 (채팅 시작 전)
-  2. 로딩 상태 (isPending)
-  3. 에러 상태 (isError)
-  4. 정상 메시지
-*/
+type ChatMessageRowProps = {
+  message: ChatMessagePreview
+}
+
+const ChatMessageRow = memo(function ChatMessageRow({
+  message,
+}: ChatMessageRowProps) {
+  return (
+    <div>
+      <ChatBubble message={message} />
+    </div>
+  )
+})
 
 export default function ChatMessageList({
-  mode,
   messages,
+  isStreaming = false,
+  scrollToLatestKey = 0,
   isPending = false,
   isError = false,
-  hasPreviousChat = false,
-  onLoadPrevious,
-  onStartNewChat,
 }: ChatMessageListProps) {
-  if (mode === 'entry') {
-    return (
-      <div className="flex flex-1 flex-col px-4 py-5">
-        <div className="flex items-start gap-3 text-sm font-light">
-          <ChatBadge size="sm" />
-          <div className="bg-surface-chat text-text-chatbot max-w-55 rounded-2xl px-3.5 py-2.5">
-            안녕하세요. 무엇을 도와드릴까요?
-          </div>
-        </div>
-
-        <div className="mt-3 flex justify-end">
-          <Avatar size="lg" alt="user avatar" />
-        </div>
-
-        <div className="flex items-center justify-center gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            rounded={'full'}
-            onClick={onLoadPrevious}
-            disabled={!hasPreviousChat}
-            className="border-border-line bg-surface-chat text-text-chatbot px-3.5 py-2 text-sm font-light disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            이전 대화 불러오기
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            rounded={'full'}
-            onClick={onStartNewChat}
-            className="text-primary-400 border-border-line bg-surface-chat px-3.5 py-2 text-sm font-light"
-          >
-            새 채팅하기
-          </Button>
-        </div>
-      </div>
-    )
-  }
+  const latestMessage = messages[messages.length - 1]
+  const {
+    containerRef,
+    bottomRef,
+    showScrollButton,
+    handleScroll,
+    scrollToBottom,
+  } = useChatAutoScroll({
+    latestMessageKey: latestMessage
+      ? `${latestMessage.id}:${latestMessage.message.length}`
+      : 'empty',
+    isStreaming,
+    scrollToLatestKey,
+  })
 
   if (isPending) {
     return (
-      <div className="flex flex-1 items-center justify-center px-4 py-5">
+      <div className="flex min-h-0 flex-1 items-center justify-center px-4 py-5">
         <Loading />
       </div>
     )
@@ -79,17 +62,39 @@ export default function ChatMessageList({
 
   if (isError) {
     return (
-      <div className="text-text-chatbot flex flex-1 items-center justify-center px-6 text-center text-sm font-light">
+      <div className="text-text-chatbot flex min-h-0 flex-1 items-center justify-center px-6 text-center text-sm font-light">
         채팅 내역을 불러오지 못했습니다.
       </div>
     )
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-4 overflow-auto px-4 py-5">
-      {messages.map((message) => (
-        <ChatBubble key={message.id} message={message} />
-      ))}
+    <div className="relative flex min-h-0 flex-1">
+      <div
+        ref={containerRef}
+        onScroll={handleScroll}
+        className="flex min-h-0 flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto px-4 py-5"
+      >
+        {messages.map((message) => (
+          <div key={message.id}>
+            <ChatMessageRow message={message} />
+          </div>
+        ))}
+        <div ref={bottomRef} aria-hidden="true" />
+      </div>
+
+      {showScrollButton && (
+        <Button
+          type="button"
+          variant="ghost"
+          rounded="full"
+          onClick={scrollToBottom}
+          className="absolute bottom-4 left-1/2 h-11 w-11 -translate-x-1/2 border border-white/80 bg-white/72 p-0 text-[#7C4DFF] shadow-[0_10px_24px_rgba(124,77,255,0.18)] backdrop-blur-md hover:bg-white/85"
+          aria-label="최신 메시지로 이동"
+        >
+          <ArrowDown size={18} />
+        </Button>
+      )}
     </div>
   )
 }
