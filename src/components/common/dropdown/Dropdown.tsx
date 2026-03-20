@@ -100,7 +100,7 @@ export default function Dropdown({
         variant="ghost"
         onClick={handleClick}
         className={cn(
-          'border-gray-primary flex w-full justify-between gap-3 border p-2 text-sm font-normal md:p-4',
+          'border-gray-primary text-main flex w-full justify-between gap-3 border p-2 text-sm font-normal md:p-4',
           buttonClassName
         )}
       >
