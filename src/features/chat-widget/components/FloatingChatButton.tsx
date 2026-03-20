@@ -9,6 +9,7 @@ export default function FloatingChatButton() {
 
   const handleOpen = () => {
     chat.setEntryMode(false)
+    chat.setEntryData(null)
     chat.open()
   }
 

@@ -1,5 +1,12 @@
 import { createContext } from 'react'
 
+export type ChatEntryData = {
+  questionId: number
+  questionTitle: string
+  questionContent: string
+  answerContent: string
+}
+
 //열림 상태 공통화
 type ToggleState = {
   isOpen: boolean
@@ -11,6 +18,8 @@ type ToggleState = {
 type ChatState = ToggleState & {
   isEntryMode: boolean
   setEntryMode: (value: boolean) => void
+  entryData: ChatEntryData | null
+  setEntryData: (value: ChatEntryData | null) => void
 }
 
 // 전체 UI 상태 Context 타입
