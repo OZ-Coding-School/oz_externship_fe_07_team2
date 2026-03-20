@@ -1,6 +1,7 @@
 import { Link } from 'lucide-react'
 
 import { Avatar, Button, CategoryPath } from '@/components'
+import { AiAnswerCard } from '@/features/chat-widget'
 import type { QnaQuestionDetail } from '@/types'
 import { formatTimeAgo } from '@/utils'
 
@@ -59,6 +60,10 @@ export default function QnaDetailHeader({
       <div className="text-text-primary pt-6 pb-16 text-base leading-7 break-words whitespace-pre-line">
         {content}
       </div>
+
+      {/* AI 자동 답변 생성 카드 */}
+      {question.answers.length > 0 && <AiAnswerCard question={question} />}
+
       <div className="border-border-line flex justify-end border-b p-4">
         <Button variant="ghost" size="sm" rounded="full" onClick={onShare}>
           <Link className="h-4 w-4" />

@@ -172,6 +172,13 @@ body {
   }
 }
 
+.text-gradient-brand {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .tiptap-editor > .ProseMirror {
   min-height: clamp(26rem, calc(17.68vw + 13.37rem), 36rem);
   outline: none;
