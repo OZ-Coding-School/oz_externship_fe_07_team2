@@ -52,7 +52,7 @@ export const mockCategories: Category[] = [
         ],
       },
       {
-        id: 12,
+        id: 35,
         name: '라이브러리',
         category_type: 'medium',
         children: [
@@ -97,6 +97,25 @@ export const mockCategories: Category[] = [
           {
             id: 27,
             name: 'FastAPI',
+            category_type: 'small',
+            children: [],
+          },
+        ],
+      },
+      {
+        id: 13,
+        name: 'Django',
+        category_type: 'medium',
+        children: [
+          {
+            id: 12,
+            name: 'ORM',
+            category_type: 'small',
+            children: [],
+          },
+          {
+            id: 34,
+            name: '인증/권한',
             category_type: 'small',
             children: [],
           },
