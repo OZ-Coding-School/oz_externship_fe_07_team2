@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router'
+
 import { Link } from 'lucide-react'
 
 import { Avatar, Button, CategoryPath } from '@/components'
+import { ROUTES_PATHS } from '@/constants/url'
 import type { QnaQuestionDetail } from '@/types'
 import { formatTimeAgo } from '@/utils'
 
@@ -16,6 +19,7 @@ export default function QnaDetailHeader({
   isQuestionAuthor,
 }: QnaDetailHeaderProps) {
   const { category, title, content, author, view_count, created_at } = question
+  const navigate = useNavigate()
 
   const avatarSrc = author.profile_image_url ?? undefined
 
@@ -49,9 +53,14 @@ export default function QnaDetailHeader({
             <span>{formatTimeAgo(created_at)}</span>
           </div>
           {/* 글 작성자 수정 버튼 */}
-          {/* TODO: 글 수정 페이지로 이동 */}
           {isQuestionAuthor && (
-            <span className="text-text-highlight shrink-0">수정</span>
+            <Button
+              variant="textAccent"
+              className="shrink-0"
+              onClick={() => navigate(ROUTES_PATHS.QNA_EDIT_URL(question.id))}
+            >
+              수정
+            </Button>
           )}
         </div>
       </div>
