@@ -32,27 +32,10 @@ export type CreateChatSessionRequest = {
   using_model: ChatModel
 }
 
-// 고객 지원 채팅 세션 생성 요청 타입
-// - 일반 채팅이 아닌 문의/지원용 채팅
+// 추가질문하기 클릭시
 export type CreateSupportSessionRequest = {
   title: string
   using_model: ChatModel
-}
-
-// 채팅 세션 목록 조회 파라미터
-// - cursor: 다음 페이지 조회 기준 값
-// - page_size: 페이지당 개수
-export type GetChatSessionsParams = {
-  cursor?: string
-  page_size?: number
-}
-
-// 채팅 세션 목록 응답
-// - cursor 기반 페이지네이션 구조
-export type ChatSessionListResponse = {
-  next: string | null
-  previous: string | null
-  results: ChatSession[]
 }
 
 // 채팅 메시지 데이터
