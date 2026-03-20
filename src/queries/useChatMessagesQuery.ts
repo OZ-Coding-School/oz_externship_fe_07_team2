@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getChatCompletions } from '@/api'
-import type { ChatMessagePreview } from '@/features/chat-widget'
+import { getChatCompletions } from '@/api/chat-api'
+import type { ChatMessagePreview } from '@/features/chat-widget/type/chat'
 import type { ChatMessageListResponse, GetChatCompletionsParams } from '@/types'
 
 type ChatMessagePreviewListResponse = {
