@@ -1,15 +1,17 @@
-import type { ReactNode, TextareaHTMLAttributes } from 'react'
+import type { ReactNode, Ref, TextareaHTMLAttributes } from 'react'
 
 import { cn } from '@/utils/cn'
 
 type TextareaProps = {
   className?: string
   action?: ReactNode
+  textareaRef?: Ref<HTMLTextAreaElement>
 } & TextareaHTMLAttributes<HTMLTextAreaElement>
 
 export default function Textarea({
   className,
   action,
+  textareaRef,
   ...props
 }: TextareaProps) {
   const baseClasses =
@@ -22,6 +24,7 @@ export default function Textarea({
   return (
     <div className="relative w-full">
       <textarea
+        ref={textareaRef}
         className={cn(baseClasses, focusClasses, disabledClasses, className)}
         {...props}
       />
