@@ -20,14 +20,18 @@ function App() {
           element={<Navigate to={ROUTES_PATHS.QNA_LIST} replace />}
         />
         <Route path={ROUTES_PATHS.QNA_LIST} element={<QnaListPage />} />
-        <Route
-          path={ROUTES_PATHS.NOT_FOUND}
-          element={<NotFoundPage type="notFound" />}
-        />
         <Route path={ROUTES_PATHS.QNA_DETAIL} element={<QnaDetailPage />} />
         <Route
           path={ROUTES_PATHS.QNA_CREATE}
           element={<QnACreatePage mode="create" />}
+        />
+        <Route
+          path={ROUTES_PATHS.QNA_EDIT}
+          element={<QnACreatePage mode="edit" />}
+        />
+        <Route
+          path={ROUTES_PATHS.NOT_FOUND}
+          element={<NotFoundPage type="notFound" />}
         />
       </Route>
     </Routes>

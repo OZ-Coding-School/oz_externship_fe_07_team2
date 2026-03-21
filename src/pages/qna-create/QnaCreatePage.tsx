@@ -1,14 +1,9 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useParams } from 'react-router'
 
-import { Button, Input, Popup } from '@/components'
+import { Button, Input, Loading, Popup } from '@/components'
 import TipTabEditor from '@/components/common/markdown/TipTabEditor'
-import { ROUTES_PATHS } from '@/constants/url'
-import useCategoriesQuery from '@/queries/useCategoriesQuery'
-import useCreateQuestionMutation from '@/queries/useCreateQuestionMutation'
-import CategoryDropdown, {
-  type SelectedCategory,
-} from '@/shared/CategoryDropdown'
+import { useQnaForm } from '@/hooks/useQnaForm'
+import CategoryDropdown from '@/shared/CategoryDropdown'
 
 type QnACreatePageProps = {
   mode: 'create' | 'edit'
@@ -16,64 +11,44 @@ type QnACreatePageProps = {
 }
 
 export default function QnACreatePage({ mode }: QnACreatePageProps) {
-  // TODO: DetailQuery API 연결 예정
-
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [selectedCategory, setSelectedCategory] =
-    useState<SelectedCategory | null>(null)
-  const { data: categories = [] } = useCategoriesQuery()
-  const [alertMessage, setAlertMessage] = useState<string | null>(null)
-  const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>()
+  const questionId = Number(id)
   const {
-    mutate: createQuestion,
+    title,
+    setTitle,
+    content,
+    setContent,
+    popupMessage,
+    setPopupMessage,
+    categories,
+    questionDetail,
+    initialCategory,
     isPending,
     isError,
-  } = useCreateQuestionMutation()
+    handleSubmit,
+    handleCategorySelect,
+  } = useQnaForm(mode, questionId)
 
-  const handleCategorySelect = (selected: SelectedCategory) => {
-    setSelectedCategory(selected)
-  }
-
-  const categoryId = selectedCategory?.small?.id
-
-  const validate = (): string | null => {
-    if (!categoryId) return '카테고리를 선택해 주세요.'
-    if (!title.trim()) return '제목을 입력해 주세요.'
-    if (!content.trim() || content === '<p></p>' || content === '<p><br></p>')
-      return '질문 내용을 입력해 주세요.'
-    return null
-  }
-
-  const handleCreate = () => {
-    createQuestion(
-      { title, content, category: categoryId! },
-      { onSuccess: () => navigate(ROUTES_PATHS.QNA_LIST) }
-    )
-  }
-
-  const handleSubmit = () => {
-    const error = validate()
-    if (error) return setAlertMessage(error)
-
-    if (mode === 'create') return handleCreate()
-    // TODO: edit 모드는 DetailQuery merge 후 작업 예정
-  }
+  if (isPending) return <Loading />
 
   return (
     <main className="flex h-auto w-full flex-col">
       <h1 className="mb-3 text-[clamp(1.5rem,calc(0.884vw+1.293rem),2rem)] leading-tight font-bold md:mb-5">
-        질문 작성하기
+        {mode === 'create' ? '질문 작성하기' : '질문 수정하기'}
       </h1>
       <hr className="border-border-line mb-6 w-full border-[0.5px] md:mb-10" />
 
       <div className="w-full">
         <div className="border-border-line mb-3 rounded-2xl border px-5 py-6 md:mb-5 md:rounded-[20px] md:px-9 md:py-10">
-          <CategoryDropdown
-            categories={categories}
-            onSelect={handleCategorySelect}
-            className="mb-3 md:mb-5"
-          />
+          {(mode === 'create' || initialCategory) && (
+            <CategoryDropdown
+              key={questionDetail?.category.id ?? 'create'}
+              categories={categories}
+              onSelect={handleCategorySelect}
+              className="mb-3 md:mb-5"
+              initialValue={initialCategory}
+            />
+          )}
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -83,10 +58,13 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
         </div>
 
         <div className="border-border-line mb-3 rounded-2xl border md:mb-5 md:rounded-[20px]">
-          <TipTabEditor
-            content={content}
-            contentChange={(value) => setContent(value ?? '')}
-          />
+          {(mode === 'create' || (questionDetail && content)) && (
+            <TipTabEditor
+              key={questionDetail?.id ?? 'create'}
+              content={content}
+              contentChange={(value) => setContent(value ?? '')}
+            />
+          )}
         </div>
       </div>
       <div className="mt-8 flex w-full justify-end md:mt-13">
@@ -97,19 +75,15 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
           onClick={handleSubmit}
           disabled={isPending}
         >
-          {mode === 'create'
-            ? isPending
-              ? '등록 중...'
-              : '등록하기'
-            : '저장하기'}
+          {mode === 'create' ? '등록하기' : '저장하기'}
         </Button>
       </div>
       <Popup
-        isOpen={!!alertMessage || isError}
-        content={alertMessage}
+        isOpen={!!popupMessage || isError}
+        content={popupMessage}
         confirmLabel="확인"
-        onConfirm={() => setAlertMessage(null)}
-        onCancel={() => setAlertMessage(null)}
+        onConfirm={() => setPopupMessage(null)}
+        onCancel={() => setPopupMessage(null)}
       />
     </main>
   )

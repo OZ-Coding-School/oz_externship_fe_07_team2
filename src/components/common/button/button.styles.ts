@@ -1,18 +1,19 @@
 import { cva } from 'class-variance-authority'
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center font-semibold transition-colors disabled:cursor-not-allowed disabled:pointer-events-none disabled:bg-surface-disabled disabled:text-text-disabled',
+  'inline-flex items-center justify-center transition-colors disabled:cursor-not-allowed disabled:pointer-events-none disabled:bg-surface-disabled disabled:text-text-disabled',
   {
     variants: {
       variant: {
         primary:
-          'bg-primary text-white hover:bg-primary-hover active:bg-primary-active',
+          'bg-primary text-white hover:bg-primary-hover font-semibold active:bg-primary-active',
         outline:
           'border border-primary bg-primary-100 text-primary disabled:border-border-line disabled:text-text-sub',
         text: 'bg-transparent text-text-main hover:bg-surface-sub',
-        textAccent: 'bg-transparent text-primary hover:bg-primary-100',
+        textAccent:
+          'bg-transparent text-primary hover:font-semibold hover:bg-primary-100',
         textMuted:
-          'bg-transparent text-text-sub hover:bg-gray-200 active:bg-primary-100 active:text-primary',
+          'bg-transparent text-text-sub hover:bg-gray-200 active:bg-primary-100  active:text-primary',
         ghost:
           'border border-border-line bg-transparent text-text-chatbot hover:bg-gray-100',
       },

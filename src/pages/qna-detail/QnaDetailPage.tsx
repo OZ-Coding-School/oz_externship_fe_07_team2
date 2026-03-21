@@ -7,7 +7,7 @@ import {
   QnaDetailHeader,
 } from '@/features/qna-detail'
 import { mockUsers } from '@/mocks/data/qna-detail-mock'
-import useQnaDetailQuery from '@/queries/useQnaDetailQuery'
+import { useQnaDetailQuery } from '@/queries'
 
 export default function QnaDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -22,7 +22,8 @@ export default function QnaDetailPage() {
     enabled: isValidQuestionId,
   })
 
-  const currentUser = mockUsers.member
+  const currentUser = mockUsers.questionAuthor
+  // const currentUser = mockUsers.member
   const isLoggedIn = Boolean(currentUser)
 
   const isQuestionAuthor = !!question && currentUser?.id === question.author.id
