@@ -1,11 +1,26 @@
-import { Avatar, Button } from '@/components'
+import { useState } from 'react'
+
+import { Avatar, Button, TipTabEditor } from '@/components'
 
 type QnaAnswerProps = {
   nickname: string
-  onSubmit?: () => void
+  onSubmit?: (content: string) => void
 }
 
 export default function QnaAnswer({ nickname, onSubmit }: QnaAnswerProps) {
+  const [isEditing, setIsEditing] = useState(false)
+  const [content, setContent] = useState('')
+
+  const handleClickButton = () => {
+    if (!isEditing) {
+      setIsEditing(true)
+      return
+    }
+    const trimmedContent = content.replace(/<[^>]*>/g, '').trim()
+    if (!trimmedContent) return
+    onSubmit?.(content)
+  }
+
   return (
     <section className="bg-surface-default border-border-line mt-6 rounded-2xl border px-5 py-4">
       <div className="m-5 flex items-center justify-between">
@@ -20,10 +35,25 @@ export default function QnaAnswer({ nickname, onSubmit }: QnaAnswerProps) {
           </div>
         </div>
 
-        <Button variant="primary" size="md" rounded="full" onClick={onSubmit}>
-          답변하기
+        <Button
+          variant="primary"
+          size="md"
+          rounded="full"
+          onClick={handleClickButton}
+          disabled={isEditing && !content.trim()}
+        >
+          {isEditing ? '등록하기' : '답변하기'}
         </Button>
       </div>
+
+      {isEditing && (
+        <div className="mt-4">
+          <TipTabEditor
+            content={content}
+            contentChange={(value) => setContent(value ?? '')}
+          />
+        </div>
+      )}
     </section>
   )
 }
