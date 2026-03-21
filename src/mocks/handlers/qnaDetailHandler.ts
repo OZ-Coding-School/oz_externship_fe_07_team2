@@ -3,8 +3,12 @@ import { delay, http, HttpResponse } from 'msw'
 import { toMswApiUrl } from '@/constants/apiPath'
 import { QNA_API } from '@/constants/qna'
 import { mockQuestionDetail } from '@/mocks/data/qna-detail-mock'
+import type { QnaCategory } from '@/types'
 
 const qnaDetailApiUrl = toMswApiUrl(QNA_API.questions)
+/*
+ * PUT 핸들러에서 상태를 업데이트하기 위해 mutable 복사본으로 관리
+ */
 let mockData = { ...mockQuestionDetail }
 
 /**
@@ -54,13 +58,14 @@ export const qnaDetailHandlers = [
     const body = (await request.json()) as {
       title: string
       content: string
-      category: number
+      category: QnaCategory
     }
-    mockData = { ...mockData, title: body.title, content: body.content }
-    return HttpResponse.json({
+    mockData = {
       ...mockData,
       title: body.title,
       content: body.content,
-    })
+      category: body.category,
+    }
+    return HttpResponse.json(mockData)
   }),
 ]
