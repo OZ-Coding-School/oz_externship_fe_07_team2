@@ -1,9 +1,8 @@
 import { useState } from 'react'
 
-import { useQueryClient } from '@tanstack/react-query'
-
-import { createAnswer } from '@/api'
 import { Avatar, Button, TipTabEditor } from '@/components'
+
+import useCreateAnswerMutation from '../hooks/useCreateAnswerMutation'
 
 type QnaAnswerProps = {
   nickname: string
@@ -13,37 +12,35 @@ type QnaAnswerProps = {
 export default function QnaAnswer({ nickname, questionId }: QnaAnswerProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [content, setContent] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const queryClient = useQueryClient()
+
+  const { mutate, isPending } = useCreateAnswerMutation()
 
   const isEmptyContent = !content.replace(/<[^>]*>/g, '').trim()
 
-  const handleButtonClick = async () => {
+  const handleButtonClick = () => {
     if (!isEditing) {
       setIsEditing(true)
       return
     }
 
-    if (isEmptyContent || isSubmitting) return
+    if (isEmptyContent || isPending) return
 
-    try {
-      setIsSubmitting(true)
-
-      await createAnswer(questionId, {
+    mutate(
+      {
+        questionId,
         content,
         image_urls: [],
-      })
-
-      setIsEditing(false)
-      setContent('')
-      queryClient.invalidateQueries({
-        queryKey: ['qna-detail', questionId],
-      })
-    } catch {
-      alert('답변 등록에 실패했습니다. 다시 시도해주세요.')
-    } finally {
-      setIsSubmitting(false)
-    }
+      },
+      {
+        onSuccess: () => {
+          setIsEditing(false)
+          setContent('')
+        },
+        onError: () => {
+          alert('답변 등록에 실패했습니다. 다시 시도해주세요.')
+        },
+      }
+    )
   }
 
   return (
@@ -65,9 +62,9 @@ export default function QnaAnswer({ nickname, questionId }: QnaAnswerProps) {
           size="md"
           rounded="full"
           onClick={handleButtonClick}
-          disabled={isSubmitting || (isEditing && isEmptyContent)}
+          disabled={isPending || (isEditing && isEmptyContent)}
         >
-          {isEditing ? '등록하기' : '답변하기'}
+          {isPending ? '등록 중...' : isEditing ? '등록하기' : '답변하기'}
         </Button>
       </div>
 
