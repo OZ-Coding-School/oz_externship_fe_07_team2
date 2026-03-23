@@ -1,85 +1,65 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 
-import ChatSessionList from '@/features/chat-widget/components/ChatSessionList'
 import ChatWindow from '@/features/chat-widget/components/ChatWindow'
+import useChatSessionLifecycle from '@/features/chat-widget/hooks/useChatSessionLifecycle'
 import { useChatWidgetContext } from '@/features/chat-widget/hooks/useChatWidgetContext'
-import useChatSessionsQuery from '@/queries/useChatSessionsQuery'
 
 export default function ChatView() {
   const { chat } = useChatWidgetContext()
-  const { data: chatSessionsData } = useChatSessionsQuery()
+  const location = useLocation()
+  const previousPathnameRef = useRef(location.pathname)
+  const previousOpenStateRef = useRef(chat.isOpen)
+  const {
+    currentSessionId,
+    ensureSession,
+    deleteCurrentSession,
+    isSessionCreating,
+  } = useChatSessionLifecycle({
+    entryData: chat.entryData,
+  })
 
-  // 현재 채팅 UI에서 어떤 화면을 보여줄지 관리
-  const [activeView, setActiveView] = useState<'sessions' | 'messages'>(
-    chat.isEntryMode ? 'messages' : 'sessions'
-  )
-  // 추가질문하기로 진입한 첫 화면인지 여부를 관리
-  const [isEntryMode, setIsEntryMode] = useState(chat.isEntryMode)
+  // 채팅을 닫을 때 실행되는 공통 로직
+  const handleCloseChat = useCallback(async () => {
+    await deleteCurrentSession() // 서버에 생성된 채팅 세션 삭제
+    chat.close() // 채팅 UI 닫기
+  }, [chat, deleteCurrentSession])
 
-  // 선택한 채팅 세션 id를 저장하며, null이면 새 채팅 상태
-  const [selectedSessionId, setSelectedSessionId] = useState<number | null>(
-    null
-  )
-  const latestSessionId = chatSessionsData?.results[0]?.id ?? null
-  const hasPreviousChat = latestSessionId !== null
-
+  // 라우트(페이지)가 변경되었을 때 처리
+  // 채팅이 열려있는 상태라면 자동으로 닫고 세션도 정리
   useEffect(() => {
+    if (previousPathnameRef.current === location.pathname) {
+      return // 같은 경로면 무시
+    }
+    previousPathnameRef.current = location.pathname // 이전 경로 업데이트
     if (!chat.isOpen) {
-      setActiveView('sessions')
-      setSelectedSessionId(null)
-      setIsEntryMode(false)
-      return
+      return // 채팅이 닫혀있으면 아무것도 안함
     }
+    void handleCloseChat() // 페이지 이동 시 채팅 닫기 + 세션 정리
+  }, [chat.isOpen, handleCloseChat, location.pathname])
 
-    setActiveView(chat.isEntryMode ? 'messages' : 'sessions')
-    setIsEntryMode(chat.isEntryMode)
+  // 플로팅 버튼으로 닫아도 세션은 정리
+  useEffect(() => {
+    const wasOpen = previousOpenStateRef.current
 
-    if (chat.isEntryMode) {
-      setSelectedSessionId(null)
+    previousOpenStateRef.current = chat.isOpen
+
+    if (wasOpen && !chat.isOpen && currentSessionId !== null) {
+      void deleteCurrentSession()
     }
-  }, [chat.isEntryMode, chat.isOpen])
+  }, [chat.isOpen, currentSessionId, deleteCurrentSession])
 
   if (!chat.isOpen) return null
 
   return (
     <div className="fixed right-6 bottom-29 z-50">
-      {activeView === 'sessions' ? (
-        <ChatSessionList
-          onClose={chat.close}
-          onNewChat={() => {
-            setSelectedSessionId(null)
-            setIsEntryMode(false)
-            setActiveView('messages')
-          }}
-          onSelectSession={(sessionId) => {
-            setSelectedSessionId(sessionId)
-            setIsEntryMode(false)
-            setActiveView('messages')
-          }}
-        />
-      ) : (
-        <ChatWindow
-          onBack={() => {
-            setIsEntryMode(false)
-            setActiveView('sessions')
-          }}
-          sessionId={selectedSessionId}
-          openType={isEntryMode ? 'followUpEntry' : 'floating'}
-          hasPreviousChat={hasPreviousChat}
-          onLoadPrevious={() => {
-            if (latestSessionId === null) return
-
-            setSelectedSessionId(latestSessionId)
-            setIsEntryMode(false)
-            setActiveView('messages')
-          }}
-          onStartNewChat={() => {
-            setSelectedSessionId(null)
-            setIsEntryMode(false)
-            setActiveView('messages')
-          }}
-        />
-      )}
+      <ChatWindow
+        onClose={() => void handleCloseChat()}
+        sessionId={currentSessionId}
+        ensureSession={ensureSession}
+        isSessionCreating={isSessionCreating}
+        entryData={chat.entryData}
+      />
     </div>
   )
 }

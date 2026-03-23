@@ -1,6 +1,9 @@
 import { type ReactNode, useState } from 'react'
 
-import { ChatWidgetContext } from '@/features/chat-widget/context/ChatWidgetContext'
+import {
+  type ChatEntryData,
+  ChatWidgetContext,
+} from '@/features/chat-widget/context/ChatWidgetContext'
 
 type ChatWidgetProviderProps = {
   children: ReactNode
@@ -9,6 +12,7 @@ type ChatWidgetProviderProps = {
 export function ChatWidgetProvider({ children }: ChatWidgetProviderProps) {
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isChatEntryMode, setChatEntryMode] = useState(false)
+  const [chatEntryData, setChatEntryData] = useState<ChatEntryData | null>(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
 
   // 채팅 열기
@@ -17,6 +21,7 @@ export function ChatWidgetProvider({ children }: ChatWidgetProviderProps) {
   const closeChat = () => {
     setIsChatOpen(false)
     setChatEntryMode(false)
+    setChatEntryData(null)
   }
   // 상세 패널 열기
   const openDetail = () => setIsDetailOpen(true)
@@ -28,9 +33,11 @@ export function ChatWidgetProvider({ children }: ChatWidgetProviderProps) {
     chat: {
       isOpen: isChatOpen,
       isEntryMode: isChatEntryMode,
+      entryData: chatEntryData,
       open: openChat,
       close: closeChat,
       setEntryMode: setChatEntryMode,
+      setEntryData: setChatEntryData,
     },
     detail: {
       isOpen: isDetailOpen,

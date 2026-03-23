@@ -1,78 +1,95 @@
+import { ChevronDown } from 'lucide-react'
+
 import { Button } from '@/components'
 import { useChatWidgetContext } from '@/features/chat-widget/hooks/useChatWidgetContext'
+import type { QnaQuestionDetail } from '@/types'
 
+import BubbleTail from './BubbleTail'
 import ChatBadge from './ChatBadge'
 
-/**
- * Todo: detail 페이지로 이동 예정 임시용
- */
+type AiAnswerCardProps = {
+  question: QnaQuestionDetail
+}
 
-const PREVIEW_TEXT =
-  'AND 연산자는 두 개 이상의 조건이 모두 참(True)일 때만 결과를 참으로 처리합니다.'
-
-const DETAIL_TEXT = `즉, 하나라도 거짓(False)이면 결과는 거짓이 됩니다.
-
-예를 들어 로그인 시 아이디와 비밀번호가 모두 일치해야 성공하는 경우에 사용할 수 있습니다.
-
-1. 여러 조건을 동시에 만족해야 하는지 확인할 때
-2. 데이터를 필터링하거나 범위를 지정할 때`
-
-export default function AiAnswerCard() {
+export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   const { chat, detail } = useChatWidgetContext()
+  const aiAnswer = question.answers?.[0]
+
+  if (!aiAnswer) {
+    return null
+  }
 
   const handleToggleDetail = () => {
     if (detail.isOpen) {
       detail.close()
       return
     }
-
     detail.open()
   }
 
-  const handleOpen = () => {
+  const handleOpenChat = () => {
+    chat.setEntryData({
+      questionId: question.id,
+      questionTitle: question.title,
+      questionContent: question.content,
+      answerContent: aiAnswer.content,
+    })
     chat.setEntryMode(true)
     chat.open()
   }
 
   return (
-    <div className="fixed right-28 bottom-10 z-50 flex max-w-156 flex-col items-end gap-4">
-      <div className="flex items-start gap-3 self-start">
-        <ChatBadge size="sm" />
-        <div className="shadow-box w-136 rounded-2xl border border-[#E7E7E7] bg-[#FCF8FF] px-5 py-4">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="text-primary-400 text-sm font-semibold">
-              AI OZ
-            </span>
-          </div>
-          <p
-            className={`text-text-chatbot text-sm font-light ${
-              detail.isOpen ? 'mb-4 whitespace-pre-line' : 'line-clamp-2'
-            }`}
-          >
-            {detail.isOpen ? DETAIL_TEXT : PREVIEW_TEXT}
-          </p>
-          <div className="flex justify-end gap-2">
+    <div className="my-11 flex gap-8">
+      <ChatBadge size="lg" />
+
+      {!detail.isOpen ? (
+        <div className="shadow-box relative w-176 rounded-xl bg-white px-6 pt-5.25 pb-6.75">
+          {/* 말풍선 꼬리  */}
+          <BubbleTail color="#fff" />
+          <div>
+            <p className="text-text-chatbot text-lg font-light">
+              {question.title}
+            </p>
+
             <Button
+              variant="text"
               type="button"
-              variant="outline"
-              size="sm"
-              className="rounded-full bg-white"
               onClick={handleToggleDetail}
+              className="text-text-sub gap-2 px-0 font-bold hover:bg-transparent"
             >
-              {detail.isOpen ? '접기' : '자세히 보기'}
+              <span>질문에 대한</span>
+              <span className="inline-flex items-center gap-1">
+                <ChatBadge size="xs" />
+                <span className="text-gradient-brand">AI OZ</span>
+              </span>
+              <span>의 답변 보기</span>
+              <ChevronDown size={20} />
             </Button>
-            {detail.isOpen ? (
-              <Button
-                type="button"
-                className="h-8 rounded-full px-4 text-xs"
-                onClick={handleOpen}
-              >
-                추가 질문하기
-              </Button>
-            ) : null}
           </div>
         </div>
-      </div>
+      ) : (
+        /* 답변보기 카드 */
+        <div className="shadow-box bg-primary-100/40 relative w-176 rounded-xl p-8">
+          {/* 말풍선 꼬리  */}
+          <BubbleTail color="#f9f5fa" />
+
+          <div className="relative z-10 flex flex-col gap-4">
+            <div className="flex items-center gap-1.5">
+              <ChatBadge size="xs" />
+              <span className="text-gradient-brand">AI OZ</span>
+            </div>
+            <p className="text-text-chatbot mb-6 text-sm font-light whitespace-pre-line">
+              {aiAnswer.content}
+            </p>
+
+            <div className="flex justify-end">
+              <Button rounded={'full'} type="button" onClick={handleOpenChat}>
+                추가 질문하기
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

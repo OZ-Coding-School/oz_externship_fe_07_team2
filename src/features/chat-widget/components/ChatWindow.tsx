@@ -1,56 +1,65 @@
-import type { ChatMessagePreview } from '@/features/chat-widget'
-import { mockInitialChatMessages } from '@/mocks/data/chat-message-mock'
-import useChatMessagesQuery from '@/queries/useChatMessagesQuery'
+import type { ChatEntryData } from '@/features/chat-widget/context/ChatWidgetContext'
+import useChatConversation from '@/features/chat-widget/hooks/useChatConversation'
 
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
 import ChatMessageList from './ChatMessageList'
+import ChatQuestionContextCard from './ChatQuestionContextCard'
 
 type ChatWindowProps = {
-  onBack: () => void
+  onClose: () => void
   sessionId: number | null
-  openType?: 'floating' | 'followUpEntry'
-  hasPreviousChat?: boolean
-  onLoadPrevious?: () => void
-  onStartNewChat?: () => void
+  ensureSession: (message: string) => Promise<{
+    id: number
+    created: boolean
+  }>
+  isSessionCreating?: boolean
+  entryData?: ChatEntryData | null
 }
 
 export default function ChatWindow({
-  onBack,
+  onClose,
   sessionId,
-  openType = 'floating',
-  hasPreviousChat = false,
-  onLoadPrevious,
-  onStartNewChat,
+  ensureSession,
+  isSessionCreating = false,
+  entryData = null,
 }: ChatWindowProps) {
   const {
-    data: chatMessagesData,
-    isPending,
-    isError,
-  } = useChatMessagesQuery({
+    localMessages,
+    scrollToLatestKey,
+    sendErrorMessage,
+    isMessagePending,
+    isMessageError,
+    isSubmitting,
+    isStreaming,
+    handleSend,
+  } = useChatConversation({
     sessionId,
+    ensureSession,
+    isSessionCreating,
   })
 
-  const messages: ChatMessagePreview[] =
-    sessionId === null
-      ? mockInitialChatMessages
-      : (chatMessagesData?.results ?? [])
-  const isMessagePending = sessionId !== null && isPending
-  const isMessageError = sessionId !== null && isError
-
   return (
-    <div className="bg-surface-default shadow-box flex h-152.5 w-90 flex-col overflow-hidden rounded-xl">
-      <ChatHeader actionType="back" onAction={onBack} />
+    <div className="bg-surface-default shadow-box flex h-152.5 min-h-0 w-90 flex-col overflow-hidden rounded-xl">
+      <ChatHeader onClose={onClose} />
+      {entryData ? <ChatQuestionContextCard entryData={entryData} /> : null}
       <ChatMessageList
-        mode={openType === 'followUpEntry' ? 'entry' : 'messages'}
-        messages={messages}
+        messages={localMessages}
+        isStreaming={isStreaming}
+        scrollToLatestKey={scrollToLatestKey}
         isPending={isMessagePending}
         isError={isMessageError}
-        hasPreviousChat={hasPreviousChat}
-        onLoadPrevious={onLoadPrevious}
-        onStartNewChat={onStartNewChat}
       />
-      <ChatInput />
+      {sendErrorMessage && (
+        <p className="shrink-0 px-4 py-2 text-sm text-[#FF3B30]">
+          {sendErrorMessage}
+        </p>
+      )}
+      <ChatInput
+        onSend={handleSend}
+        isPending={isSubmitting}
+        isStreaming={isStreaming}
+      />
     </div>
   )
 }
