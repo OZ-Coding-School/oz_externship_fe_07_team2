@@ -22,8 +22,8 @@ export default function QnaDetailPage() {
     enabled: isValidQuestionId,
   })
 
-  const currentUser = mockUsers.questionAuthor
-  // const currentUser = mockUsers.member
+  // const currentUser = mockUsers.questionAuthor
+  const currentUser = mockUsers.member
   const isLoggedIn = Boolean(currentUser)
 
   const isQuestionAuthor = !!question && currentUser?.id === question.author.id
@@ -69,7 +69,10 @@ export default function QnaDetailPage() {
       />
 
       {shouldShowAnswerEditor && (
-        <QnaAnswer nickname={currentUser?.nickname ?? ''} />
+        <QnaAnswer
+          nickname={currentUser?.nickname ?? ''}
+          questionId={questionId}
+        />
       )}
 
       {question.answers.length > 0 ? (

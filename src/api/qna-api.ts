@@ -2,6 +2,8 @@ import { QNA_API } from '@/constants/qna'
 import type { QnaListResponse } from '@/features/qna-list'
 import type {
   CategoryResponse,
+  CreateAnswerRequest,
+  CreateAnswerResponse,
   CreateQuestionRequest,
   CreateQuestionResponse,
   GetQnaListParams,
@@ -51,6 +53,18 @@ export const updateQuestion = async (
 ): Promise<UpdateQuestionResponse> => {
   const res = await api.put<UpdateQuestionResponse>(
     `${QNA_API.questions}/${questionId}`,
+    data
+  )
+  return res.data
+}
+
+// 답변 등록 api 호출
+export const createAnswer = async (
+  questionId: number,
+  data: CreateAnswerRequest
+): Promise<CreateAnswerResponse> => {
+  const res = await api.post<CreateAnswerResponse>(
+    `${QNA_API.questions}/${questionId}/answers`,
     data
   )
   return res.data

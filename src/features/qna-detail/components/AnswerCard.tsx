@@ -47,8 +47,10 @@ export default function AnswerCard({ answer, className }: AnswerCardProps) {
             </p>
           </div>
         </div>
-
-        <div className="text-text-main text-sm leading-7 whitespace-pre-line">
+        <div
+          className="text-text-main text-sm leading-7 whitespace-pre-line"
+          dangerouslySetInnerHTML={{ __html: content }}
+        >
           {content}
         </div>
 

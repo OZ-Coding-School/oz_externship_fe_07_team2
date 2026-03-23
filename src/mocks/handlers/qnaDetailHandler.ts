@@ -68,4 +68,58 @@ export const qnaDetailHandlers = [
     }
     return HttpResponse.json(mockData)
   }),
+
+  http.post(
+    `${qnaDetailApiUrl}/:questionId/answers`,
+    async ({ params, request }) => {
+      await delay(500)
+
+      const questionId = Number(params.questionId)
+
+      if (!Number.isFinite(questionId) || questionId <= 0) {
+        return HttpResponse.json(
+          { message: '잘못된 질문 ID입니다.' },
+          { status: 400 }
+        )
+      }
+
+      if (questionId !== mockData.id) {
+        return HttpResponse.json(
+          { message: '질문을 찾을 수 없습니다.' },
+          { status: 404 }
+        )
+      }
+
+      const body = (await request.json()) as {
+        content?: string
+        image_urls?: string[]
+      }
+
+      const content = body.content ?? ''
+      const plainText = content.replace(/<[^>]*>/g, '').trim()
+
+      if (!plainText) {
+        return HttpResponse.json(
+          { message: '답변 내용을 입력해 주세요.' },
+          { status: 400 }
+        )
+      }
+
+      const newAnswer = {
+        id: Date.now(),
+        content,
+        created_at: new Date().toISOString(),
+        is_adopted: false,
+        author: {
+          id: 999,
+          nickname: '테스트 사용자',
+          profile_image_url: null,
+        },
+        comments: [],
+      }
+
+      mockData.answers.unshift(newAnswer)
+      return HttpResponse.json({ cohort_number: null }, { status: 201 })
+    }
+  ),
 ]
