@@ -69,7 +69,10 @@ export default function QnaDetailPage() {
       />
 
       {shouldShowAnswerEditor && (
-        <QnaAnswer nickname={currentUser?.nickname ?? ''} />
+        <QnaAnswer
+          nickname={currentUser?.nickname ?? ''}
+          questionId={questionId}
+        />
       )}
 
       {question.answers.length > 0 ? (

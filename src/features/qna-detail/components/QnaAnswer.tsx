@@ -1,24 +1,49 @@
 import { useState } from 'react'
 
+import { useQueryClient } from '@tanstack/react-query'
+
+import { createAnswer } from '@/api'
 import { Avatar, Button, TipTabEditor } from '@/components'
 
 type QnaAnswerProps = {
   nickname: string
-  onSubmit?: (content: string) => void
+  questionId: number
 }
 
-export default function QnaAnswer({ nickname, onSubmit }: QnaAnswerProps) {
+export default function QnaAnswer({ nickname, questionId }: QnaAnswerProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [content, setContent] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const queryClient = useQueryClient()
 
-  const handleClickButton = () => {
+  const isEmptyContent = !content.replace(/<[^>]*>/g, '').trim()
+
+  const handleButtonClick = async () => {
     if (!isEditing) {
       setIsEditing(true)
       return
     }
-    const trimmedContent = content.replace(/<[^>]*>/g, '').trim()
-    if (!trimmedContent) return
-    onSubmit?.(content)
+
+    if (isEmptyContent || isSubmitting) return
+
+    try {
+      setIsSubmitting(true)
+
+      await createAnswer(questionId, {
+        content,
+        image_urls: [],
+      })
+
+      setIsEditing(false)
+      setContent('')
+      queryClient.invalidateQueries({
+        queryKey: ['qna-detail', questionId],
+      })
+    } catch {
+      alert('답변 등록에 실패했습니다. 다시 시도해주세요.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -39,8 +64,8 @@ export default function QnaAnswer({ nickname, onSubmit }: QnaAnswerProps) {
           variant="primary"
           size="md"
           rounded="full"
-          onClick={handleClickButton}
-          disabled={isEditing && !content.trim()}
+          onClick={handleButtonClick}
+          disabled={isSubmitting || (isEditing && isEmptyContent)}
         >
           {isEditing ? '등록하기' : '답변하기'}
         </Button>
