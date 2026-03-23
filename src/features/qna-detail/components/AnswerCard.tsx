@@ -50,9 +50,7 @@ export default function AnswerCard({ answer, className }: AnswerCardProps) {
         <div
           className="text-text-main text-sm leading-7 whitespace-pre-line"
           dangerouslySetInnerHTML={{ __html: content }}
-        >
-          {content}
-        </div>
+        />
 
         <div className="border-border-line mt-6 border-b pb-2 text-right">
           <span className="text-text-light text-xs">
