@@ -4,6 +4,7 @@ import { Button } from '@/components'
 import { useChatWidgetContext } from '@/features/chat-widget/hooks/useChatWidgetContext'
 import type { QnaQuestionDetail } from '@/types'
 
+import BubbleTail from './BubbleTail'
 import ChatBadge from './ChatBadge'
 
 type AiAnswerCardProps = {
@@ -39,14 +40,12 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
 
   return (
     <div className="my-11 flex gap-8">
-      <ChatBadge size="sm" className="h-15 w-15" iconClassName="h-9 w-9" />
+      <ChatBadge size="lg" />
 
       {!detail.isOpen ? (
         <div className="shadow-box relative w-176 rounded-xl bg-white px-6 pt-5.25 pb-6.75">
-          {/* tail shadow (bottom-only look) */}
-          <span className="absolute top-6 -left-5 h-0 w-0 translate-y-1.5 border-t-12 border-r-20 border-b-12 border-t-transparent border-r-black/15 border-b-transparent blur-[1.5px]" />
-          {/* main tail (sharp triangle) */}
-          <span className="absolute top-6 -left-5 z-10 h-0 w-0 border-t-14 border-r-24 border-b-12 border-t-transparent border-r-white border-b-transparent" />
+          {/* 말풍선 꼬리  */}
+          <BubbleTail color="#fff" />
           <div>
             <p className="text-text-chatbot text-lg font-light">
               {question.title}
@@ -71,10 +70,8 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
       ) : (
         /* 답변보기 카드 */
         <div className="shadow-box bg-primary-100/40 relative w-176 rounded-xl p-8">
-          {/* tail shadow (bottom-only look) */}
-          <span className="absolute top-6 -left-5 h-0 w-0 translate-y-1.5 border-t-12 border-r-20 border-b-12 border-t-transparent border-r-black/15 border-b-transparent blur-[1.5px]" />
-          {/* main tail (sharp triangle) */}
-          <span className="border-opacity-40 absolute top-6 -left-5 z-10 h-0 w-0 border-t-14 border-r-24 border-b-12 border-t-transparent border-r-[#f9f5fa] border-b-transparent" />
+          {/* 말풍선 꼬리  */}
+          <BubbleTail color="#f9f5fa" />
 
           <div className="relative z-10 flex flex-col gap-4">
             <div className="flex items-center gap-1.5">

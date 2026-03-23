@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 type UseChatAutoScrollParams = {
   latestMessageKey: string
@@ -33,7 +33,7 @@ export default function useChatAutoScroll({
     return isNearBottom
   }
 
-  const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
+  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
     if (!bottomRef.current) return
 
     isProgrammaticScrollRef.current = true
@@ -51,7 +51,7 @@ export default function useChatAutoScroll({
       behavior,
     })
     setShowScrollButton(false)
-  }
+  }, [])
 
   // 새 요청이 시작되면 다시 자동 추적
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function useChatAutoScroll({
     return () => {
       window.cancelAnimationFrame(frameId)
     }
-  }, [scrollToLatestKey])
+  }, [scrollToLatestKey, scrollToBottom])
 
   // 자동 추적 중이면 새 답변을 따라감
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function useChatAutoScroll({
 
     const behavior: ScrollBehavior = isStreaming ? 'auto' : 'auto'
     scrollToBottom(behavior)
-  }, [isStreaming, latestMessageKey])
+  }, [isStreaming, latestMessageKey, scrollToBottom])
 
   const handleScroll = () => {
     if (isProgrammaticScrollRef.current) {

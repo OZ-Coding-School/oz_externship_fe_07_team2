@@ -18,6 +18,9 @@ type ChatInputProps = {
   isStreaming?: boolean
 }
 
+//글자 제한수
+const MAX_LENGTH = 1000
+
 function ChatInput({
   onSend,
   isPending = false,
@@ -25,8 +28,8 @@ function ChatInput({
 }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const [value, setValue] = useState('')
-  const maxLength = 1000 //제한글자수
-  const isSendDisabled = isPending || value.trim().length === 0
+
+  const isSendDisabled = isPending || isStreaming || value.trim().length === 0
 
   //채팅방 진입시 자동포커스
   useEffect(() => {
@@ -40,7 +43,7 @@ function ChatInput({
 
     const nextValue = e.target.value
     // 글자수 제한 로직
-    if (nextValue.length <= maxLength) {
+    if (nextValue.length <= MAX_LENGTH) {
       setValue(nextValue)
     }
   }
@@ -86,7 +89,7 @@ function ChatInput({
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        maxLength={maxLength}
+        maxLength={MAX_LENGTH}
         readOnly={isStreaming}
         aria-busy={isStreaming}
         className={cn(
@@ -103,7 +106,7 @@ function ChatInput({
 
       <div className="absolute right-5.5 bottom-5 flex items-center justify-end gap-2 rounded-2xl border border-white/20 bg-white/20 px-2 py-px backdrop-blur-md">
         <span className="text-text-light text-xs font-medium">
-          <span className="text-primary">{value.length}</span>/{maxLength}
+          <span className="text-primary">{value.length}</span>/{MAX_LENGTH}
         </span>
         <Button
           variant={'text'}

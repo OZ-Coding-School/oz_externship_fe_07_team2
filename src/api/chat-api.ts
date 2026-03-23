@@ -128,7 +128,14 @@ export const createChatCompletion = async (
   while (true) {
     const { done, value } = await reader.read()
 
-    buffer += decoder.decode(value, { stream: !done })
+    // done 상태에서 value가 없으면 바로 종료 (undefined decode 방지)
+    if (done && !value) {
+      break
+    }
+
+    if (value) {
+      buffer += decoder.decode(value, { stream: !done })
+    }
 
     const eventBlocks = buffer.split('\n\n')
     buffer = eventBlocks.pop() ?? ''
@@ -146,6 +153,7 @@ export const createChatCompletion = async (
       }
     }
 
+    // 스트림이 정상적으로 종료된 경우
     if (done) {
       break
     }

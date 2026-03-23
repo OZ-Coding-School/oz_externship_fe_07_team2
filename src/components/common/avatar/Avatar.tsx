@@ -6,8 +6,10 @@ import { cn } from '@/utils/cn'
 const avatarVariants = cva('rounded-full object-cover', {
   variants: {
     size: {
+      '2xs': 'w-4 h-4', // 16px
+      xs: 'w-5 h-5', // 20px
       sm: 'w-6 h-6', // 목록용 - 24px
-      md: 'w-8 h-8', // 챗봇용 - 32px
+      md: 'w-9 h-9', // 챗봇용 - 36px
       lg: 'w-10 h-10', // 댓글용 - 40px
       xl: 'w-12 h-12', // 답변상세용 - 48px
     },

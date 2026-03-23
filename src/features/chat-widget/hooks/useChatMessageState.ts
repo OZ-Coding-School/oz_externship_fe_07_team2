@@ -20,23 +20,6 @@ export default function useChatMessageState({
   // 로컬 메시지 id 생성용 (서버 id와 충돌 방지 → 음수 사용)
   const nextLocalMessageIdRef = useRef(-1)
 
-  // localMessages가 바뀔 때마다 ref 최신화
-  useEffect(() => {
-    localMessagesRef.current = localMessages
-  }, [localMessages])
-
-  // session 또는 서버 메시지 변경 시 동기화
-  useEffect(() => {
-    if (sessionId === null) {
-      setLocalMessages([])
-      return
-    }
-
-    if (chatMessages) {
-      setLocalMessages(chatMessages)
-    }
-  }, [chatMessages, sessionId])
-
   // 로컬 메시지용 id 생성 (음수로 감소)
   const createLocalMessageId = useCallback(() => {
     const nextLocalMessageId = nextLocalMessageIdRef.current
@@ -44,32 +27,65 @@ export default function useChatMessageState({
     return nextLocalMessageId
   }, [])
 
-  // 메시지 추가 (user / assistant 공통)
-  const appendPreviewMessage = useCallback(
-    (role: ChatMessagePreview['role'], message: string, id: number) => {
-      setLocalMessages((prevMessages) => [
-        ...prevMessages,
-        { id, role, message },
-      ])
+  const setLocalMessagesWithRef = useCallback(
+    (
+      messages:
+        | ChatMessagePreview[]
+        | ((prev: ChatMessagePreview[]) => ChatMessagePreview[])
+    ) => {
+      setLocalMessages((prev) => {
+        const next = typeof messages === 'function' ? messages(prev) : messages
+        localMessagesRef.current = next
+        return next
+      })
     },
     []
   )
 
+  // session 또는 서버 메시지 변경 시 동기화
+  useEffect(() => {
+    if (sessionId === null) {
+      setLocalMessagesWithRef([])
+      return
+    }
+
+    if (chatMessages) {
+      setLocalMessagesWithRef(chatMessages)
+    }
+  }, [chatMessages, sessionId, setLocalMessagesWithRef])
+
+  // 메시지 추가 (user / assistant 공통)
+  const appendPreviewMessage = useCallback(
+    (role: ChatMessagePreview['role'], message: string, id: number) => {
+      setLocalMessagesWithRef((prevMessages) => [
+        ...prevMessages,
+        { id, role, message },
+      ])
+    },
+    [setLocalMessagesWithRef]
+  )
+
   // assistant 메시지 업데이트 (스트리밍 대응)
-  const updateAssistantMessage = useCallback((id: number, message: string) => {
-    setLocalMessages((prevMessages) =>
-      prevMessages.map((previewMessage) =>
-        previewMessage.id === id
-          ? { ...previewMessage, message }
-          : previewMessage
+  const updateAssistantMessage = useCallback(
+    (id: number, message: string) => {
+      setLocalMessagesWithRef((prevMessages) =>
+        prevMessages.map((previewMessage) =>
+          previewMessage.id === id
+            ? { ...previewMessage, message }
+            : previewMessage
+        )
       )
-    )
-  }, [])
+    },
+    [setLocalMessagesWithRef]
+  )
 
   // 메시지 전체 복원 (롤백 / 재동기화)
-  const restoreMessages = useCallback((messages: ChatMessagePreview[]) => {
-    setLocalMessages(messages)
-  }, [])
+  const restoreMessages = useCallback(
+    (messages: ChatMessagePreview[]) => {
+      setLocalMessagesWithRef(messages)
+    },
+    [setLocalMessagesWithRef]
+  )
 
   return {
     localMessages,
@@ -78,5 +94,6 @@ export default function useChatMessageState({
     appendPreviewMessage,
     updateAssistantMessage,
     restoreMessages,
+    setLocalMessagesWithRef,
   }
 }
