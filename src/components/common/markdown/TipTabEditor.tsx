@@ -12,15 +12,22 @@ import Underline from '@tiptap/extension-underline'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
+import { getPresignedUrl, uploadImageToS3 } from '@/api'
+
 import { EditorToolBar } from './EditorToolBar'
 import { TextView } from './TextView'
 
 type EditorProps = {
   content: string
   contentChange: (Value?: string) => void
+  onImageUpload?: (imgUrl: string) => void
 }
 
-export default function TipTabEditor({ content, contentChange }: EditorProps) {
+export default function TipTabEditor({
+  content,
+  contentChange,
+  onImageUpload,
+}: EditorProps) {
   const [previewHtml, setPreviewHtml] = useState(content)
 
   const editor = useEditor({
@@ -38,22 +45,22 @@ export default function TipTabEditor({ content, contentChange }: EditorProps) {
         placeholder: '내용을 입력해 주세요.',
       }),
     ],
-    // 이미지 드래그로 이미지 url 변환
-    // TODO: API연동 후 교체 예정
+
     editorProps: {
       handleDrop(_view, event) {
         const file = event.dataTransfer?.files?.[0]
         if (!file || !file.type.startsWith('image/')) return false
 
-        const reader = new FileReader()
-        reader.onload = () => {
-          editor
-            ?.chain()
-            .focus()
-            .setImage({ src: reader.result as string })
-            .run()
-        }
-        reader.readAsDataURL(file)
+        void (async () => {
+          try {
+            const { presigned_url, img_url } = await getPresignedUrl(file.name)
+            await uploadImageToS3(presigned_url, file)
+            onImageUpload?.(img_url)
+            editor?.chain().focus().setImage({ src: img_url }).run()
+          } catch {
+            console.error('이미지 업로드 실패')
+          }
+        })()
 
         return true
       },
@@ -71,7 +78,7 @@ export default function TipTabEditor({ content, contentChange }: EditorProps) {
 
   return (
     <div>
-      <EditorToolBar editor={editor} />
+      <EditorToolBar editor={editor} onImageUpload={onImageUpload} />
       <TextView editor={editor} previewHtml={previewHtml} />
     </div>
   )

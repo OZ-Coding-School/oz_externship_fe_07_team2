@@ -24,9 +24,9 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
     questionDetail,
     initialCategory,
     isPending,
-    isError,
     handleSubmit,
     handleCategorySelect,
+    handleImageUpload,
   } = useQnaForm(mode, questionId)
 
   if (isPending) return <Loading />
@@ -63,6 +63,7 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
               key={questionDetail?.id ?? 'create'}
               content={content}
               contentChange={(value) => setContent(value ?? '')}
+              onImageUpload={handleImageUpload}
             />
           )}
         </div>
@@ -79,7 +80,7 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
         </Button>
       </div>
       <Popup
-        isOpen={!!popupMessage || isError}
+        isOpen={!!popupMessage}
         content={popupMessage}
         confirmLabel="확인"
         onConfirm={() => setPopupMessage(null)}

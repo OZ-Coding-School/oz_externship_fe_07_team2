@@ -12,7 +12,15 @@ import {
   TextFormatGroup,
 } from './toolbar'
 
-export const EditorToolBar = ({ editor }: { editor: Editor | null }) => {
+type EditorToolBarProps = {
+  editor: Editor | null
+  onImageUpload?: (imgUrl: string) => void
+}
+
+export const EditorToolBar = ({
+  editor,
+  onImageUpload,
+}: EditorToolBarProps) => {
   if (!editor) return null
 
   return (
@@ -22,7 +30,7 @@ export const EditorToolBar = ({ editor }: { editor: Editor | null }) => {
         <HistoryGroup editor={editor} />
         <TextFormatGroup editor={editor} />
         <ColorGroup editor={editor} />
-        <MediaGroup editor={editor} />
+        <MediaGroup editor={editor} onImageUpload={onImageUpload} />
         {/* 모바일에선 숨김 */}
         <span className="hidden md:contents">
           <FontGroup editor={editor} />
