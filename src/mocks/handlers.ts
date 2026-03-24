@@ -13,7 +13,7 @@ export const handlers = [
   }),
   ...chatMessageHandlers,
   ...chatSessionHandlers,
-  ...qnaCategoryHandlers,
+  // ...qnaCategoryHandlers,
   ...qnaListHandlers,
   ...qnaDetailHandlers,
   ...qnaCreateHandlers,

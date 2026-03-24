@@ -23,6 +23,7 @@ dist-ssr
 *.sw?
 .history
 .env
+.env.local
 *storybook.log
 storybook-static
 
