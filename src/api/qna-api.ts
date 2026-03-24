@@ -2,8 +2,6 @@ import { QNA_API } from '@/constants/qna'
 import type { QnaListResponse } from '@/features/qna-list'
 import type {
   CategoryResponse,
-  CreateAnswerRequest,
-  CreateAnswerResponse,
   CreateQuestionRequest,
   CreateQuestionResponse,
   GetPresignedUrlResponse,
@@ -75,17 +73,5 @@ export const getPresignedUrl = async (
   fileName: string
 ): Promise<GetPresignedUrlResponse> => {
   const res = await api.put(QNA_API.presignedUrl, { file_name: fileName })
-  return res.data
-}
-
-// 답변 등록 api 호출
-export const createAnswer = async (
-  questionId: number,
-  data: CreateAnswerRequest
-): Promise<CreateAnswerResponse> => {
-  const res = await api.post<CreateAnswerResponse>(
-    `${QNA_API.questions}/${questionId}/answers`,
-    data
-  )
   return res.data
 }
