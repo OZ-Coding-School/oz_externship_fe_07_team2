@@ -1,8 +1,7 @@
 import { useState } from 'react'
 
 import { Avatar, Button, TipTabEditor } from '@/components'
-
-import useCreateAnswerMutation from '../hooks/useCreateAnswerMutation'
+import useCreateAnswerMutation from '@/queries/useCreateAnswerMutation'
 
 type QnaAnswerProps = {
   nickname: string
