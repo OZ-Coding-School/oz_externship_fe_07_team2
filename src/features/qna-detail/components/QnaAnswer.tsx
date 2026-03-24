@@ -1,18 +1,18 @@
 import { useState } from 'react'
 
 import { Avatar, Button, TipTabEditor } from '@/components'
-
-import useCreateAnswerMutation from '../hooks/useCreateAnswerMutation'
+import useCreateAnswerMutation from '@/queries/useCreateAnswerMutation'
+import { useAuthStore } from '@/store/useAuthStore'
 
 type QnaAnswerProps = {
-  nickname: string
   questionId: number
 }
 
-export default function QnaAnswer({ nickname, questionId }: QnaAnswerProps) {
+export default function QnaAnswer({ questionId }: QnaAnswerProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [content, setContent] = useState('')
 
+  const user = useAuthStore((s) => s.user)
   const { mutate, isPending } = useCreateAnswerMutation()
 
   const isEmptyContent = !content.replace(/<[^>]*>/g, '').trim()
@@ -51,7 +51,7 @@ export default function QnaAnswer({ nickname, questionId }: QnaAnswerProps) {
 
           <div>
             <p className="text-text-highlight text-sm font-semibold">
-              {nickname} 님,
+              {user?.nickname ?? '회원'} 님,
             </p>
             <p className="text-text-sub text-sm">정보를 공유해 주세요.</p>
           </div>
