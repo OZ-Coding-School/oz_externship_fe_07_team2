@@ -14,17 +14,39 @@ type AuthState = {
   clearAuth: () => void
 }
 
+const getStoredUser = (): AuthUser | null => {
+  const raw = localStorage.getItem('authUser')
+
+  if (!raw) return null
+
+  try {
+    return JSON.parse(raw) as AuthUser
+  } catch {
+    return null
+  }
+}
+
 export const useAuthStore = create<AuthState>((set) => ({
   accessToken: localStorage.getItem('accessToken'),
-  user: null,
+  user: getStoredUser(),
 
   setAuth: ({ accessToken, user }) => {
     localStorage.setItem('accessToken', accessToken)
-    set({ accessToken, user })
+    localStorage.setItem('authUser', JSON.stringify(user))
+
+    set({
+      accessToken,
+      user,
+    })
   },
 
   clearAuth: () => {
     localStorage.removeItem('accessToken')
-    set({ accessToken: null, user: null })
+    localStorage.removeItem('authUser')
+
+    set({
+      accessToken: null,
+      user: null,
+    })
   },
 }))

@@ -65,12 +65,7 @@ export default function QnaDetailPage() {
       />
 
       <AuthGuard>
-        {!isQuestionAuthor && (
-          <QnaAnswer
-            nickname={currentUser?.nickname ?? ''}
-            questionId={questionId}
-          />
-        )}
+        {!isQuestionAuthor && <QnaAnswer questionId={questionId} />}
       </AuthGuard>
 
       {question.answers.length > 0 ? (
