@@ -1,13 +1,15 @@
 import { useParams } from 'react-router-dom'
 
 import { EmptyState, Loading } from '@/components'
+import AuthGuard from '@/components/auth/AuthGuard'
 import {
   QnaAnswer,
   QnaDetailAnswer,
   QnaDetailHeader,
 } from '@/features/qna-detail'
-import { mockUsers } from '@/mocks/data/qna-detail-mock'
+// import { mockUsers } from '@/mocks/data/qna-detail-mock'
 import { useQnaDetailQuery } from '@/queries'
+import { useAuthStore } from '@/store'
 
 export default function QnaDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -22,14 +24,8 @@ export default function QnaDetailPage() {
     enabled: isValidQuestionId,
   })
 
-  // const currentUser = mockUsers.questionAuthor
-  const currentUser = mockUsers.member
-  const isLoggedIn = Boolean(currentUser)
-
+  const currentUser = useAuthStore((s) => s.user)
   const isQuestionAuthor = !!question && currentUser?.id === question.author.id
-
-  const shouldShowAnswerEditor = isLoggedIn && !isQuestionAuthor
-
   const handleShare = () => {
     const url = window.location.href
     navigator.clipboard.writeText(url)
@@ -68,12 +64,14 @@ export default function QnaDetailPage() {
         isQuestionAuthor={isQuestionAuthor}
       />
 
-      {shouldShowAnswerEditor && (
-        <QnaAnswer
-          nickname={currentUser?.nickname ?? ''}
-          questionId={questionId}
-        />
-      )}
+      <AuthGuard>
+        {!isQuestionAuthor && (
+          <QnaAnswer
+            nickname={currentUser?.nickname ?? ''}
+            questionId={questionId}
+          />
+        )}
+      </AuthGuard>
 
       {question.answers.length > 0 ? (
         <QnaDetailAnswer answers={question.answers} />
