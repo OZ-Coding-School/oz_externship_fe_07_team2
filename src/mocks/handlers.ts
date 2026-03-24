@@ -2,7 +2,6 @@ import { http, HttpResponse } from 'msw'
 
 import { chatMessageHandlers } from './handlers/chatMessageHandler'
 import { chatSessionHandlers } from './handlers/chatSessionHandler'
-import { qnaCategoryHandlers } from './handlers/qnaCategoryHandler'
 import { qnaCreateHandlers } from './handlers/qnaCreateHandler'
 import { qnaDetailHandlers } from './handlers/qnaDetailHandler'
 import { qnaListHandlers } from './handlers/qnaListHandler'
