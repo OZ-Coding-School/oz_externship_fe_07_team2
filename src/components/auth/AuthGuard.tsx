@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { useAuthStore } from '@/store'
+import { useAuthStore } from '@/store/useAuthStore'
 
 type AuthGuardProps = {
   children: ReactNode
@@ -13,9 +13,5 @@ export default function AuthGuard({
 }: AuthGuardProps) {
   const accessToken = useAuthStore((s) => s.accessToken)
 
-  if (!accessToken) {
-    return <>{fallback}</>
-  }
-
-  return <>{children}</>
+  return accessToken ? <>{children}</> : <>{fallback}</>
 }

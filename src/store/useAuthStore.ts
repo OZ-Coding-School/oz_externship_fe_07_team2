@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 export type AuthUser = {
   id: number
@@ -14,39 +15,27 @@ type AuthState = {
   clearAuth: () => void
 }
 
-const getStoredUser = (): AuthUser | null => {
-  const raw = localStorage.getItem('authUser')
-
-  if (!raw) return null
-
-  try {
-    return JSON.parse(raw) as AuthUser
-  } catch {
-    return null
-  }
-}
-
-export const useAuthStore = create<AuthState>((set) => ({
-  accessToken: localStorage.getItem('accessToken'),
-  user: getStoredUser(),
-
-  setAuth: ({ accessToken, user }) => {
-    localStorage.setItem('accessToken', accessToken)
-    localStorage.setItem('authUser', JSON.stringify(user))
-
-    set({
-      accessToken,
-      user,
-    })
-  },
-
-  clearAuth: () => {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('authUser')
-
-    set({
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
       accessToken: null,
       user: null,
-    })
-  },
-}))
+
+      setAuth: ({ accessToken, user }) =>
+        set({
+          accessToken,
+          user,
+        }),
+
+      clearAuth: () =>
+        set({
+          accessToken: null,
+          user: null,
+        }),
+    }),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+)
