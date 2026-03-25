@@ -1,3 +1,5 @@
+import type { QnaSort } from '@/types'
+
 // 목록 API 응답 타입
 export type QnaListResponse = {
   count: number
@@ -31,6 +33,6 @@ export type QnaListItem = {
 export type QnaFilters = {
   search: string
   tab: string
-  sort: string
+  sort: QnaSort
   category: number | null
 }

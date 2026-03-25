@@ -18,10 +18,11 @@ import {
   useQnaListSearchParams,
 } from '@/features/qna-list'
 import useQnaListQuery from '@/queries/useQnaListQuery'
+import type { QnaSort } from '@/types'
 
 const SORT_OPTIONS = [
   { value: 'latest', label: '최신순' },
-  { value: 'oldest', label: '오래된순' },
+  { value: 'views', label: '조회수순' },
 ]
 
 const TABS = [
@@ -40,12 +41,16 @@ export default function QnaListPage() {
   const debouncedSearch = useDebounce(search, 300)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const answerStatus =
-    tab === 'answered' ? 'answered' : tab === 'pending' ? 'waiting' : undefined
+    tab === 'answered'
+      ? 'answered'
+      : tab === 'pending'
+        ? 'unanswered'
+        : undefined
 
   const { data, isPending, isError } = useQnaListQuery({
     page,
     size: PAGE_SIZE,
-    search_keyword: debouncedSearch || undefined,
+    search: debouncedSearch || undefined,
     category_id: filters.category ?? undefined,
     answer_status: answerStatus,
     sort,
@@ -119,7 +124,7 @@ export default function QnaListPage() {
             }}
           />
 
-          <div className="flex items-center pb-4 md:gap-3">
+          <div className="flex items-center md:gap-3 md:pb-4">
             <ModalButton
               value={sort}
               options={SORT_OPTIONS}
@@ -127,7 +132,7 @@ export default function QnaListPage() {
                 updateFilters({
                   nextFilters: {
                     ...filters,
-                    sort: value,
+                    sort: value as QnaSort,
                   },
                   nextPage: 1,
                 })
