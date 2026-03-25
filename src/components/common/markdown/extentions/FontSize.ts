@@ -5,7 +5,7 @@ declare module '@tiptap/core' {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Commands<ReturnType> {
     fontSize: {
-      setFontsize: (size: string) => ReturnType
+      setFontSize: (size: string) => ReturnType
       unsetFontSize: () => ReturnType
     }
   }
@@ -13,9 +13,11 @@ declare module '@tiptap/core' {
 
 export const FontSize = Extension.create({
   name: 'fontSize',
+
   addOptions() {
-    return { type: ['textStyle'] }
+    return { types: ['textStyle'] }
   },
+
   addGlobalAttributes() {
     return [
       {
@@ -23,7 +25,7 @@ export const FontSize = Extension.create({
         attributes: {
           fontSize: {
             default: null,
-            parseHTML: (e1) => e1.style.fontSize || null,
+            parseHTML: (el) => el.style.fontSize || null,
             renderHTML: (attrs) => {
               if (!attrs.fontSize) return {}
               return { style: `font-size: ${attrs.fontSize}` }
@@ -33,12 +35,14 @@ export const FontSize = Extension.create({
       },
     ]
   },
+
   addCommands() {
     return {
-      setFontsize:
-        (fontSize) =>
+      setFontSize:
+        (fontSize: string) =>
         ({ chain }) =>
           chain().setMark('textStyle', { fontSize }).run(),
+
       unsetFontSize:
         () =>
         ({ chain }) =>

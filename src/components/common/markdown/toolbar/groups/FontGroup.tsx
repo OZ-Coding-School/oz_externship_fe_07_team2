@@ -4,6 +4,8 @@ import { cn } from '@/utils'
 
 import { Group } from '../ToolbarPrimitives'
 
+import '@/components/common/markdown/extentions/FontSize'
+
 const FONT_FAMILIES = [
   { label: '기본서체', value: '' },
   { label: 'Pretendard', value: 'Pretendard, sans-serif' },
@@ -49,7 +51,7 @@ export default function FontGroup({ editor }: { editor: Editor | null }) {
   }
 
   const handleFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    editor.chain().focus().setFontsize(`${e.target.value}px`).run()
+    editor.chain().focus().setFontSize(`${e.target.value}px`).run()
   }
 
   return (

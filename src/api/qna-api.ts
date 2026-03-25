@@ -17,7 +17,7 @@ import { api } from './api'
 
 // 카테고리 조회 api 호출
 export const getCategories = async (): Promise<CategoryResponse> => {
-  const res = await api.get<CategoryResponse>(`${QNA_API.categories}/`)
+  const res = await api.get<CategoryResponse>(`${QNA_API.categories}`)
   return res.data
 }
 
@@ -25,7 +25,7 @@ export const getCategories = async (): Promise<CategoryResponse> => {
 export const getQnaList = async (
   params?: GetQnaListParams
 ): Promise<QnaListResponse> => {
-  const res = await api.get<QnaListResponse>(`${QNA_API.questions}/`, {
+  const res = await api.get<QnaListResponse>(`${QNA_API.questions}`, {
     params,
   })
   return res.data
