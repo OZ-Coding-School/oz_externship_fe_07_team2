@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router'
 
-import type { QnaFilters } from '@/features/qna-list'
+import type { QnaFilters, QnaTab } from '@/features/qna-list'
 import type { QnaSort } from '@/types'
 
 // 기본 필터 값
@@ -14,6 +14,10 @@ const DEFAULT_FILTERS: QnaFilters = {
 
 function parseSort(value: string | null): QnaSort {
   return value === 'views' ? 'views' : 'latest'
+}
+
+function parseTab(value: string | null): QnaTab {
+  return value === 'answered' || value === 'pending' ? value : 'all'
 }
 
 // 문자열 파라미터를 "양수 정수"로 안전하게 변환하는 함수
@@ -35,7 +39,7 @@ function parsePositiveInt(value: string | null): number | null {
 function getFiltersFromSearchParams(searchParams: URLSearchParams): QnaFilters {
   return {
     search: DEFAULT_FILTERS.search,
-    tab: searchParams.get('tab') ?? DEFAULT_FILTERS.tab,
+    tab: parseTab(searchParams.get('tab')),
     sort: parseSort(searchParams.get('sort')),
     category: parsePositiveInt(searchParams.get('category')),
   }

@@ -3,4 +3,9 @@ export { default as QnaCard } from './components/QnaCard'
 export { default as QnaListHeader } from './components/QnaListHeader'
 export { default as useDebounce } from './hooks/useDebounce'
 export { default as useQnaListSearchParams } from './hooks/useQnaListSearchParams'
-export type { QnaFilters, QnaListItem, QnaListResponse } from './types/qna.type'
+export type {
+  QnaFilters,
+  QnaListItem,
+  QnaListResponse,
+  QnaTab,
+} from './types/qna.type'

@@ -14,6 +14,7 @@ import {
   FilterSidebar,
   QnaCard,
   QnaListHeader,
+  type QnaTab,
   useDebounce,
   useQnaListSearchParams,
 } from '@/features/qna-list'
@@ -32,6 +33,11 @@ const TABS = [
 ]
 
 const PAGE_SIZE = 10 // 페이지 수
+const ANSWER_STATUS_BY_TAB = {
+  all: undefined,
+  answered: 'answered',
+  pending: 'unanswered',
+} as const
 
 export default function QnaListPage() {
   const { defaultFilters, filters, page, updateFilters } =
@@ -40,12 +46,7 @@ export default function QnaListPage() {
   const [search, setSearch] = useState(defaultFilters.search)
   const debouncedSearch = useDebounce(search, 300)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const answerStatus =
-    tab === 'answered'
-      ? 'answered'
-      : tab === 'pending'
-        ? 'unanswered'
-        : undefined
+  const answerStatus = ANSWER_STATUS_BY_TAB[tab]
 
   const { data, isPending, isError } = useQnaListQuery({
     page,
@@ -117,7 +118,7 @@ export default function QnaListPage() {
               updateFilters({
                 nextFilters: {
                   ...filters,
-                  tab: value,
+                  tab: value as QnaTab,
                 },
                 nextPage: 1,
               })

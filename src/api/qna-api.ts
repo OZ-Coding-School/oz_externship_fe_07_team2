@@ -1,4 +1,3 @@
-import { API_BASE_URL } from '@/constants/apiPath'
 import { QNA_API } from '@/constants/qna'
 import type { QnaListResponse } from '@/features/qna-list'
 import type {
@@ -16,25 +15,9 @@ import type {
 
 import { api } from './api'
 
-function getAuthorizedConfig() {
-  const token = import.meta.env.VITE_TEST_TOKEN
-
-  return {
-    baseURL: API_BASE_URL,
-    headers: token
-      ? {
-          Authorization: `Bearer ${token}`,
-        }
-      : undefined,
-  }
-}
-
 // 카테고리 조회 api 호출
 export const getCategories = async (): Promise<CategoryResponse> => {
-  const res = await api.get<CategoryResponse>(
-    `${QNA_API.categories}/`,
-    getAuthorizedConfig()
-  )
+  const res = await api.get<CategoryResponse>(`${QNA_API.categories}/`)
   return res.data
 }
 
@@ -43,7 +26,6 @@ export const getQnaList = async (
   params?: GetQnaListParams
 ): Promise<QnaListResponse> => {
   const res = await api.get<QnaListResponse>(`${QNA_API.questions}/`, {
-    ...getAuthorizedConfig(),
     params,
   })
   return res.data
