@@ -14,14 +14,16 @@ import {
   FilterSidebar,
   QnaCard,
   QnaListHeader,
+  type QnaTab,
   useDebounce,
   useQnaListSearchParams,
 } from '@/features/qna-list'
 import useQnaListQuery from '@/queries/useQnaListQuery'
+import type { QnaSort } from '@/types'
 
 const SORT_OPTIONS = [
   { value: 'latest', label: '최신순' },
-  { value: 'oldest', label: '오래된순' },
+  { value: 'views', label: '조회수순' },
 ]
 
 const TABS = [
@@ -31,6 +33,11 @@ const TABS = [
 ]
 
 const PAGE_SIZE = 10 // 페이지 수
+const ANSWER_STATUS_BY_TAB = {
+  all: undefined,
+  answered: 'answered',
+  pending: 'unanswered',
+} as const
 
 export default function QnaListPage() {
   const { defaultFilters, filters, page, updateFilters } =
@@ -39,13 +46,12 @@ export default function QnaListPage() {
   const [search, setSearch] = useState(defaultFilters.search)
   const debouncedSearch = useDebounce(search, 300)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const answerStatus =
-    tab === 'answered' ? 'answered' : tab === 'pending' ? 'waiting' : undefined
+  const answerStatus = ANSWER_STATUS_BY_TAB[tab]
 
   const { data, isPending, isError } = useQnaListQuery({
     page,
     size: PAGE_SIZE,
-    search_keyword: debouncedSearch || undefined,
+    search: debouncedSearch || undefined,
     category_id: filters.category ?? undefined,
     answer_status: answerStatus,
     sort,
@@ -112,14 +118,14 @@ export default function QnaListPage() {
               updateFilters({
                 nextFilters: {
                   ...filters,
-                  tab: value,
+                  tab: value as QnaTab,
                 },
                 nextPage: 1,
               })
             }}
           />
 
-          <div className="flex items-center pb-4 md:gap-3">
+          <div className="flex items-center md:gap-3 md:pb-4">
             <ModalButton
               value={sort}
               options={SORT_OPTIONS}
@@ -127,7 +133,7 @@ export default function QnaListPage() {
                 updateFilters({
                   nextFilters: {
                     ...filters,
-                    sort: value,
+                    sort: value as QnaSort,
                   },
                   nextPage: 1,
                 })

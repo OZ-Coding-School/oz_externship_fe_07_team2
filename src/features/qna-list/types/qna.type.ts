@@ -1,3 +1,7 @@
+import type { QnaSort } from '@/types'
+
+export type QnaTab = 'all' | 'answered' | 'pending'
+
 // 목록 API 응답 타입
 export type QnaListResponse = {
   count: number
@@ -30,7 +34,7 @@ export type QnaListItem = {
 //filter 타입
 export type QnaFilters = {
   search: string
-  tab: string
-  sort: string
+  tab: QnaTab
+  sort: QnaSort
   category: number | null
 }

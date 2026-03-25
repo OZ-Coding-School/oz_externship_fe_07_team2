@@ -1,16 +1,18 @@
 import type { QnaQuestionDetail } from './detail'
 
 // 질문 목록 조회 시 사용하는 답변 상태 query 값
-export type AnswerStatus = 'answered' | 'waiting'
+export type AnswerStatus = 'answered' | 'unanswered'
+
+export type QnaSort = 'latest' | 'views'
 
 // 질문 목록 조회 API의 query parameter 타입
 export type GetQnaListParams = {
   page?: number
   size?: number
-  search_keyword?: string
+  search?: string
   category_id?: number
   answer_status?: AnswerStatus
-  sort?: string
+  sort?: QnaSort
 }
 
 // 질문 등록 API 요청 본문 타입

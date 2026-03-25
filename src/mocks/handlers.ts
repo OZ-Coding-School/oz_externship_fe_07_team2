@@ -4,7 +4,6 @@ import { chatMessageHandlers } from './handlers/chatMessageHandler'
 import { chatSessionHandlers } from './handlers/chatSessionHandler'
 import { qnaCreateHandlers } from './handlers/qnaCreateHandler'
 import { qnaDetailHandlers } from './handlers/qnaDetailHandler'
-import { qnaListHandlers } from './handlers/qnaListHandler'
 
 export const handlers = [
   http.get('/api/hello', () => {
@@ -12,8 +11,6 @@ export const handlers = [
   }),
   ...chatMessageHandlers,
   ...chatSessionHandlers,
-  // ...qnaCategoryHandlers,
-  ...qnaListHandlers,
   ...qnaDetailHandlers,
   ...qnaCreateHandlers,
 ]
