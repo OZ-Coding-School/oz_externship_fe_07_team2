@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Color from '@tiptap/extension-color'
 import FontFamily from '@tiptap/extension-font-family'
@@ -13,6 +13,7 @@ import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 import { getPresignedUrl, uploadImageToS3 } from '@/api'
+import { FontSize } from '@/components/common/markdown/extentions/FontSize'
 
 import { EditorToolBar } from './EditorToolBar'
 import { TextView } from './TextView'
@@ -38,6 +39,7 @@ export default function TipTabEditor({
       Image,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       TextStyle,
+      FontSize,
       Color,
       FontFamily,
       Highlight.configure({ multicolor: true }),
