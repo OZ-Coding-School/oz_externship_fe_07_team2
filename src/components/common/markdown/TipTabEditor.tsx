@@ -14,6 +14,7 @@ import StarterKit from '@tiptap/starter-kit'
 
 import { getPresignedUrl, uploadImageToS3 } from '@/api'
 import { FontSize } from '@/components/common/markdown/extentions/FontSize'
+import { useToast } from '@/hooks/useToast'
 
 import { EditorToolBar } from './EditorToolBar'
 import { TextView } from './TextView'
@@ -30,6 +31,7 @@ export default function TipTabEditor({
   onImageUpload,
 }: EditorProps) {
   const [previewHtml, setPreviewHtml] = useState(content)
+  const { error } = useToast()
 
   const editor = useEditor({
     extensions: [
@@ -60,7 +62,7 @@ export default function TipTabEditor({
             onImageUpload?.(img_url)
             editor?.chain().focus().setImage({ src: img_url }).run()
           } catch {
-            console.error('이미지 업로드 실패')
+            error('이미지 업로드 실패')
           }
         })()
 

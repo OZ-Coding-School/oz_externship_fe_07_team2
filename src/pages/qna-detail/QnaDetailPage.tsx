@@ -7,6 +7,7 @@ import {
   QnaDetailAnswer,
   QnaDetailHeader,
 } from '@/features/qna-detail'
+import { useToast } from '@/hooks/useToast'
 // import { mockUsers } from '@/mocks/data/qna-detail-mock'
 import { useQnaDetailQuery } from '@/queries'
 import { useAuthStore } from '@/store'
@@ -15,6 +16,7 @@ export default function QnaDetailPage() {
   const { id } = useParams<{ id: string }>()
   const questionId = Number(id)
   const isValidQuestionId = Number.isFinite(questionId) && questionId > 0
+  const { success } = useToast()
 
   const {
     data: question,
@@ -29,7 +31,7 @@ export default function QnaDetailPage() {
   const handleShare = () => {
     const url = window.location.href
     navigator.clipboard.writeText(url)
-    alert('링크가 복사되었습니다.')
+    success('링크가 복사되었습니다.')
   }
 
   if (!isValidQuestionId) {
