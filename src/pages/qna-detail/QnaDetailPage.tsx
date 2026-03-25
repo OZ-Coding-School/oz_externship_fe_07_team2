@@ -7,8 +7,11 @@ import {
   QnaDetailAnswer,
   QnaDetailHeader,
 } from '@/features/qna-detail'
+<<<<<<< HEAD
 import { useToast } from '@/hooks/useToast'
 // import { mockUsers } from '@/mocks/data/qna-detail-mock'
+=======
+>>>>>>> 4f9accf (feat: connect question api (#102))
 import { useQnaDetailQuery } from '@/queries'
 import { useAuthStore } from '@/store'
 
@@ -28,6 +31,11 @@ export default function QnaDetailPage() {
 
   const currentUser = useAuthStore((s) => s.user)
   const isQuestionAuthor = !!question && currentUser?.id === question.author.id
+
+  const myAnswer =
+    question?.answers.find((answer) => answer.author.id === currentUser?.id) ??
+    null
+
   const handleShare = () => {
     const url = window.location.href
     navigator.clipboard.writeText(url)
@@ -57,7 +65,12 @@ export default function QnaDetailPage() {
       </div>
     )
   }
-
+  console.log('currentUser', currentUser)
+  console.log('answers', question.answers)
+  console.log(
+    'myAnswer',
+    question.answers.find((answer) => answer.author.id === currentUser?.id)
+  )
   return (
     <div className="px-8 py-10">
       <QnaDetailHeader
@@ -67,7 +80,9 @@ export default function QnaDetailPage() {
       />
 
       <AuthGuard>
-        {!isQuestionAuthor && <QnaAnswer questionId={questionId} />}
+        {!isQuestionAuthor && (
+          <QnaAnswer questionId={questionId} myAnswer={myAnswer} />
+        )}
       </AuthGuard>
 
       {question.answers.length > 0 ? (

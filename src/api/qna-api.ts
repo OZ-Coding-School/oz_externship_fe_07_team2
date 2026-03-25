@@ -37,13 +37,14 @@ export const createQuestion = async (
   return res.data
 }
 
+const getQuestionPath = (questionId: number) =>
+  `${QNA_API.questions.replace(/\/$/, '')}/${questionId}/`
+
 // 질문 상세 조회 api 호출
 export const getQuestionDetail = async (
   questionId: number
 ): Promise<QnaQuestionDetail> => {
-  const res = await api.get<QnaQuestionDetail>(
-    `${QNA_API.questions}/${questionId}`
-  )
+  const res = await api.get<QnaQuestionDetail>(getQuestionPath(questionId))
   return res.data
 }
 
@@ -53,7 +54,7 @@ export const updateQuestion = async (
   data: UpdateQuestionRequest
 ): Promise<UpdateQuestionResponse> => {
   const res = await api.put<UpdateQuestionResponse>(
-    `${QNA_API.questions}/${questionId}`,
+    getQuestionPath(questionId),
     data
   )
   return res.data

@@ -3,22 +3,18 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createAnswer } from '@/api'
 import { useToast } from '@/hooks/useToast'
 
-type CreateAnswerVariables = {
+type CreateAnswerParams = {
   questionId: number
-  content: string
-  image_urls: string[]
-}
+} & CreateAnswerRequest
 
 export default function useCreateAnswerMutation() {
   const queryClient = useQueryClient()
   const { error } = useToast()
 
-  return useMutation({
-    mutationFn: ({ questionId, content, image_urls }: CreateAnswerVariables) =>
-      createAnswer(questionId, {
-        content,
-        image_urls,
-      }),
+  return useMutation<CreateAnswerResponse, Error, CreateAnswerParams>({
+    mutationFn: ({ questionId, content, image_urls }) =>
+      createAnswer(questionId, { content, image_urls }),
+
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['qna-detail', variables.questionId],

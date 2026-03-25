@@ -31,9 +31,17 @@ export type CreateAnswerRequest = {
 
 // 답변 등록 API 응답 타입
 export type CreateAnswerResponse = {
-  cohort_number: number | null
+  id: number
+  content: string
+  created_at: string
+  is_adopted: boolean
+  image_urls?: string[]
+  author: {
+    id: number
+    nickname: string
+    profile_image_url: string | null
+  }
 }
-
 export type CreateQuestionResponse = QnaQuestionDetail
 
 // 질문 수정은 등록 요청 타입을 일부만 보내는 형태로 재사용한다.

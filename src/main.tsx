@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { GlobalToaster } from '@/components'
 
 import App from './App.tsx'
+import { useAuthStore } from './store/useAuthStore'
 
 import '@fontsource/pretendard/400.css'
 import '@fontsource/pretendard/500.css'
@@ -29,6 +30,12 @@ async function enableMocking() {
 const queryClient = new QueryClient()
 
 enableMocking().then(() => {
+  // .env에서 토큰을 읽어서 store에 저장
+  const token = import.meta.env.VITE_ACCESS_TOKEN
+  if (token) {
+    useAuthStore.getState().setAccessToken(token)
+  }
+
   createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <StrictMode>

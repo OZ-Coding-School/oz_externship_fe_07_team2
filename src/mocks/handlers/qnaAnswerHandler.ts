@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw'
 import { toMswApiUrl } from '@/constants/apiPath'
 import { QNA_API } from '@/constants/qna'
 
-const qnaApiUrl = toMswApiUrl(QNA_API.questions)
+const qnaApiUrl = toMswApiUrl(QNA_API.questions.replace(/\/$/, ''))
 
 export const qnaAnswerHandlers = [
   http.post(`${qnaApiUrl}/:questionId/answers`, async ({ params, request }) => {
