@@ -72,7 +72,7 @@ export default function QnaDetailHeader({
       />
 
       {/* AI 자동 답변 생성 카드 */}
-      {question.answers.length > 0 && <AiAnswerCard question={question} />}
+      <AiAnswerCard question={question} />
 
       <div className="border-border-line flex justify-end border-b p-4">
         <Button variant="ghost" size="sm" rounded="full" onClick={onShare}>

@@ -31,6 +31,14 @@ export type QnaAnswer = {
   comments: QnaAnswerComment[]
 }
 
+export type QnaAiAnswer = {
+  id: number
+  question_id: number
+  output: string
+  using_model: string
+  created_at: string
+}
+
 export type QnaQuestionDetail = {
   id: number
   title: string

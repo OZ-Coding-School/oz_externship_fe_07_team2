@@ -8,6 +8,7 @@ import type {
   CreateQuestionResponse,
   GetPresignedUrlResponse,
   GetQnaListParams,
+  QnaAiAnswer,
   QnaQuestionDetail,
   UpdateQuestionRequest,
   UpdateQuestionResponse,
@@ -84,6 +85,14 @@ export const createAnswer = async (
   const res = await api.post<CreateAnswerResponse>(
     `${QNA_API.questions}/${questionId}/answers`,
     data
+  )
+  return res.data
+}
+
+// AI 답변 생성 api 호출
+export const getAiAnswer = async (questionId: number): Promise<QnaAiAnswer> => {
+  const res = await api.get<QnaAiAnswer>(
+    `${QNA_API.questions}${questionId}/ai-answer`
   )
   return res.data
 }
