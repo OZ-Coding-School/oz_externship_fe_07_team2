@@ -1,7 +1,9 @@
+import axios from 'axios'
 import { ChevronDown } from 'lucide-react'
 
 import { Button } from '@/components'
 import { useChatWidgetContext } from '@/features/chat-widget/hooks/useChatWidgetContext'
+import { useCreateAiAnswerMutation } from '@/queries'
 import type { QnaQuestionDetail } from '@/types'
 
 import BubbleTail from './BubbleTail'
@@ -13,26 +15,45 @@ type AiAnswerCardProps = {
 
 export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   const { chat, detail } = useChatWidgetContext()
-  const aiAnswer = question.answers?.[0]
+  const { mutateAsync, isPending, data: aiAnswer } = useCreateAiAnswerMutation()
 
-  if (!aiAnswer) {
-    return null
-  }
+  const handleToggleDetail = async () => {
+    if (isPending) {
+      return
+    }
 
-  const handleToggleDetail = () => {
     if (detail.isOpen) {
       detail.close()
       return
     }
-    detail.open()
+
+    if (aiAnswer) {
+      detail.open()
+      return
+    }
+
+    try {
+      await mutateAsync(question.id)
+      detail.open()
+    } catch (error) {
+      const errorDetail = axios.isAxiosError(error)
+        ? error.response?.data?.error_detail
+        : undefined
+
+      alert(errorDetail ?? 'AI 답변 생성에 실패했습니다. 다시 시도해주세요.')
+    }
   }
 
   const handleOpenChat = () => {
+    if (!aiAnswer) {
+      return
+    }
+
     chat.setEntryData({
       questionId: question.id,
       questionTitle: question.title,
       questionContent: question.content,
-      answerContent: aiAnswer.content,
+      answerContent: aiAnswer.output,
     })
     chat.setEntryMode(true)
     chat.open()
@@ -55,6 +76,7 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
               variant="text"
               type="button"
               onClick={handleToggleDetail}
+              disabled={isPending}
               className="text-text-sub gap-2 px-0 font-bold hover:bg-transparent"
             >
               <span>질문에 대한</span>
@@ -62,7 +84,7 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
                 <ChatBadge size="xs" />
                 <span className="text-gradient-brand">AI OZ</span>
               </span>
-              <span>의 답변 보기</span>
+              <span>{isPending ? '의 답변 생성 중' : '의 답변 보기'}</span>
               <ChevronDown size={20} />
             </Button>
           </div>
@@ -79,7 +101,7 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
               <span className="text-gradient-brand">AI OZ</span>
             </div>
             <p className="text-text-chatbot mb-6 text-sm font-light whitespace-pre-line">
-              {aiAnswer.content}
+              {aiAnswer?.output}
             </p>
 
             <div className="flex justify-end">
