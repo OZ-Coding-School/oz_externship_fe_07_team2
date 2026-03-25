@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import Color from '@tiptap/extension-color'
 import FontFamily from '@tiptap/extension-font-family'
