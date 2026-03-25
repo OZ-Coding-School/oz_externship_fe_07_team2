@@ -58,9 +58,11 @@ body {
 
   --shadow-box-value: 0px 4px 4px rgba(0, 0, 0, 0.25);
   --shadow-modal-value: 0px 0px 16px rgba(160, 160, 160, 0.35);
+  --shadow-toast-value: 4px 4px 4px rgba(131, 131, 131, 0.25);
 
   /* STATUS PALETTE */
   --answer-active: #04c730;
+  --toast-error: #ec0037;
 
   /* =====================================================
     SEMANTIC TOKENS
@@ -98,10 +100,13 @@ body {
 
   --answer-active-color: var(--answer-active);
 
-  /* Shadow */
+  /* Toast */
+  --toast-error-color: var(--toast-error);
 
+  /* Shadow */
   --shadow-box-color: var(--shadow-box-value);
   --shadow-modal-color: var(--shadow-modal-value);
+  --shadow-toast-color: var(--shadow-toast-value);
 
   /*Overlay*/
   --bg-overlay: var(--gray-primary);
@@ -130,6 +135,7 @@ body {
 
   /* Border Line */
   --color-border-line: var(--gray-250);
+  --color-border-light: var(--gray-200);
 
   /* Primary */
   --color-primary-100: var(--primary-100);
@@ -145,6 +151,9 @@ body {
 
   --color-answer-active: var(--answer-active-color);
 
+  /* Toast */
+  --color-toast-error: var(--toast-error-color);
+
   /* Gradient */
 
   --gradient-brand: var(--gradient-brand);
@@ -154,6 +163,7 @@ body {
 
   --shadow-box: var(--shadow-box-color);
   --shadow-modal: var(--shadow-modal-color);
+  --shadow-toast: var(--shadow-toast-color);
 
   /* default font */
   --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
