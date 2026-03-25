@@ -1,4 +1,4 @@
-import type { QnaImage, QnaQuestionDetail } from './detail'
+import type { QnaQuestionDetail } from './detail'
 
 // 질문 목록 조회 시 사용하는 답변 상태 query 값
 export type AnswerStatus = 'answered' | 'waiting'
@@ -15,10 +15,10 @@ export type GetQnaListParams = {
 
 // 질문 등록 API 요청 본문 타입
 export type CreateQuestionRequest = {
-  title: QnaQuestionDetail['title']
-  content: QnaQuestionDetail['content']
-  category: number
-  image_ids?: QnaImage['id'][]
+  category_id: number
+  title: string
+  content: string
+  image_urls?: string[]
 }
 
 // 답변 등록 API 요청 본문 타입
@@ -38,3 +38,13 @@ export type CreateQuestionResponse = QnaQuestionDetail
 export type UpdateQuestionRequest = Partial<CreateQuestionRequest>
 
 export type UpdateQuestionResponse = QnaQuestionDetail
+
+export type GetPresignedUrlRequest = {
+  file_name: string
+}
+
+export type GetPresignedUrlResponse = {
+  presigned_url: string
+  img_url: string
+  key: string
+}

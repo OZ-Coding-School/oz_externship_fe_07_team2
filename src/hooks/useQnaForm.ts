@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { ERROR_MESSAGES } from '@/constants/message'
 import { ROUTES_PATHS } from '@/constants/url'
 import {
   useCategoriesQuery,
@@ -16,6 +17,7 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
   const [content, setContent] = useState('')
   const [selectedCategory, setSelectedCategory] =
     useState<SelectedCategory | null>(null)
+  const [imageUrls, setImageUrls] = useState<string[]>([])
   const [popupMessage, setPopupMessage] = useState<string | null>(null)
 
   const navigate = useNavigate()
@@ -74,10 +76,10 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
    * @returns 에러 메시지 문자열 | 통과 시 null
    */
   const validate = (): string | null => {
-    if (!categoryId) return '카테고리를 선택해 주세요.'
-    if (!title.trim()) return '제목을 입력해 주세요.'
+    if (!categoryId) return ERROR_MESSAGES.CATEGORY_REQUIRED
+    if (!title.trim()) return ERROR_MESSAGES.TITLE_REQUIRED
     if (!content.trim() || content === '<p></p>' || content === '<p><br></p>')
-      return '질문 내용을 입력해 주세요.'
+      return ERROR_MESSAGES.CONTENT_REQUIRED
     return null
   }
 
@@ -93,16 +95,31 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
 
     if (mode === 'create') {
       createQuestion(
-        { title, content, category: categoryId! },
-        { onSuccess: () => navigate(ROUTES_PATHS.QNA_LIST) }
+        { title, content, category_id: categoryId! },
+        {
+          onSuccess: () => navigate(ROUTES_PATHS.QNA_LIST),
+          onError: () => setPopupMessage(ERROR_MESSAGES.CREATE_QUESTION),
+        }
       )
     } else {
       updateQuestion(
-        { title, content, category: categoryId! },
-        { onSuccess: () => navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!)) }
+        { title, content, category_id: categoryId! },
+        {
+          onSuccess: () => navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!)),
+          onError: () => setPopupMessage(ERROR_MESSAGES.UPDATE_QUESTION),
+        }
       )
     }
   }
+
+  /**
+   * 이미지 업로드 완료 후 URL을 imageUrls 상태에 추가
+   * - 질문 등록/수정 시 image_urls 필드에 포함됨
+   */
+  const handleImageUpload = (imgUrl: string) => {
+    setImageUrls((prev) => [...prev, imgUrl])
+  }
+
   return {
     // 상태
     title,
@@ -111,6 +128,7 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
     setContent,
     popupMessage,
     setPopupMessage,
+    imageUrls,
     // 데이터
     categories,
     questionDetail,
@@ -120,5 +138,6 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
     // 핸들러
     handleSubmit,
     handleCategorySelect: setSelectedCategory,
+    handleImageUpload,
   }
 }

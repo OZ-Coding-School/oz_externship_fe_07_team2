@@ -6,6 +6,7 @@ import type {
   CreateAnswerResponse,
   CreateQuestionRequest,
   CreateQuestionResponse,
+  GetPresignedUrlResponse,
   GetQnaListParams,
   QnaQuestionDetail,
   UpdateQuestionRequest,
@@ -55,6 +56,23 @@ export const updateQuestion = async (
     `${QNA_API.questions}/${questionId}`,
     data
   )
+  return res.data
+}
+
+// S3에 직접 업로드 (presigned URL 사용)
+export const uploadImageToS3 = async (PresignedUrl: string, file: File) => {
+  await fetch(PresignedUrl, {
+    method: 'PUT',
+    body: file,
+    headers: { 'Content-Type': file.type },
+  })
+}
+
+// presignedUrl api호출
+export const getPresignedUrl = async (
+  fileName: string
+): Promise<GetPresignedUrlResponse> => {
+  const res = await api.put(QNA_API.presignedUrl, { file_name: fileName })
   return res.data
 }
 

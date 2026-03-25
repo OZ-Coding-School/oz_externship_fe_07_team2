@@ -3,16 +3,22 @@ import { useRef, useState } from 'react'
 import type { Editor } from '@tiptap/react'
 import { Image, Link2 } from 'lucide-react'
 
+import { getPresignedUrl, uploadImageToS3 } from '@/api'
 import { Popup } from '@/components'
 
 import { Group, IconBtn } from '../ToolbarPrimitives'
 
 type PopupState = {
-  type: 'link'
+  type: 'link' | 'image'
   isOpen: boolean
 }
 
-export default function MediaGroup({ editor }: { editor: Editor | null }) {
+type MediaGroupProp = {
+  editor: Editor | null
+  onImageUpload?: (imgUrl: string) => void
+}
+
+export default function MediaGroup({ editor, onImageUpload }: MediaGroupProp) {
   const [inputValue, setInputValue] = useState('')
   const [popup, setPopup] = useState<PopupState>({
     type: 'link',
@@ -48,23 +54,19 @@ export default function MediaGroup({ editor }: { editor: Editor | null }) {
     closePopup()
   }
 
-  // 파일 선택 시 Base64로 변환해서 에디터에 삽입
-  // API 연동 후 변경 예정
-  const handleImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !file.type.startsWith('image/')) return
 
-    const reader = new FileReader()
-    reader.onload = () => {
-      editor
-        .chain()
-        .focus()
-        .setImage({ src: reader.result as string })
-        .run()
+    try {
+      const { presigned_url, img_url } = await getPresignedUrl(file.name)
+      await uploadImageToS3(presigned_url, file)
+      onImageUpload?.(img_url)
+      editor.chain().focus().setImage({ src: img_url }).run()
+    } catch {
+      setPopup({ type: 'image', isOpen: true })
     }
-    reader.readAsDataURL(file)
 
-    // 같은 파일 재선택 가능하도록 초기화
     e.target.value = ''
   }
 
