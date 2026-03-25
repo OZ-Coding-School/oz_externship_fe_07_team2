@@ -4,6 +4,7 @@ import { AnswerBadge, Avatar, CategoryPath } from '@/components'
 import { ROUTES_PATHS } from '@/constants/url'
 import type { QnaListItem } from '@/features/qna-list'
 import { cn, formatTimeAgo } from '@/utils'
+import { removeHtmlTags } from '@/utils/string'
 
 type QnaCardProps = {
   question: QnaListItem
@@ -51,7 +52,7 @@ export default function QnaCard({ question, keyword }: QnaCardProps) {
         </h3>
 
         <p className="text-text-light mt-5 line-clamp-2 text-sm">
-          {highlightText(question.content_preview, keyword)}
+          {highlightText(removeHtmlTags(question.content_preview), keyword)}
         </p>
 
         <div className="mt-5 flex items-center justify-between text-sm md:mt-auto">
