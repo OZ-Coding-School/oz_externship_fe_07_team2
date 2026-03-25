@@ -1,11 +1,10 @@
-import { useState } from 'react'
-
+import axios from 'axios'
 import { ChevronDown } from 'lucide-react'
 
 import { Button } from '@/components'
 import { useChatWidgetContext } from '@/features/chat-widget/hooks/useChatWidgetContext'
 import { useCreateAiAnswerMutation } from '@/queries'
-import type { QnaAiAnswer, QnaQuestionDetail } from '@/types'
+import type { QnaQuestionDetail } from '@/types'
 
 import BubbleTail from './BubbleTail'
 import ChatBadge from './ChatBadge'
@@ -16,10 +15,13 @@ type AiAnswerCardProps = {
 
 export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   const { chat, detail } = useChatWidgetContext()
-  const [aiAnswer, setAiAnswer] = useState<QnaAiAnswer | null>(null)
-  const { mutateAsync, isPending } = useCreateAiAnswerMutation()
+  const { mutateAsync, isPending, data: aiAnswer } = useCreateAiAnswerMutation()
 
   const handleToggleDetail = async () => {
+    if (isPending) {
+      return
+    }
+
     if (detail.isOpen) {
       detail.close()
       return
@@ -31,24 +33,14 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
     }
 
     try {
-      const data = await mutateAsync(question.id)
-      setAiAnswer(data)
+      await mutateAsync(question.id)
       detail.open()
     } catch (error) {
-      const errorDetail =
-        typeof error === 'object' &&
-        error !== null &&
-        'response' in error &&
-        typeof error.response === 'object' &&
-        error.response !== null &&
-        'data' in error.response &&
-        typeof error.response.data === 'object' &&
-        error.response.data !== null &&
-        'error_detail' in error.response.data
-          ? String(error.response.data.error_detail)
-          : 'AI 답변 생성에 실패했습니다. 다시 시도해주세요.'
+      const errorDetail = axios.isAxiosError(error)
+        ? error.response?.data?.error_detail
+        : undefined
 
-      alert(errorDetail)
+      alert(errorDetail ?? 'AI 답변 생성에 실패했습니다. 다시 시도해주세요.')
     }
   }
 

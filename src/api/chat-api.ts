@@ -1,5 +1,6 @@
 import { API_BASE_URL, MSW_BASE_URL } from '@/constants/apiPath'
 import { CHAT_API } from '@/constants/chat'
+import { QNA_API } from '@/constants/qna'
 import type {
   ChatMessageListResponse,
   ChatSession,
@@ -7,6 +8,7 @@ import type {
   CreateChatSessionRequest,
   CreateSupportSessionRequest,
   GetChatCompletionsParams,
+  QnaAiAnswer,
   SendMessageRequest,
 } from '@/types'
 
@@ -169,4 +171,12 @@ export const createChatCompletion = async (
   }
 
   return accumulated.trim()
+}
+
+// AI 답변 생성
+export const getAiAnswer = async (questionId: number): Promise<QnaAiAnswer> => {
+  const res = await api.get<QnaAiAnswer>(
+    `${QNA_API.questions}${questionId}/ai-answer`
+  )
+  return res.data
 }
