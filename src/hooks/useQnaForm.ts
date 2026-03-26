@@ -98,7 +98,6 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
         { title, content, category_id: categoryId! },
         {
           onSuccess: () => navigate(ROUTES_PATHS.QNA_LIST),
-          onError: () => setPopupMessage(ERROR_MESSAGES.CREATE_QUESTION),
         }
       )
     } else {
@@ -106,7 +105,6 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
         { title, content, category_id: categoryId! },
         {
           onSuccess: () => navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!)),
-          onError: () => setPopupMessage(ERROR_MESSAGES.UPDATE_QUESTION),
         }
       )
     }

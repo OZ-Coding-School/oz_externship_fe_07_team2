@@ -36,9 +36,6 @@ export default function QnaAnswer({ questionId }: QnaAnswerProps) {
           setIsEditing(false)
           setContent('')
         },
-        onError: () => {
-          alert('답변 등록에 실패했습니다. 다시 시도해주세요.')
-        },
       }
     )
   }
