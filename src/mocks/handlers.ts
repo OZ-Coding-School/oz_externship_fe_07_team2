@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw'
 
 import { chatMessageHandlers } from './handlers/chatMessageHandler'
 import { chatSessionHandlers } from './handlers/chatSessionHandler'
+import { qnaAnswerHandlers } from './handlers/qnaAnswerHandler'
 import { qnaCreateHandlers } from './handlers/qnaCreateHandler'
 import { qnaDetailHandlers } from './handlers/qnaDetailHandler'
 
@@ -13,4 +14,5 @@ export const handlers = [
   ...chatSessionHandlers,
   ...qnaDetailHandlers,
   ...qnaCreateHandlers,
+  ...qnaAnswerHandlers,
 ]

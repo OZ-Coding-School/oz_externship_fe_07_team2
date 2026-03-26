@@ -8,11 +8,15 @@ import {
   QnaDetailHeader,
 } from '@/features/qna-detail'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useToast } from '@/hooks/useToast'
 // import { mockUsers } from '@/mocks/data/qna-detail-mock'
 =======
 >>>>>>> 4f9accf (feat: connect question api (#102))
 import { useQnaDetailQuery } from '@/queries'
+=======
+import { useAdoptAnswerMutation, useQnaDetailQuery } from '@/queries'
+>>>>>>> 8c1a1b7 (feat: compare user role (#102))
 import { useAuthStore } from '@/store'
 
 export default function QnaDetailPage() {
@@ -35,6 +39,25 @@ export default function QnaDetailPage() {
   const myAnswer =
     question?.answers.find((answer) => answer.author.id === currentUser?.id) ??
     null
+
+  const otherAnswers = question?.answers.filter(
+    (answer) => answer.author.id !== currentUser?.id
+  )
+
+  const isUserRole = currentUser?.role === 'USER'
+  const canAdoptAnswer = isQuestionAuthor && isUserRole
+
+  const { mutate: adoptMutate, isPending: isAdoptPending } =
+    useAdoptAnswerMutation()
+
+  const handleAdopt = (answerId: number) => {
+    if (!question) return
+
+    adoptMutate({
+      questionId,
+      answerId,
+    })
+  }
 
   const handleShare = () => {
     const url = window.location.href
@@ -65,12 +88,6 @@ export default function QnaDetailPage() {
       </div>
     )
   }
-  console.log('currentUser', currentUser)
-  console.log('answers', question.answers)
-  console.log(
-    'myAnswer',
-    question.answers.find((answer) => answer.author.id === currentUser?.id)
-  )
   return (
     <div className="px-8 py-10">
       <QnaDetailHeader
@@ -86,7 +103,13 @@ export default function QnaDetailPage() {
       </AuthGuard>
 
       {question.answers.length > 0 ? (
-        <QnaDetailAnswer answers={question.answers} />
+        <QnaDetailAnswer
+          answers={question.answers}
+          currentUserId={currentUser?.id}
+          canAdoptAnswer={canAdoptAnswer}
+          onAdopt={handleAdopt}
+          isAdoptPending={isAdoptPending}
+        />
       ) : (
         <EmptyState type="emptyState" />
       )}

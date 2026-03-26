@@ -3,9 +3,17 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 export type AuthUser = {
   id: number
+  email?: string
+  name?: string
   nickname: string
-  profile_image_url: string | null
+  phone_number?: string
+  gender?: 'M' | 'F' | 'O' | string
+  birthday?: string
+  profile_image_url?: string | null
+  profile_img_url?: string | null
   role?: string
+  created_at?: string
+  updated_at?: string
 }
 
 type AuthState = {

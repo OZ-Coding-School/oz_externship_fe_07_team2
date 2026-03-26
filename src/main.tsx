@@ -34,6 +34,16 @@ enableMocking().then(() => {
   const token = import.meta.env.VITE_ACCESS_TOKEN
   if (token) {
     useAuthStore.getState().setAccessToken(token)
+    // 토큰이 있으면 유저 정보도 가져옴
+    import('./api/auth').then(({ getMe }) => {
+      getMe()
+        .then((user) => {
+          useAuthStore.getState().setAuth({ accessToken: token, user })
+        })
+        .catch((error) => {
+          console.error('Failed to fetch user info:', error)
+        })
+    })
   }
 
   createRoot(document.getElementById('root')!).render(

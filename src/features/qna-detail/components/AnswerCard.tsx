@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react'
+
 import { MessageCircle } from 'lucide-react'
 
-import { Avatar, ModalButton } from '@/components'
+import { Avatar, Button, Input, ModalButton } from '@/components'
 import { useCommentSort } from '@/hooks'
 import type { SortType } from '@/hooks/useCommentSort'
+import { useAuthStore } from '@/store'
 import type { QnaAnswer } from '@/types'
 import { cn, formatTimeAgo } from '@/utils'
 
@@ -10,14 +13,34 @@ type AnswerCardProps = {
   answer: QnaAnswer
   variant?: 'default' | 'adopted'
   className?: string
+  canAdopt?: boolean
+  onAdopt?: (answerId: number) => void
+  isAdoptPending?: boolean
+  currentUserId?: number | null
 }
 
-export default function AnswerCard({ answer, className }: AnswerCardProps) {
+export default function AnswerCard({
+  answer,
+  className,
+  canAdopt,
+  onAdopt,
+  isAdoptPending,
+  currentUserId,
+}: AnswerCardProps) {
   const { content, created_at, is_adopted, author, comments } = answer
+  const currentUser = useAuthStore((s) => s.user)
 
+  const [commentText, setCommentText] = useState('')
+  const [localComments, setLocalComments] = useState(comments)
+
+  useEffect(() => {
+    setLocalComments(comments)
+  }, [comments])
+
+  const isOwnAnswer = currentUserId !== undefined && currentUserId === author.id
   const isAdoptedCard = is_adopted
   const { sortType, setSortType, sortOptions, sortedComments } =
-    useCommentSort(comments)
+    useCommentSort(localComments)
 
   return (
     <article
@@ -43,7 +66,12 @@ export default function AnswerCard({ answer, className }: AnswerCardProps) {
 
           <div className="min-w-0">
             <p className="text-text-main text-sm font-semibold">
-              {author.nickname}
+              {author.nickname}{' '}
+              {currentUserId === author.id && (
+                <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-500">
+                  내 답변
+                </span>
+              )}
             </p>
           </div>
         </div>
@@ -57,7 +85,44 @@ export default function AnswerCard({ answer, className }: AnswerCardProps) {
             {formatTimeAgo(created_at)}
           </span>
         </div>
-        {comments.length > 0 && (
+
+        {canAdopt && !is_adopted && onAdopt && (
+          <div className="mt-3 flex justify-end">
+            <Button
+              variant="outline"
+              size="sm"
+              rounded="full"
+              disabled={isAdoptPending}
+              onClick={() => onAdopt(answer.id)}
+            >
+              {isAdoptPending ? '채택 중...' : '채택하기'}
+            </Button>
+          </div>
+        )}
+
+        {!isOwnAnswer && (
+          <div className="border-border-line mt-3 flex items-center gap-2 rounded-xl border p-3">
+            <Input
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="개인정보를 공유 및 오남용하거나, 명예 훼손, 무단 광고, 불법 정보, 불건전 정보 모니터링 후 삭제될 수 있습니다."
+              className="flex-1 rounded-xl border bg-transparent text-sm placeholder:text-sm"
+            />
+
+            <Button
+              size="sm"
+              rounded="full"
+              disabled={!commentText.trim()}
+              onClick={() => {
+                setCommentText('')
+              }}
+            >
+              등록
+            </Button>
+          </div>
+        )}
+
+        {localComments.length > 0 && (
           <div className="mt-4">
             <div className="mb-3 flex items-center justify-between">
               <div className="text-text-main flex items-center gap-2 text-sm font-semibold">

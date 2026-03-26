@@ -6,8 +6,8 @@ import { api } from './api'
 const getQuestionAnswerPath = (questionId: number) =>
   `${QNA_API.questions.replace(/\/$/, '')}/${questionId}/answers`
 
-const getQuestionAnswerDetailPath = (questionId: number, answerId: number) =>
-  `${getQuestionAnswerPath(questionId)}/${answerId}`
+const getAnswerPath = (answerId: number) =>
+  `${QNA_API.answers.replace(/\/$/, '')}/${answerId}`
 
 // 답변 등록 api 호출
 export const createAnswer = async (
@@ -27,9 +27,15 @@ export const updateAnswer = async (
   answerId: number,
   data: CreateAnswerRequest
 ): Promise<CreateAnswerResponse> => {
-  const res = await api.put<CreateAnswerResponse>(
-    getQuestionAnswerDetailPath(questionId, answerId),
-    data
-  )
+  const res = await api.put<CreateAnswerResponse>(getAnswerPath(answerId), data)
+  return res.data
+}
+
+// 답변 채택 api 호출
+export const adoptAnswer = async (
+  questionId: number,
+  answerId: number
+): Promise<void> => {
+  const res = await api.post(`${getAnswerPath(answerId)}/adopt`)
   return res.data
 }
