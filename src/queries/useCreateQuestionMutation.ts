@@ -1,12 +1,9 @@
-import { useState } from 'react'
-
 import { useMutation } from '@tanstack/react-query'
 
 import { createQuestion } from '@/api'
 import { useToast } from '@/hooks/useToast'
 
 export default function useCreateQuestionMutation() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const { success, error } = useToast()
 
   const mutation = useMutation({
@@ -19,5 +16,5 @@ export default function useCreateQuestionMutation() {
     },
   })
 
-  return { ...mutation, errorMessage, clearError: () => setErrorMessage(null) }
+  return mutation
 }
