@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { API_BASE_URL } from '@/constants/apiPath'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export const api = axios.create({
   // 개발 환경에서는 MSW 가상 주소를 사용하고, 그 외에는 실제 API 주소를 사용한다.
@@ -26,7 +27,7 @@ api.interceptors.response.use(
  * TODO: 로그인 구현 후 교체 예정
  */
 api.interceptors.request.use((config) => {
-  const token = import.meta.env.VITE_TEST_TOKEN
+  const token = useAuthStore.getState().accessToken
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
