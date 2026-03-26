@@ -40,10 +40,6 @@ export default function QnaDetailPage() {
     question?.answers.find((answer) => answer.author.id === currentUser?.id) ??
     null
 
-  const otherAnswers = question?.answers.filter(
-    (answer) => answer.author.id !== currentUser?.id
-  )
-
   const isUserRole = currentUser?.role === 'USER'
   const canAdoptAnswer = isQuestionAuthor && isUserRole
 
@@ -98,12 +94,15 @@ export default function QnaDetailPage() {
 
       <AuthGuard>
         {!isQuestionAuthor && (
-          <QnaAnswer questionId={questionId} myAnswer={myAnswer} />
+          <div className="mb-4">
+            <QnaAnswer questionId={questionId} myAnswer={myAnswer} />
+          </div>
         )}
       </AuthGuard>
 
       {question.answers.length > 0 ? (
         <QnaDetailAnswer
+          questionId={questionId}
           answers={question.answers}
           currentUserId={currentUser?.id}
           canAdoptAnswer={canAdoptAnswer}
@@ -111,7 +110,7 @@ export default function QnaDetailPage() {
           isAdoptPending={isAdoptPending}
         />
       ) : (
-        <EmptyState type="emptyState" />
+        <EmptyState type="commentEmpty" />
       )}
     </div>
   )

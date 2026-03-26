@@ -5,11 +5,13 @@ import { MessageCircle } from 'lucide-react'
 import { Avatar, Button, Input, ModalButton } from '@/components'
 import { useCommentSort } from '@/hooks'
 import type { SortType } from '@/hooks/useCommentSort'
+import { useCreateAnswerCommentMutation } from '@/queries'
 import { useAuthStore } from '@/store'
 import type { QnaAnswer } from '@/types'
 import { cn, formatTimeAgo } from '@/utils'
 
 type AnswerCardProps = {
+  questionId: number
   answer: QnaAnswer
   variant?: 'default' | 'adopted'
   className?: string
@@ -20,6 +22,7 @@ type AnswerCardProps = {
 }
 
 export default function AnswerCard({
+  questionId,
   answer,
   className,
   canAdopt,
@@ -33,6 +36,10 @@ export default function AnswerCard({
   const [commentText, setCommentText] = useState('')
   const [localComments, setLocalComments] = useState(comments)
 
+  const { mutate: createCommentMutate, isPending: isCommentPending } =
+    useCreateAnswerCommentMutation()
+
+  // 댓글 즉시 리프레시
   useEffect(() => {
     setLocalComments(comments)
   }, [comments])
@@ -105,19 +112,66 @@ export default function AnswerCard({
             <Input
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
-              placeholder="개인정보를 공유 및 오남용하거나, 명예 훼손, 무단 광고, 불법 정보, 불건전 정보 모니터링 후 삭제될 수 있습니다."
+              placeholder="댓글을 입력하세요."
               className="flex-1 rounded-xl border bg-transparent text-sm placeholder:text-sm"
             />
 
             <Button
               size="sm"
               rounded="full"
-              disabled={!commentText.trim()}
+              disabled={!commentText.trim() || isCommentPending}
               onClick={() => {
-                setCommentText('')
+                const text = commentText.trim()
+                if (!text || !currentUser) return
+
+                createCommentMutate(
+                  {
+                    questionId,
+                    answerId: answer.id,
+                    content: text,
+                    image_urls: [],
+                  },
+                  {
+                    onSuccess: (data) => {
+                      const author = data.author
+                      const commentAuthor = author
+                        ? {
+                            id: author.id,
+                            nickname: author.nickname,
+                            profile_image_url: author.profile_image_url,
+                          }
+                        : currentUser
+                          ? {
+                              id: currentUser.id,
+                              nickname: currentUser.nickname,
+                              profile_image_url:
+                                currentUser.profile_image_url ?? null,
+                            }
+                          : {
+                              id: 0,
+                              nickname: '알 수 없음',
+                              profile_image_url: null,
+                            }
+
+                      setLocalComments((prev) => [
+                        ...prev,
+                        {
+                          id: data.id,
+                          content: data.content,
+                          created_at: data.created_at,
+                          author: commentAuthor,
+                        },
+                      ])
+                      setCommentText('')
+                    },
+                    onError: () => {
+                      alert('댓글 등록에 실패했습니다. 다시 시도해주세요.')
+                    },
+                  }
+                )
               }}
             >
-              등록
+              {isCommentPending ? '등록 중...' : '등록'}
             </Button>
           </div>
         )}
@@ -127,7 +181,7 @@ export default function AnswerCard({
             <div className="mb-3 flex items-center justify-between">
               <div className="text-text-main flex items-center gap-2 text-sm font-semibold">
                 <MessageCircle size={16} />
-                <span>댓글 {comments.length}개</span>
+                <span>댓글 {localComments.length}개</span>
               </div>
 
               <ModalButton

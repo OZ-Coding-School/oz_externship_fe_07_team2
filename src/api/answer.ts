@@ -1,5 +1,10 @@
 import { QNA_API } from '@/constants/qna'
-import type { CreateAnswerRequest, CreateAnswerResponse } from '@/types'
+import type {
+  CreateAnswerCommentRequest,
+  CreateAnswerCommentResponse,
+  CreateAnswerRequest,
+  CreateAnswerResponse,
+} from '@/types'
 
 import { api } from './api'
 
@@ -23,7 +28,7 @@ export const createAnswer = async (
 
 // 답변 수정 api 호출
 export const updateAnswer = async (
-  questionId: number,
+  _questionId: number,
   answerId: number,
   data: CreateAnswerRequest
 ): Promise<CreateAnswerResponse> => {
@@ -31,9 +36,21 @@ export const updateAnswer = async (
   return res.data
 }
 
+// 답변 댓글 등록 api 호출
+export const createAnswerComment = async (
+  answerId: number,
+  data: CreateAnswerCommentRequest
+): Promise<CreateAnswerCommentResponse> => {
+  const res = await api.post<CreateAnswerCommentResponse>(
+    `${getAnswerPath(answerId)}/comments`,
+    data
+  )
+  return res.data
+}
+
 // 답변 채택 api 호출
 export const adoptAnswer = async (
-  questionId: number,
+  _questionId: number,
   answerId: number
 ): Promise<void> => {
   const res = await api.post(`${getAnswerPath(answerId)}/adopt`)

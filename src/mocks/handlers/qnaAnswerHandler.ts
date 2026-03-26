@@ -78,6 +78,48 @@ export const qnaAnswerHandlers = [
     })
   }),
 
+  http.post(
+    `${qnaAnswerApiUrl}/:answerId/comments`,
+    async ({ params, request }) => {
+      const answerId = Number(params.answerId)
+
+      if (!Number.isFinite(answerId) || answerId <= 0) {
+        return HttpResponse.json(
+          { message: '잘못된 답변 ID입니다.' },
+          { status: 400 }
+        )
+      }
+
+      const body = (await request.json()) as {
+        content: string
+        image_urls: string[]
+      }
+
+      const plainText = body.content?.replace(/<[^>]*>/g, '').trim()
+
+      if (!plainText) {
+        return HttpResponse.json(
+          { message: '댓글 내용을 입력해 주세요.' },
+          { status: 400 }
+        )
+      }
+
+      return HttpResponse.json(
+        {
+          id: Date.now(),
+          content: body.content,
+          created_at: new Date().toISOString(),
+          author: {
+            id: 999,
+            nickname: '테스트 댓글러',
+            profile_image_url: null,
+          },
+        },
+        { status: 201 }
+      )
+    }
+  ),
+
   http.post(`${qnaAnswerApiUrl}/:answerId/adopt`, async ({ params }) => {
     const answerId = Number(params.answerId)
 

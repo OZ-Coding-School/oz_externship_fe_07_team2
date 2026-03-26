@@ -1,6 +1,7 @@
 export { default as useAdoptAnswerMutation } from './useAdoptAnswerMutation'
 export { default as useCategoriesQuery } from './useCategoriesQuery'
 export { default as useCreateAiAnswerMutation } from './useCreateAiAnswerMutation'
+export { default as useCreateAnswerCommentMutation } from './useCreateAnswerCommentMutation'
 export { default as useCreateAnswerMutation } from './useCreateAnswerMutation'
 export { default as useCreateQuestionMutation } from './useCreateQuestionMutation'
 export { default as useQnaDetailQuery } from './useQnaDetailQuery'

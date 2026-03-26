@@ -4,6 +4,7 @@ import type { QnaAnswer } from '@/types'
 import AnswerCard from './AnswerCard'
 
 type QnaDetailAnswerProps = {
+  questionId: number
   answers: QnaAnswer[]
   canAdoptAnswer?: boolean
   onAdopt?: (answerId: number) => void
@@ -12,6 +13,7 @@ type QnaDetailAnswerProps = {
 }
 
 export default function QnaDetailAnswer({
+  questionId,
   answers,
   canAdoptAnswer,
   onAdopt,
@@ -36,6 +38,7 @@ export default function QnaDetailAnswer({
         {sortedAnswers.map((answer) => (
           <AnswerCard
             key={answer.id}
+            questionId={questionId}
             answer={answer}
             variant={answer.is_adopted ? 'adopted' : 'default'}
             canAdopt={canAdoptAnswer}
