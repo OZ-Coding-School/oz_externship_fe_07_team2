@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { MessageCircle } from 'lucide-react'
 
 import { Avatar, Button, Input, ModalButton } from '@/components'
-import { useAuthGuard } from '@/hooks'
 import { useCommentSort } from '@/hooks'
 import type { SortType } from '@/hooks/useCommentSort'
 import { useCreateAnswerCommentMutation } from '@/queries'
@@ -33,7 +32,6 @@ export default function AnswerCard({
 }: AnswerCardProps) {
   const { content, created_at, is_adopted, author, comments } = answer
   const currentUser = useAuthStore((s) => s.user)
-  const { isLoggedIn, user } = useAuthGuard()
 
   const [commentText, setCommentText] = useState('')
   const [localComments, setLocalComments] = useState(comments)
@@ -48,7 +46,6 @@ export default function AnswerCard({
 
   const isOwnAnswer = currentUserId !== undefined && currentUserId === author.id
   const isAdoptedCard = is_adopted
-  const isAuthor = isLoggedIn && user?.id === author.id
   const { sortType, setSortType, sortOptions, sortedComments } =
     useCommentSort(localComments)
 
@@ -89,18 +86,6 @@ export default function AnswerCard({
           className="text-text-main text-sm leading-7 whitespace-pre-line"
           dangerouslySetInnerHTML={{ __html: content }}
         />
-
-        {/* 작성자 권한 버튼 */}
-        {isAuthor && (
-          <div className="mt-4 flex gap-2">
-            <button className="rounded bg-blue-500 px-3 py-1 text-xs font-medium text-white hover:bg-blue-600">
-              수정
-            </button>
-            <button className="rounded bg-red-500 px-3 py-1 text-xs font-medium text-white hover:bg-red-600">
-              삭제
-            </button>
-          </div>
-        )}
 
         <div className="border-border-line mt-6 border-b pb-2 text-right">
           <span className="text-text-light text-xs">
