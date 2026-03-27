@@ -1,5 +1,6 @@
 // components/common
 export { default as FloatingChatButton } from '../features/chat-widget/components/FloatingChatButton'
+export { default as AuthGuard } from './auth/AuthGuard'
 export { default as AnswerBadge } from './common/answer-badge/AnswerBadge'
 export { default as Avatar } from './common/avatar/Avatar'
 export { default as Button } from './common/button/Button'
