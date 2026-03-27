@@ -23,7 +23,7 @@ export const getCategories = async (): Promise<CategoryResponse> => {
 export const getQnaList = async (
   params?: GetQnaListParams
 ): Promise<QnaListResponse> => {
-  const res = await api.get<QnaListResponse>(`${QNA_API.questions}`, {
+  const res = await api.get<QnaListResponse>(QNA_API.questions.list, {
     params,
   })
   return res.data
