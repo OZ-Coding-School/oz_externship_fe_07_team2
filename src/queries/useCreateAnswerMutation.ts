@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { createAnswer } from '@/api'
 import { useToast } from '@/hooks/useToast'
+import type { CreateAnswerRequest, CreateAnswerResponse } from '@/types'
 
 type CreateAnswerParams = {
   questionId: number

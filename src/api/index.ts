@@ -1,4 +1,5 @@
 export * from './answer'
 export * from './api'
+export * from './auth'
 export * from './chat-api'
 export * from './qna-api'
