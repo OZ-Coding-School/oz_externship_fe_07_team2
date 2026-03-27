@@ -1,12 +1,12 @@
-import { API_BASE_URL, MSW_BASE_URL } from '@/constants/apiPath'
+import { API_BASE_URL } from '@/constants/apiPath'
 import { CHAT_API } from '@/constants/chat'
 import { QNA_API } from '@/constants/qna'
+import { useAuthStore } from '@/store'
 import type {
   ChatMessageListResponse,
   ChatSession,
   ChatStreamChunk,
   CreateChatSessionRequest,
-  CreateSupportSessionRequest,
   GetChatCompletionsParams,
   QnaAiAnswer,
   SendMessageRequest,
@@ -21,7 +21,7 @@ type StreamChatCompletionOptions = {
 }
 
 function getApiBaseUrl() {
-  return import.meta.env.DEV ? MSW_BASE_URL : API_BASE_URL
+  return API_BASE_URL
 }
 
 function getChatCompletionUrl(sessionId: SessionId) {
@@ -67,11 +67,78 @@ export const createChatSession = async (
 }
 
 // support 전용 채팅 세션을 생성
-export const createSupportSession = async (
-  data: CreateSupportSessionRequest
-): Promise<ChatSession> => {
-  const res = await api.post<ChatSession>(CHAT_API.support, data)
-  return res.data
+export const createSupportCompletion = async (
+  data: SendMessageRequest,
+  options?: StreamChatCompletionOptions
+): Promise<string> => {
+  const token = useAuthStore.getState().accessToken
+
+  const response = await fetch(`${API_BASE_URL}${CHAT_API.support}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(data),
+    signal: options?.signal,
+  })
+
+  if (!response.ok) {
+    throw new Error(`Support completion failed: ${response.status}`)
+  }
+
+  if (!response.body) {
+    return ''
+  }
+
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+  let accumulated = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+
+    if (done && !value) {
+      break
+    }
+
+    if (value) {
+      buffer += decoder.decode(value, { stream: !done })
+    }
+
+    const eventBlocks = buffer.split('\n\n')
+    buffer = eventBlocks.pop() ?? ''
+
+    for (const eventBlock of eventBlocks) {
+      const { content, isDone } = parseStreamEvent(eventBlock)
+
+      if (content) {
+        accumulated += content
+        options?.onChunk?.(content, accumulated)
+      }
+
+      if (isDone) {
+        return accumulated.trim()
+      }
+    }
+
+    if (done) {
+      break
+    }
+  }
+
+  if (buffer.trim()) {
+    const { content } = parseStreamEvent(buffer)
+
+    if (content) {
+      accumulated += content
+      options?.onChunk?.(content, accumulated)
+    }
+  }
+
+  return accumulated.trim()
 }
 
 // 특정 채팅 세션을 삭제
@@ -104,11 +171,14 @@ export const createChatCompletion = async (
   data: SendMessageRequest,
   options?: StreamChatCompletionOptions
 ): Promise<string> => {
+  const token = useAuthStore.getState().accessToken
+
   const response = await fetch(getChatCompletionUrl(sessionId), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Accept: 'text/event-stream',
+      Accept: 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     body: JSON.stringify(data),
     signal: options?.signal,

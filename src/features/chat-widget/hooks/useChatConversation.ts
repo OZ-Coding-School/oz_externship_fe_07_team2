@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { createChatCompletion } from '@/api/chat-api'
+import { createChatCompletion, createSupportCompletion } from '@/api/chat-api'
 import type { ChatMessagePreview } from '@/features/chat-widget/type/chat'
 import useChatMessagesQuery from '@/queries/useChatMessagesQuery'
 
@@ -16,6 +16,8 @@ const INITIAL_GREETING_MESSAGE: ChatMessagePreview = {
 
 type UseChatConversationParams = {
   sessionId: number | null
+  hasEntryContext: boolean
+  initialAssistantMessage?: string | null
   ensureSession: (message: string) => Promise<{
     id: number
     created: boolean
@@ -29,6 +31,8 @@ function isAbortError(error: unknown) {
 
 export default function useChatConversation({
   sessionId,
+  hasEntryContext,
+  initialAssistantMessage = null,
   ensureSession,
   isSessionCreating = false,
 }: UseChatConversationParams) {
@@ -60,10 +64,23 @@ export default function useChatConversation({
     sessionId,
     chatMessages: isStreaming ? undefined : chatMessagesData?.results,
   })
+
+  const initialEntryMessages =
+    sessionId === null && hasEntryContext && initialAssistantMessage
+      ? [
+          {
+            id: 1,
+            role: 'assistant' as const,
+            message: initialAssistantMessage,
+          },
+        ]
+      : []
   // 실제 렌더링할 메시지가 존재하는지 여부
   const renderMessages =
     sessionId === null
-      ? [INITIAL_GREETING_MESSAGE, ...localMessages]
+      ? hasEntryContext
+        ? [...initialEntryMessages, ...localMessages]
+        : [INITIAL_GREETING_MESSAGE, ...localMessages]
       : localMessages
   const hasRenderableMessages = renderMessages.length > 0
   // 기존 session에서 메시지 불러오는 중 (초기 로딩 상태)
@@ -92,34 +109,44 @@ export default function useChatConversation({
       appendPreviewMessage('user', trimmedMessage, userMessageId)
 
       try {
-        const { id: nextSessionId } = await ensureSession(trimmedMessage)
-
         const abortController = new AbortController()
         let hasStartedAssistantStream = false
 
         abortControllerRef.current = abortController
         setIsStreaming(true)
 
-        const finalAssistantMessage = await createChatCompletion(
-          nextSessionId,
-          { message: trimmedMessage },
-          {
-            signal: abortController.signal,
-            onChunk: (_chunk, accumulated) => {
-              if (!hasStartedAssistantStream) {
-                appendPreviewMessage(
-                  'assistant',
-                  accumulated,
-                  assistantMessageId
-                )
-                hasStartedAssistantStream = true
-                return
-              }
+        const streamOptions = {
+          signal: abortController.signal,
+          onChunk: (_chunk: string, accumulated: string) => {
+            if (!hasStartedAssistantStream) {
+              appendPreviewMessage('assistant', accumulated, assistantMessageId)
+              hasStartedAssistantStream = true
+              return
+            }
 
-              updateAssistantMessage(assistantMessageId, accumulated)
-            },
-          }
-        )
+            updateAssistantMessage(assistantMessageId, accumulated)
+          },
+        }
+
+        const finalAssistantMessage = hasEntryContext
+          ? await (async () => {
+              const { id: nextSessionId } = await ensureSession(trimmedMessage)
+              const finalMessage = await createChatCompletion(
+                nextSessionId,
+                { message: trimmedMessage },
+                streamOptions
+              )
+
+              await queryClient.invalidateQueries({
+                queryKey: ['chat-messages', nextSessionId],
+              })
+
+              return finalMessage
+            })()
+          : await createSupportCompletion(
+              { message: trimmedMessage },
+              streamOptions
+            )
 
         if (!hasStartedAssistantStream && finalAssistantMessage) {
           appendPreviewMessage(
@@ -128,10 +155,6 @@ export default function useChatConversation({
             assistantMessageId
           )
         }
-
-        await queryClient.invalidateQueries({
-          queryKey: ['chat-messages', nextSessionId],
-        })
 
         return true
       } catch (error) {
@@ -154,6 +177,7 @@ export default function useChatConversation({
       isSessionCreating,
       isStreaming,
       localMessagesRef,
+      hasEntryContext,
       queryClient,
       restoreMessages,
       updateAssistantMessage,
