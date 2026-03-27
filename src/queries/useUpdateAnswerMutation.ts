@@ -12,8 +12,8 @@ export default function useUpdateAnswerMutation() {
   const queryClient = useQueryClient()
 
   return useMutation<CreateAnswerResponse, Error, UpdateAnswerParams>({
-    mutationFn: ({ questionId, answerId, content, image_urls }) =>
-      updateAnswer(questionId, answerId, { content, image_urls }),
+    mutationFn: ({ answerId, content, image_urls }) =>
+      updateAnswer(answerId, { content, image_urls }),
 
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({

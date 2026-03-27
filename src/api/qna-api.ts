@@ -33,12 +33,15 @@ export const getQnaList = async (
 export const createQuestion = async (
   data: CreateQuestionRequest
 ): Promise<CreateQuestionResponse> => {
-  const res = await api.post<CreateQuestionResponse>(QNA_API.questions, data)
+  const res = await api.post<CreateQuestionResponse>(
+    `${QNA_API.questions.base}/`,
+    data
+  )
   return res.data
 }
 
 const getQuestionPath = (questionId: number) =>
-  `${QNA_API.questions.replace(/\/$/, '')}/${questionId}/`
+  `${QNA_API.questions.base}/${questionId}/`
 
 // 질문 상세 조회 api 호출
 export const getQuestionDetail = async (
