@@ -47,7 +47,11 @@ export default function FilterSidebar({
   isAppliedCategory,
   onCategoryFilterApply,
 }: FilterSidebarProps) {
-  const { data: categories = [], isPending, isError } = useCategoriesQuery()
+  const {
+    data: categories = [],
+    isPending,
+    isError,
+  } = useCategoriesQuery(isFilterOpen)
 
   const appliedSelection = useMemo(
     () => findSelectedCategory(categories, isAppliedCategory),
