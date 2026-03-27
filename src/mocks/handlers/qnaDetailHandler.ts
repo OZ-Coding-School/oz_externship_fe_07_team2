@@ -1,11 +1,11 @@
 import { delay, http, HttpResponse } from 'msw'
 
 import { toMswApiUrl } from '@/constants/apiPath'
-import { QNA_API } from '@/constants/qna'
+import { QNA_API } from '@/constants/qna-api-endpoints'
 import { mockQuestionDetail } from '@/mocks/data/qna-detail-mock'
 import type { QnaCategory } from '@/types'
 
-const qnaDetailApiUrl = toMswApiUrl(QNA_API.questions.base)
+const qnaDetailApiUrl = toMswApiUrl(QNA_API.QUESTIONS_BASE.slice(0, -1))
 /*
  * PUT 핸들러에서 상태를 업데이트하기 위해 mutable 복사본으로 관리
  */

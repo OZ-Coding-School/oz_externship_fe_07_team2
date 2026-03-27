@@ -1,4 +1,4 @@
-import { QNA_API } from '@/constants/qna'
+import { QNA_API } from '@/constants/qna-api-endpoints'
 import type { QnaListResponse } from '@/features/qna-list'
 import type {
   CategoryResponse,
@@ -15,7 +15,7 @@ import { api } from './api'
 
 // 카테고리 조회 api 호출
 export const getCategories = async (): Promise<CategoryResponse> => {
-  const res = await api.get<CategoryResponse>(`${QNA_API.categories}`)
+  const res = await api.get<CategoryResponse>(QNA_API.CATEGORIES)
   return res.data
 }
 
@@ -23,7 +23,7 @@ export const getCategories = async (): Promise<CategoryResponse> => {
 export const getQnaList = async (
   params?: GetQnaListParams
 ): Promise<QnaListResponse> => {
-  const res = await api.get<QnaListResponse>(QNA_API.questions.list, {
+  const res = await api.get<QnaListResponse>(QNA_API.QUESTIONS_BASE, {
     params,
   })
   return res.data
@@ -34,20 +34,19 @@ export const createQuestion = async (
   data: CreateQuestionRequest
 ): Promise<CreateQuestionResponse> => {
   const res = await api.post<CreateQuestionResponse>(
-    `${QNA_API.questions.base}/`,
+    QNA_API.QUESTIONS_BASE,
     data
   )
   return res.data
 }
 
-const getQuestionPath = (questionId: number) =>
-  `${QNA_API.questions.base}/${questionId}/`
-
 // 질문 상세 조회 api 호출
 export const getQuestionDetail = async (
   questionId: number
 ): Promise<QnaQuestionDetail> => {
-  const res = await api.get<QnaQuestionDetail>(getQuestionPath(questionId))
+  const res = await api.get<QnaQuestionDetail>(
+    QNA_API.QUESTION_DETAIL(questionId)
+  )
   return res.data
 }
 
@@ -57,7 +56,7 @@ export const updateQuestion = async (
   data: UpdateQuestionRequest
 ): Promise<UpdateQuestionResponse> => {
   const res = await api.put<UpdateQuestionResponse>(
-    getQuestionPath(questionId),
+    QNA_API.QUESTION_DETAIL(questionId),
     data
   )
   return res.data
@@ -76,6 +75,6 @@ export const uploadImageToS3 = async (PresignedUrl: string, file: File) => {
 export const getPresignedUrl = async (
   fileName: string
 ): Promise<GetPresignedUrlResponse> => {
-  const res = await api.put(QNA_API.presignedUrl, { file_name: fileName })
+  const res = await api.put(QNA_API.PRESIGNED_URL, { file_name: fileName })
   return res.data
 }
