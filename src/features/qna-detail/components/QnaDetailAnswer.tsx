@@ -4,10 +4,22 @@ import type { QnaAnswer } from '@/types'
 import AnswerCard from './AnswerCard'
 
 type QnaDetailAnswerProps = {
+  questionId: number
   answers: QnaAnswer[]
+  canAdoptAnswer?: boolean
+  onAdopt?: (answerId: number) => void
+  isAdoptPending?: boolean
+  currentUserId?: number | null
 }
 
-export default function QnaDetailAnswer({ answers }: QnaDetailAnswerProps) {
+export default function QnaDetailAnswer({
+  questionId,
+  answers,
+  canAdoptAnswer,
+  onAdopt,
+  isAdoptPending,
+  currentUserId,
+}: QnaDetailAnswerProps) {
   const sortedAnswers = [...answers].sort(
     (a, b) => Number(b.is_adopted) - Number(a.is_adopted)
   )
@@ -26,8 +38,13 @@ export default function QnaDetailAnswer({ answers }: QnaDetailAnswerProps) {
         {sortedAnswers.map((answer) => (
           <AnswerCard
             key={answer.id}
+            questionId={questionId}
             answer={answer}
             variant={answer.is_adopted ? 'adopted' : 'default'}
+            canAdopt={canAdoptAnswer}
+            onAdopt={onAdopt}
+            isAdoptPending={isAdoptPending}
+            currentUserId={currentUserId}
           />
         ))}
       </div>

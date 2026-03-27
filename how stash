@@ -1,0 +1,281 @@
+[33ma4bb85d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeat/102--answer-api[m[33m)[m HEAD@{0}: commit: fix: merge conflict fix 2 (#102)
+[33md17fa33[m HEAD@{1}: reset: moving to HEAD
+[33md17fa33[m HEAD@{2}: commit: fix: merge conflict fix (#102)
+[33mc8b51cc[m HEAD@{3}: rebase (finish): returning to refs/heads/feat/102--answer-api
+[33mc8b51cc[m HEAD@{4}: rebase (pick): fix: error fix (#102)
+[33m404876b[m HEAD@{5}: rebase (continue): fix: include feedback before refactor (#102)
+[33m79400be[m HEAD@{6}: rebase (pick): fix: fix token error (#102)
+[33m5b9e50c[m HEAD@{7}: rebase (pick): feat: connect Comment API (#102)
+[33m3d76715[m HEAD@{8}: rebase (continue): feat: compare user role (#102)
+[33mc800f35[m HEAD@{9}: rebase (continue): feat: connect question api (#102)
+[33m7a4e001[m HEAD@{10}: rebase (pick): refactor: seperate answer api (#102)
+[33mdd2e7f5[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{11}: rebase (start): checkout dev
+[33m48cfed7[m HEAD@{12}: commit: fix: error fix (#102)
+[33m150d6bd[m[33m ([m[1;32mbackup-recovery[m[33m)[m HEAD@{13}: checkout: moving from 6ffb413df2c3bd5f9bc4f779b35c360cf6be8860 to feat/102--answer-api
+[33m6ffb413[m HEAD@{14}: commit: chore: recover detached head changes (#102)
+[33mdfb3b2c[m HEAD@{15}: rebase (pick): refactor: seperate answer api (#102)
+[33mdd2e7f5[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{16}: rebase (start): checkout dev
+[33m150d6bd[m[33m ([m[1;32mbackup-recovery[m[33m)[m HEAD@{17}: checkout: moving from dev to feat/102--answer-api
+[33mdd2e7f5[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{18}: pull --rebase origin dev: Fast-forward
+[33m9bb745b[m HEAD@{19}: checkout: moving from feat/102--answer-api to dev
+[33m150d6bd[m[33m ([m[1;32mbackup-recovery[m[33m)[m HEAD@{20}: commit: fix: include feedback before refactor (#102)
+[33ma978e31[m[33m ([m[1;31morigin/feat/102--answer-api[m[33m)[m HEAD@{21}: commit: fix: fix token error (#102)
+[33m7dfc767[m HEAD@{22}: checkout: moving from dev to feat/102--answer-api
+[33m9bb745b[m HEAD@{23}: checkout: moving from feat/102--answer-api to dev
+[33m7dfc767[m HEAD@{24}: rebase (finish): returning to refs/heads/feat/102--answer-api
+[33m7dfc767[m HEAD@{25}: rebase (pick): feat: connect Comment API (#102)
+[33m8c1a1b7[m HEAD@{26}: rebase (pick): feat: compare user role (#102)
+[33m4f9accf[m HEAD@{27}: rebase (pick): feat: connect question api (#102)
+[33m3c58056[m HEAD@{28}: rebase (pick): refactor: seperate answer api (#102)
+[33m9bb745b[m HEAD@{29}: rebase (start): checkout dev
+[33m2e6a438[m HEAD@{30}: checkout: moving from dev to feat/102--answer-api
+[33m9bb745b[m HEAD@{31}: pull --rebase origin dev: Fast-forward
+[33m97a52a9[m HEAD@{32}: checkout: moving from feat/102--answer-api to dev
+[33m2e6a438[m HEAD@{33}: commit: feat: connect Comment API (#102)
+[33m7df1cb1[m HEAD@{34}: commit: feat: compare user role (#102)
+[33mda3e75a[m HEAD@{35}: rebase (finish): returning to refs/heads/feat/102--answer-api
+[33mda3e75a[m HEAD@{36}: rebase (pick): feat: connect question api (#102)
+[33md0d8228[m HEAD@{37}: rebase (pick): refactor: seperate answer api (#102)
+[33m97a52a9[m HEAD@{38}: rebase (start): checkout dev
+[33m98e456e[m HEAD@{39}: checkout: moving from dev to feat/102--answer-api
+[33m97a52a9[m HEAD@{40}: pull --rebase origin dev: Fast-forward
+[33m12c9c18[m HEAD@{41}: checkout: moving from feat/102--answer-api to dev
+[33m98e456e[m HEAD@{42}: checkout: moving from dev to feat/102--answer-api
+[33m12c9c18[m HEAD@{43}: checkout: moving from feat/102--answer-api to dev
+[33m98e456e[m HEAD@{44}: commit: feat: connect question api (#102)
+[33m28aeb16[m HEAD@{45}: rebase (finish): returning to refs/heads/feat/102--answer-api
+[33m28aeb16[m HEAD@{46}: rebase (continue): refactor: seperate answer api (#102)
+[33m12c9c18[m HEAD@{47}: rebase (start): checkout dev
+[33m5ed5c4c[m HEAD@{48}: checkout: moving from dev to feat/102--answer-api
+[33m12c9c18[m HEAD@{49}: pull --rebase origin dev: Fast-forward
+[33mb60d08f[m HEAD@{50}: checkout: moving from feat/102--answer-api to dev
+[33m5ed5c4c[m HEAD@{51}: commit: refactor: seperate answer api (#102)
+[33mb60d08f[m HEAD@{52}: checkout: moving from dev to feat/102--answer-api
+[33mb60d08f[m HEAD@{53}: pull --rebase origin dev: Fast-forward
+[33mc4c945e[m HEAD@{54}: checkout: moving from feat/97--login-state to dev
+[33m40d1783[m[33m ([m[1;31morigin/feat/97--login-state[m[33m, [m[1;32mfeat/97--login-state[m[33m)[m HEAD@{55}: commit: feat: use zustand persist for token (#97)
+[33mdb599ae[m HEAD@{56}: commit: fix: save user in local (#97)
+[33mc2c7d46[m HEAD@{57}: pull --rebase origin feat/97--login-state (finish): returning to refs/heads/feat/97--login-state
+[33mc2c7d46[m HEAD@{58}: pull --rebase origin feat/97--login-state (pick): fix: delete file (#97)
+[33mf270f5e[m HEAD@{59}: pull --rebase origin feat/97--login-state (start): checkout f270f5ed214a81d4bc34705d86871147efdba8f2
+[33md3bb5b5[m HEAD@{60}: commit: fix: delete file (#97)
+[33mca0df77[m HEAD@{61}: commit (amend): fix: move mutation file (#97)
+[33mf270f5e[m HEAD@{62}: commit: fix: move mutation file (#97)
+[33mdfe7adc[m HEAD@{63}: commit: chore: delete usused file (#97)
+[33m903c5fe[m HEAD@{64}: rebase (finish): returning to refs/heads/feat/97--login-state
+[33m903c5fe[m HEAD@{65}: rebase (pick): feat: GuestGuard component add (#97)
+[33mc4c945e[m HEAD@{66}: rebase (start): checkout dev
+[33m0e735b3[m HEAD@{67}: commit: feat: GuestGuard component add (#97)
+[33m2d35252[m HEAD@{68}: checkout: moving from dev to feat/97--login-state
+[33mc4c945e[m HEAD@{69}: reset: moving to HEAD
+[33mc4c945e[m HEAD@{70}: reset: moving to HEAD
+[33mc4c945e[m HEAD@{71}: pull --rebase origin dev: Fast-forward
+[33m2d35252[m HEAD@{72}: checkout: moving from feat/97--login-state to dev
+[33m2d35252[m HEAD@{73}: checkout: moving from refactor/98--html-render to feat/97--login-state
+[33m012bdcc[m[33m ([m[1;31morigin/refactor/98--html-render[m[33m, [m[1;32mrefactor/98--html-render[m[33m)[m HEAD@{74}: commit: refactor: fix html render error (#98)
+[33m2d35252[m HEAD@{75}: checkout: moving from dev to refactor/98--html-render
+[33m2d35252[m HEAD@{76}: checkout: moving from feat/97--login-state to dev
+[33m2d35252[m HEAD@{77}: checkout: moving from dev to feat/97--login-state
+[33m2d35252[m HEAD@{78}: pull --rebase origin dev: Fast-forward
+[33me160064[m HEAD@{79}: checkout: moving from feat/88--qna-edit to dev
+[33m2490366[m[33m ([m[1;31morigin/feat/88--qna-edit[m[33m, [m[1;32mfeat/88--qna-edit[m[33m)[m HEAD@{80}: commit: fix: delete p tag (#88)
+[33mc15bb18[m HEAD@{81}: commit: refactor: use hooks for answer mutation (#88)
+[33mde48312[m HEAD@{82}: rebase (finish): returning to refs/heads/feat/88--qna-edit
+[33mde48312[m HEAD@{83}: rebase (continue): feat: test for add new answer api (#88)
+[33m2d653b1[m HEAD@{84}: rebase (pick): feat: answer component (#88)
+[33me160064[m HEAD@{85}: rebase (start): checkout dev
+[33mff25251[m HEAD@{86}: checkout: moving from dev to feat/88--qna-edit
+[33me160064[m HEAD@{87}: pull --rebase origin dev: Fast-forward
+[33m66962bf[m HEAD@{88}: checkout: moving from feat/88--qna-edit to dev
+[33mff25251[m HEAD@{89}: commit: feat: test for add new answer api (#88)
+[33m13c4ef4[m HEAD@{90}: commit: feat: answer component (#88)
+[33m66962bf[m HEAD@{91}: rebase (finish): returning to refs/heads/feat/88--qna-edit
+[33m66962bf[m HEAD@{92}: rebase (start): checkout dev
+[33mf9d9ec9[m HEAD@{93}: checkout: moving from dev to feat/88--qna-edit
+[33m66962bf[m HEAD@{94}: pull --rebase origin dev: Fast-forward
+[33mf9d9ec9[m HEAD@{95}: checkout: moving from feat/88--qna-edit to dev
+[33mf9d9ec9[m HEAD@{96}: checkout: moving from dev to feat/88--qna-edit
+[33mf9d9ec9[m HEAD@{97}: pull --rebase origin dev: Fast-forward
+[33m9c17e3f[m HEAD@{98}: checkout: moving from feat/76-qna-detail-msw to dev
+[33m195bcd0[m[33m ([m[1;31morigin/feat/76-qna-detail-msw[m[33m, [m[1;32mfeat/76-qna-detail-msw[m[33m)[m HEAD@{99}: rebase (finish): returning to refs/heads/feat/76-qna-detail-msw
+[33m195bcd0[m[33m ([m[1;31morigin/feat/76-qna-detail-msw[m[33m, [m[1;32mfeat/76-qna-detail-msw[m[33m)[m HEAD@{100}: rebase (pick): refactor: align query enabled logic (#76)
+[33m0442dda[m HEAD@{101}: rebase (pick): feat: MSW in qna detail pages (#76)
+[33mea71d21[m HEAD@{102}: rebase (pick): refactor: move mock file (#76)
+[33m9c17e3f[m HEAD@{103}: rebase (start): checkout dev
+[33m6fe1be1[m HEAD@{104}: checkout: moving from dev to feat/76-qna-detail-msw
+[33m9c17e3f[m HEAD@{105}: pull --rebase origin dev: Fast-forward
+[33m874f877[m HEAD@{106}: checkout: moving from feat/76-qna-detail-msw to dev
+[33m6fe1be1[m HEAD@{107}: commit: refactor: align query enabled logic (#76)
+[33m99120d6[m HEAD@{108}: rebase (finish): returning to refs/heads/feat/76-qna-detail-msw
+[33m99120d6[m HEAD@{109}: rebase (pick): feat: MSW in qna detail pages (#76)
+[33m819aa23[m HEAD@{110}: rebase (pick): refactor: move mock file (#76)
+[33m874f877[m HEAD@{111}: rebase (start): checkout dev
+[33m9ecb601[m[33m ([m[1;32mrefactor/83--button-variant[m[33m)[m HEAD@{112}: checkout: moving from refactor/83--responsive-button to feat/76-qna-detail-msw
+[33m811f612[m[33m ([m[1;31morigin/refactor/83--responsive-button[m[33m, [m[1;32mrefactor/83--responsive-button[m[33m)[m HEAD@{113}: checkout: moving from dev to refactor/83--responsive-button
+[33m874f877[m HEAD@{114}: pull --rebase origin dev: Fast-forward
+[33m765ecb0[m HEAD@{115}: checkout: moving from refactor/83--responsive-button to dev
+[33m811f612[m[33m ([m[1;31morigin/refactor/83--responsive-button[m[33m, [m[1;32mrefactor/83--responsive-button[m[33m)[m HEAD@{116}: commit: refactor: responsive button style edit (#83)
+[33m765ecb0[m HEAD@{117}: checkout: moving from dev to refactor/83--responsive-button
+[33m765ecb0[m HEAD@{118}: checkout: moving from refactor/83--button-variant to dev
+[33m9ecb601[m[33m ([m[1;32mrefactor/83--button-variant[m[33m)[m HEAD@{119}: checkout: moving from feat/76-qna-detail-msw to refactor/83--button-variant
+[33m9ecb601[m[33m ([m[1;32mrefactor/83--button-variant[m[33m)[m HEAD@{120}: commit: feat: MSW in qna detail pages (#76)
+[33m0a7b48d[m HEAD@{121}: rebase (finish): returning to refs/heads/feat/76-qna-detail-msw
+[33m0a7b48d[m HEAD@{122}: rebase (continue): refactor: move mock file (#76)
+[33m765ecb0[m HEAD@{123}: rebase (start): checkout dev
+[33m81ed11d[m HEAD@{124}: checkout: moving from dev to feat/76-qna-detail-msw
+[33m765ecb0[m HEAD@{125}: pull --rebase origin dev: Fast-forward
+[33m83c7753[m HEAD@{126}: checkout: moving from feat/76-qna-detail-msw to dev
+[33m81ed11d[m HEAD@{127}: commit: refactor: move mock file (#76)
+[33m83c7753[m HEAD@{128}: checkout: moving from dev to feat/76-qna-detail-msw
+[33m83c7753[m HEAD@{129}: reset: moving to HEAD
+[33m83c7753[m HEAD@{130}: pull --rebase origin dev: Fast-forward
+[33mf18a6f6[m HEAD@{131}: pull --rebase origin dev: Fast-forward
+[33mc90a072[m HEAD@{132}: checkout: moving from feat/61-qpage-answer to dev
+[33m655ca4d[m[33m ([m[1;31morigin/feat/61-qpage-answer[m[33m, [m[1;32mfeat/61-qpage-answer[m[33m)[m HEAD@{133}: commit (merge): fix: conflit resolved (#61)
+[33m2b7ed28[m HEAD@{134}: reset: moving to HEAD
+[33m2b7ed28[m HEAD@{135}: reset: moving to HEAD
+[33m2b7ed28[m HEAD@{136}: checkout: moving from dev to feat/61-qpage-answer
+[33mc90a072[m HEAD@{137}: checkout: moving from feat/61-qpage-answer to dev
+[33m2b7ed28[m HEAD@{138}: commit: fix: delete variant prop (#61)
+[33m7d97ac7[m HEAD@{139}: checkout: moving from dev to feat/61-qpage-answer
+[33mc90a072[m HEAD@{140}: reset: moving to HEAD
+[33mc90a072[m HEAD@{141}: reset: moving to HEAD
+[33mc90a072[m HEAD@{142}: reset: moving to HEAD
+[33mc90a072[m HEAD@{143}: pull --rebase origin dev: Fast-forward
+[33mc380ece[m HEAD@{144}: checkout: moving from feat/61-qpage-answer to dev
+[33m7d97ac7[m HEAD@{145}: commit: feat: divide current user type (#61)
+[33m27897a6[m HEAD@{146}: commit: feat: add answer button component (#61)
+[33m36139ed[m HEAD@{147}: commit: refactor: change modal button to generic type (#61)
+[33mec547bd[m HEAD@{148}: commit: refactor: delete duplicated util (#61)
+[33m2d878b8[m HEAD@{149}: checkout: moving from refactor/67-delete-duple-util to feat/61-qpage-answer
+[33m3cc8fcb[m[33m ([m[1;31morigin/refactor/67-delete-duple-util[m[33m, [m[1;32mrefactor/67-delete-duple-util[m[33m)[m HEAD@{150}: checkout: moving from dev to refactor/67-delete-duple-util
+[33mc380ece[m HEAD@{151}: checkout: moving from refactor/67-delete-duple-util to dev
+[33m3cc8fcb[m[33m ([m[1;31morigin/refactor/67-delete-duple-util[m[33m, [m[1;32mrefactor/67-delete-duple-util[m[33m)[m HEAD@{152}: commit: refactor: delete duplicated util (#67)
+[33m2d878b8[m HEAD@{153}: checkout: moving from feat/61-qpage-answer to refactor/67-delete-duple-util
+[33m2d878b8[m HEAD@{154}: commit: refactor: edit index (#61)
+[33m4be115f[m HEAD@{155}: rebase (finish): returning to refs/heads/feat/61-qpage-answer
+[33m4be115f[m HEAD@{156}: rebase (pick): refactor: change folder structure (#61)
+[33mc5a41b6[m HEAD@{157}: rebase (pick): feat: answercard component (#61)
+[33m509ebe7[m HEAD@{158}: rebase (pick): refactor: fix types for api (#61)
+[33mc380ece[m HEAD@{159}: rebase (start): checkout dev
+[33ma1b7f3a[m HEAD@{160}: checkout: moving from dev to feat/61-qpage-answer
+[33mc380ece[m HEAD@{161}: pull --rebase origin dev: Fast-forward
+[33mc3da16e[m HEAD@{162}: checkout: moving from feat/61-qpage-answer to dev
+[33ma1b7f3a[m HEAD@{163}: commit: refactor: change folder structure (#61)
+[33m670c1e8[m HEAD@{164}: commit: feat: answercard component (#61)
+[33mb94fbcd[m HEAD@{165}: commit: refactor: fix types for api (#61)
+[33mc3da16e[m HEAD@{166}: checkout: moving from dev to feat/61-qpage-answer
+[33mc3da16e[m HEAD@{167}: pull --rebase origin dev: Fast-forward
+[33mc66c380[m HEAD@{168}: checkout: moving from feat/52-qpage-header to dev
+[33m1c829f3[m[33m ([m[1;31morigin/feat/52-qpage-header[m[33m, [m[1;32mfeat/52-qpage-header[m[33m)[m HEAD@{169}: checkout: moving from dev to feat/52-qpage-header
+[33mc66c380[m HEAD@{170}: checkout: moving from feat/52-qpage-header to dev
+[33m1c829f3[m[33m ([m[1;31morigin/feat/52-qpage-header[m[33m, [m[1;32mfeat/52-qpage-header[m[33m)[m HEAD@{171}: commit: refactor: fix duplication & edit types (#52)
+[33m122bff4[m HEAD@{172}: commit: refactor: delete unused line (#52)
+[33m969043b[m HEAD@{173}: commit: feat: add handlecopylink for share button (#52)
+[33m5878a73[m HEAD@{174}: commit: feat: add ghost variant to button style (#52)
+[33mddd1b19[m HEAD@{175}: commit: refactor: add common components (#52)
+[33m1622b08[m HEAD@{176}: rebase (finish): returning to refs/heads/feat/52-qpage-header
+[33m1622b08[m HEAD@{177}: rebase (pick): style: change font color (#52)
+[33me0a7dd7[m HEAD@{178}: rebase (continue): feat: add qna detail page header component (#52)
+[33mc66c380[m HEAD@{179}: rebase (start): checkout dev
+[33mca1f94f[m HEAD@{180}: checkout: moving from dev to feat/52-qpage-header
+[33mc66c380[m HEAD@{181}: pull --rebase origin dev: Fast-forward
+[33m18c4796[m HEAD@{182}: checkout: moving from feat/52-qpage-header to dev
+[33mca1f94f[m HEAD@{183}: commit: style: change font color (#52)
+[33m94fce2e[m HEAD@{184}: commit: feat: add qna detail page header component (#52)
+[33m18c4796[m HEAD@{185}: checkout: moving from dev to feat/52-qpage-header
+[33m18c4796[m HEAD@{186}: pull --rebase origin dev: Fast-forward
+[33m4018423[m HEAD@{187}: pull --rebase origin dev: Fast-forward
+[33mfd0e605[m HEAD@{188}: checkout: moving from feat/42-pagination-fix to dev
+[33m43ece44[m[33m ([m[1;31morigin/feat/42-pagination-fix[m[33m, [m[1;32mfeat/42-pagination-fix[m[33m)[m HEAD@{189}: rebase (finish): returning to refs/heads/feat/42-pagination-fix
+[33m43ece44[m[33m ([m[1;31morigin/feat/42-pagination-fix[m[33m, [m[1;32mfeat/42-pagination-fix[m[33m)[m HEAD@{190}: rebase (pick): refactor: clean up pagination and extract NavButton (#42)
+[33m0b81353[m HEAD@{191}: rebase (pick): chore: remove .vercel from repository (#42)
+[33m0c3cde1[m HEAD@{192}: rebase (pick): feat: add Pagination component (#42)
+[33mfd0e605[m HEAD@{193}: rebase (start): checkout dev
+[33m47939c7[m HEAD@{194}: checkout: moving from dev to feat/42-pagination-fix
+[33mfd0e605[m HEAD@{195}: pull --rebase origin dev: Fast-forward
+[33m93d9b07[m HEAD@{196}: checkout: moving from feat/42-pagination-fix to dev
+[33m47939c7[m HEAD@{197}: commit: refactor: clean up pagination and extract NavButton (#42)
+[33mabf34eb[m HEAD@{198}: commit: chore: remove .vercel from repository (#42)
+[33m35f3b44[m HEAD@{199}: cherry-pick: feat: add Pagination component (#42)
+[33m93d9b07[m HEAD@{200}: checkout: moving from dev to feat/42-pagination-fix
+[33m93d9b07[m HEAD@{201}: checkout: moving from feat/42-pagination to dev
+[33m4b60389[m[33m ([m[1;32mfeat/42-pagination[m[33m)[m HEAD@{202}: rebase (finish): returning to refs/heads/feat/42-pagination
+[33m4b60389[m[33m ([m[1;32mfeat/42-pagination[m[33m)[m HEAD@{203}: rebase (pick): feat: add Pagination component (#42)
+[33m93d9b07[m HEAD@{204}: rebase (start): checkout dev
+[33mc7d8c0e[m HEAD@{205}: checkout: moving from dev to feat/42-pagination
+[33m93d9b07[m HEAD@{206}: pull origin dev: Fast-forward
+[33me5d2e05[m HEAD@{207}: checkout: moving from feat/42-pagination to dev
+[33mc7d8c0e[m HEAD@{208}: rebase (finish): returning to refs/heads/feat/42-pagination
+[33mc7d8c0e[m HEAD@{209}: rebase (pick): feat: add Pagination component (#42)
+[33me5d2e05[m HEAD@{210}: rebase (start): checkout dev
+[33maa25530[m[33m ([m[1;31morigin/feat/42-pagination[m[33m)[m HEAD@{211}: commit: feat: add Pagination component (#42)
+[33m58a142f[m HEAD@{212}: rebase (finish): returning to refs/heads/feat/42-pagination
+[33m58a142f[m HEAD@{213}: rebase (pick): feat: add Modal Button components (#38)
+[33ma38d995[m HEAD@{214}: rebase (pick): feat: implement Popup component (#39)
+[33m64d4b0d[m HEAD@{215}: rebase (pick): feat: add Button component
+[33mc691605[m HEAD@{216}: rebase (pick): feat: add SearchBar component (#36)
+[33mcb2fc20[m HEAD@{217}: rebase (pick): refactor: apply design tokens to AnswerBadge component
+[33m4760a31[m HEAD@{218}: rebase (pick): style: apply design tokens to components (#30)
+[33mcc424b6[m HEAD@{219}: rebase (pick): docs: add project documentation
+[33m515be11[m HEAD@{220}: rebase (pick): chore: add design token system (#24)
+[33m4d48911[m HEAD@{221}: rebase (pick): feat: implement loading component (#23)
+[33mcb6b6cd[m HEAD@{222}: rebase (pick): feat: implement answer badge (#21)
+[33m85357b4[m HEAD@{223}: rebase (pick): feat: implement category path (#20)
+[33m4e1154b[m HEAD@{224}: rebase (pick): feat: implement avatar common component (#19)
+[33mc7c9070[m HEAD@{225}: rebase (pick): feat: TabButton 컴포넌트 구현 및 스토리 작성 (#14)
+[33m95a23e7[m HEAD@{226}: rebase (pick): feat: markdown library installed with page test (#10)
+[33ma1be058[m HEAD@{227}: rebase (pick): chore: clean up project template and setup global utilities (#7) (#8)
+[33mba7e536[m HEAD@{228}: rebase (pick): chore: setup-ci (#5)
+[33mc8eb45f[m HEAD@{229}: rebase (pick): chore: add-github-issue-pr-templates (#3)
+[33m1832724[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{230}: rebase (start): checkout origin
+[33m2ac2c77[m HEAD@{231}: checkout: moving from dev to feat/42-pagination
+[33me5d2e05[m HEAD@{232}: pull origin dev: Fast-forward
+[33m2ac2c77[m HEAD@{233}: checkout: moving from feat/43-vercel to dev
+[33m3724c4d[m[33m ([m[1;31morigin/feat/43-vercel[m[33m, [m[1;32mfeat/43-vercel[m[33m)[m HEAD@{234}: commit: feat: add settings for vercel (#43)
+[33m2ac2c77[m HEAD@{235}: checkout: moving from feat/42-pagination to feat/43-vercel
+[33m2ac2c77[m HEAD@{236}: checkout: moving from dev to feat/42-pagination
+[33m2ac2c77[m HEAD@{237}: pull origin dev: Fast-forward
+[33me4ef762[m HEAD@{238}: checkout: moving from feat/12-modal-button to dev
+[33mb73ff2b[m[33m ([m[1;32mfeat/12-modal-button[m[33m)[m HEAD@{239}: rebase (finish): returning to refs/heads/feat/12-modal-button
+[33mb73ff2b[m[33m ([m[1;32mfeat/12-modal-button[m[33m)[m HEAD@{240}: rebase (pick): style: edit button styles (#12)
+[33m085ff5d[m HEAD@{241}: rebase (pick): feat: add Modal Button component (#12)
+[33me4ef762[m HEAD@{242}: rebase (start): checkout dev
+[33m2c187d2[m[33m ([m[1;31morigin/feat/12-modal-button[m[33m)[m HEAD@{243}: checkout: moving from dev to feat/12-modal-button
+[33me4ef762[m HEAD@{244}: checkout: moving from dev to dev
+[33me4ef762[m HEAD@{245}: pull origin dev: Fast-forward
+[33m03ae5bd[m HEAD@{246}: checkout: moving from feat/12-modal-button to dev
+[33m2c187d2[m[33m ([m[1;31morigin/feat/12-modal-button[m[33m)[m HEAD@{247}: checkout: moving from dev to feat/12-modal-button
+[33m03ae5bd[m HEAD@{248}: checkout: moving from feat/12-modal-button to dev
+[33m2c187d2[m[33m ([m[1;31morigin/feat/12-modal-button[m[33m)[m HEAD@{249}: commit: style: edit button styles (#12)
+[33mbe35485[m HEAD@{250}: rebase (finish): returning to refs/heads/feat/12-modal-button
+[33mbe35485[m HEAD@{251}: rebase (pick): feat: add Modal Button component (#12)
+[33m03ae5bd[m HEAD@{252}: rebase (start): checkout dev
+[33m5767615[m HEAD@{253}: checkout: moving from dev to feat/12-modal-button
+[33m03ae5bd[m HEAD@{254}: pull origin dev: Fast-forward
+[33m026408b[m HEAD@{255}: checkout: moving from feat/11--component-searchbar to dev
+[33m2a2dc15[m[33m ([m[1;31morigin/feat/11--component-searchbar[m[33m, [m[1;32mfeat/11--component-searchbar[m[33m)[m HEAD@{256}: commit: style: fix interface to type & give size to props (#11)
+[33mfa7a325[m HEAD@{257}: checkout: moving from feat/12-modal-button to feat/11--component-searchbar
+[33m5767615[m HEAD@{258}: commit: feat: add Modal Button component (#12)
+[33m026408b[m HEAD@{259}: reset: moving to HEAD
+[33m026408b[m HEAD@{260}: reset: moving to HEAD
+[33m026408b[m HEAD@{261}: reset: moving to HEAD
+[33m026408b[m HEAD@{262}: reset: moving to HEAD
+[33m026408b[m HEAD@{263}: checkout: moving from dev to feat/12-modal-button
+[33m026408b[m HEAD@{264}: checkout: moving from feat/11--component-searchbar to dev
+[33mfa7a325[m HEAD@{265}: commit: feat: add SearchBar component (#11)
+[33m026408b[m HEAD@{266}: reset: moving to HEAD
+[33m026408b[m HEAD@{267}: rebase (finish): returning to refs/heads/feat/11--component-searchbar
+[33m026408b[m HEAD@{268}: rebase (start): checkout dev
+[33m9ee882f[m HEAD@{269}: checkout: moving from dev to feat/11--component-searchbar
+[33m026408b[m HEAD@{270}: pull origin dev: Fast-forward
+[33m9ee882f[m HEAD@{271}: checkout: moving from feat/11--component-searchbar to dev
+[33m9ee882f[m HEAD@{272}: reset: moving to HEAD
+[33m9ee882f[m HEAD@{273}: checkout: moving from dev to feat/11--component-searchbar
+[33m9ee882f[m HEAD@{274}: pull origin dev: Fast-forward
+[33m6de7a25[m HEAD@{275}: checkout: moving from feat/9--markdown-setting to dev
+[33m7e8e518[m[33m ([m[1;31morigin/feat/9--markdown-setting[m[33m, [m[1;32mfeat/9--markdown-setting[m[33m)[m HEAD@{276}: commit: feat: markdown library installed with page test
+[33m6de7a25[m HEAD@{277}: checkout: moving from dev to feat/9--markdown-setting
+[33m6de7a25[m HEAD@{278}: checkout: moving from main to dev
+[33m1832724[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{279}: pull origin main: Fast-forward
+[33m6394bcf[m HEAD@{280}: clone: from https://github.com/OZ-Coding-School/oz_externship_fe_07_team2.git

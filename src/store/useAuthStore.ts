@@ -3,15 +3,23 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 export type AuthUser = {
   id: number
+  email?: string
+  name?: string
   nickname: string
-  profile_image_url: string | null
+  phone_number?: string
+  gender?: 'M' | 'F' | 'O' | string
+  birthday?: string
+  profile_img_url?: string | null
   role?: string
+  created_at?: string
+  updated_at?: string
 }
 
 type AuthState = {
   accessToken: string | null
   user: AuthUser | null
   setAuth: (payload: { accessToken: string; user: AuthUser }) => void
+  setAccessToken: (token: string) => void
   clearAuth: () => void
 }
 
@@ -25,6 +33,11 @@ export const useAuthStore = create<AuthState>()(
         set({
           accessToken,
           user,
+        }),
+
+      setAccessToken: (token: string) =>
+        set({
+          accessToken: token,
         }),
 
       clearAuth: () =>

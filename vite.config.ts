@@ -22,6 +22,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://api.ozcodingschool.site',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   test: {
     projects: [
       {

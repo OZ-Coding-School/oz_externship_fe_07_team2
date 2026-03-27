@@ -2,8 +2,6 @@ import { QNA_API } from '@/constants/qna'
 import type { QnaListResponse } from '@/features/qna-list'
 import type {
   CategoryResponse,
-  CreateAnswerRequest,
-  CreateAnswerResponse,
   CreateQuestionRequest,
   CreateQuestionResponse,
   GetPresignedUrlResponse,
@@ -35,17 +33,21 @@ export const getQnaList = async (
 export const createQuestion = async (
   data: CreateQuestionRequest
 ): Promise<CreateQuestionResponse> => {
-  const res = await api.post<CreateQuestionResponse>(QNA_API.questions, data)
+  const res = await api.post<CreateQuestionResponse>(
+    `${QNA_API.questions.base}/`,
+    data
+  )
   return res.data
 }
+
+const getQuestionPath = (questionId: number) =>
+  `${QNA_API.questions.base}/${questionId}/`
 
 // 질문 상세 조회 api 호출
 export const getQuestionDetail = async (
   questionId: number
 ): Promise<QnaQuestionDetail> => {
-  const res = await api.get<QnaQuestionDetail>(
-    `${QNA_API.questions}/${questionId}`
-  )
+  const res = await api.get<QnaQuestionDetail>(getQuestionPath(questionId))
   return res.data
 }
 
@@ -55,7 +57,7 @@ export const updateQuestion = async (
   data: UpdateQuestionRequest
 ): Promise<UpdateQuestionResponse> => {
   const res = await api.put<UpdateQuestionResponse>(
-    `${QNA_API.questions}/${questionId}`,
+    getQuestionPath(questionId),
     data
   )
   return res.data
@@ -75,17 +77,5 @@ export const getPresignedUrl = async (
   fileName: string
 ): Promise<GetPresignedUrlResponse> => {
   const res = await api.put(QNA_API.presignedUrl, { file_name: fileName })
-  return res.data
-}
-
-// 답변 등록 api 호출
-export const createAnswer = async (
-  questionId: number,
-  data: CreateAnswerRequest
-): Promise<CreateAnswerResponse> => {
-  const res = await api.post<CreateAnswerResponse>(
-    `${QNA_API.questions}/${questionId}/answers`,
-    data
-  )
   return res.data
 }

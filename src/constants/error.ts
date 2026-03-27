@@ -17,4 +17,9 @@ export const ERROR_CONTENT = {
     title: '검색 결과가 없습니다',
     description: '다른 검색어나 필터를 시도해보세요!',
   },
+  commentEmpty: {
+    image: emptyState,
+    title: '댓글이 없습니다',
+    description: '첫 번째 댓글을 작성해보세요!',
+  },
 } as const

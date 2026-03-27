@@ -5,7 +5,7 @@ import { QNA_API } from '@/constants/qna'
 import { mockQuestionDetail } from '@/mocks/data/qna-detail-mock'
 import type { QnaCategory } from '@/types'
 
-const qnaDetailApiUrl = toMswApiUrl(QNA_API.questions)
+const qnaDetailApiUrl = toMswApiUrl(QNA_API.questions.base)
 /*
  * PUT 핸들러에서 상태를 업데이트하기 위해 mutable 복사본으로 관리
  */
@@ -42,7 +42,7 @@ const validateQuestionId = (rawId: unknown) => {
 }
 
 export const qnaDetailHandlers = [
-  http.get(`${qnaDetailApiUrl}/:questionId`, async ({ params }) => {
+  http.get(`${qnaDetailApiUrl}/:questionId/`, async ({ params }) => {
     await delay(500)
     const { error } = validateQuestionId(params.questionId)
     if (error) return error
@@ -50,7 +50,7 @@ export const qnaDetailHandlers = [
     return HttpResponse.json(mockData)
   }),
 
-  http.put(`${qnaDetailApiUrl}/:questionId`, async ({ params, request }) => {
+  http.put(`${qnaDetailApiUrl}/:questionId/`, async ({ params, request }) => {
     await delay(500)
     const { error } = validateQuestionId(params.questionId)
     if (error) return error

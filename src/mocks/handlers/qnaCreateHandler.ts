@@ -6,7 +6,7 @@ import { mockQuestionDetail } from '@/mocks/data/qna-detail-mock'
 import type { CreateQuestionRequest } from '@/types'
 
 export const qnaCreateHandlers = [
-  http.post(toMswApiUrl(QNA_API.questions), async ({ request }) => {
+  http.post(toMswApiUrl(QNA_API.questions.base), async ({ request }) => {
     await delay(500)
     const body = (await request.json()) as CreateQuestionRequest
 

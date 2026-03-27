@@ -5,7 +5,7 @@ export const mockLoginUser: { accessToken: string; user: AuthUser } = {
   user: {
     id: 1,
     nickname: '김오즈',
-    profile_image_url: null,
+    profile_img_url: null,
     role: 'USER',
   },
 }
