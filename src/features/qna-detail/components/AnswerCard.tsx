@@ -145,7 +145,7 @@ export default function AnswerCard({
                               id: currentUser.id,
                               nickname: currentUser.nickname,
                               profile_image_url:
-                                currentUser.profile_image_url ?? null,
+                                currentUser.profile_img_url ?? null,
                             }
                           : {
                               id: 0,

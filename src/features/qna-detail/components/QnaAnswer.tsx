@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import DOMPurify from 'dompurify'
+
 import { Avatar, Button, TipTabEditor } from '@/components'
 import useCreateAnswerMutation from '@/queries/useCreateAnswerMutation'
 import useUpdateAnswerMutation from '@/queries/useUpdateAnswerMutation'
@@ -111,7 +113,7 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
 
         <div
           className="border-border-line mx-5 mt-4 border-t pt-4"
-          dangerouslySetInnerHTML={{ __html: myAnswer.content }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
         />
       </section>
     )

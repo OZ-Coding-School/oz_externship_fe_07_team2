@@ -8,51 +8,34 @@ import type {
 
 import { api } from './api'
 
-const getQuestionAnswerPath = (questionId: number) =>
-  `${QNA_API.questions.replace(/\/$/, '')}/${questionId}/answers`
-
-const getAnswerPath = (answerId: number) =>
-  `${QNA_API.answers.replace(/\/$/, '')}/${answerId}`
-
-// 답변 등록 api 호출
+// 답변 등록
 export const createAnswer = async (
   questionId: number,
   data: CreateAnswerRequest
 ): Promise<CreateAnswerResponse> => {
-  const res = await api.post<CreateAnswerResponse>(
-    getQuestionAnswerPath(questionId),
-    data
-  )
+  const res = await api.post(QNA_API.questions.answers(questionId), data)
   return res.data
 }
 
-// 답변 수정 api 호출
+// 답변 수정
 export const updateAnswer = async (
-  _questionId: number,
   answerId: number,
   data: CreateAnswerRequest
 ): Promise<CreateAnswerResponse> => {
-  const res = await api.put<CreateAnswerResponse>(getAnswerPath(answerId), data)
+  const res = await api.put(QNA_API.answers.detail(answerId), data)
   return res.data
 }
 
-// 답변 댓글 등록 api 호출
+// 댓글 등록
 export const createAnswerComment = async (
   answerId: number,
   data: CreateAnswerCommentRequest
 ): Promise<CreateAnswerCommentResponse> => {
-  const res = await api.post<CreateAnswerCommentResponse>(
-    `${getAnswerPath(answerId)}/comments`,
-    data
-  )
+  const res = await api.post(QNA_API.answers.comments(answerId), data)
   return res.data
 }
 
-// 답변 채택 api 호출
-export const adoptAnswer = async (
-  _questionId: number,
-  answerId: number
-): Promise<void> => {
-  const res = await api.post(`${getAnswerPath(answerId)}/adopt`)
-  return res.data
+// 채택
+export const adoptAnswer = async (answerId: number): Promise<void> => {
+  await api.post(QNA_API.answers.adopt(answerId))
 }

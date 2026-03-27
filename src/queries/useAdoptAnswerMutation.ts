@@ -5,11 +5,11 @@ import { adoptAnswer } from '@/api/answer'
 export default function useAdoptAnswerMutation() {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { questionId: number; answerId: number }>({
-    mutationFn: ({ questionId, answerId }) => adoptAnswer(questionId, answerId),
+  return useMutation<void, Error, { answerId: number }>({
+    mutationFn: ({ answerId }) => adoptAnswer(answerId),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ['qna-detail', variables.questionId],
+        queryKey: ['qna-detail', variables.answerId],
       })
     },
   })

@@ -9,7 +9,6 @@ export type AuthUser = {
   phone_number?: string
   gender?: 'M' | 'F' | 'O' | string
   birthday?: string
-  profile_image_url?: string | null
   profile_img_url?: string | null
   role?: string
   created_at?: string
