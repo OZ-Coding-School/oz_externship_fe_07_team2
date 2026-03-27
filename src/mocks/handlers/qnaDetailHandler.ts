@@ -5,7 +5,7 @@ import { QNA_API } from '@/constants/qna'
 import { mockQuestionDetail } from '@/mocks/data/qna-detail-mock'
 import type { QnaCategory } from '@/types'
 
-const qnaDetailApiUrl = toMswApiUrl(QNA_API.questions.replace(/\/$/, ''))
+const qnaDetailApiUrl = toMswApiUrl(QNA_API.questions.base)
 /*
  * PUT 핸들러에서 상태를 업데이트하기 위해 mutable 복사본으로 관리
  */

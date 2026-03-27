@@ -50,7 +50,6 @@ export default function QnaDetailPage() {
     if (!question) return
 
     adoptMutate({
-      questionId,
       answerId,
     })
   }
