@@ -3,24 +3,29 @@ import { useEffect } from 'react'
 import { getMe } from '@/api/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 
+import { TokenService } from './lib/tokenService'
+
 export default function AppInitializer() {
-  const setAccessToken = useAuthStore((s) => s.setAccessToken)
-  const setAuth = useAuthStore((s) => s.setAuth)
+  const setUser = useAuthStore((state) => state.setUser)
+  const clearAuth = useAuthStore((state) => state.clearAuth)
+  const setInitialized = useAuthStore((s) => s.setInitialized)
 
   useEffect(() => {
-    const token = import.meta.env.VITE_ACCESS_TOKEN
+    // TODO: 로그인 구현 후 제거
+    const devToken = import.meta.env.VITE_ACCESS_TOKEN
+    if (devToken) TokenService.setAccessToken(devToken)
+
+    const token = TokenService.getAccessToken()
     if (!token) return
 
-    setAccessToken(token)
-
     getMe()
-      .then((user) => {
-        setAuth({ accessToken: token, user })
+      .then((user) => setUser(user))
+      .catch(() => {
+        TokenService.clearTokens()
+        clearAuth()
       })
-      .catch((error) => {
-        console.error('Failed to fetch user info:', error)
-      })
-  }, [setAccessToken, setAuth])
+      .finally(() => setInitialized())
+  }, [setUser, clearAuth, setInitialized])
 
   return null
 }
