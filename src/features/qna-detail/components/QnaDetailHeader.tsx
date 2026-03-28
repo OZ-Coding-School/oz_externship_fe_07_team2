@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { Link } from 'lucide-react'
 
 import { Avatar, Button, CategoryPath } from '@/components'
-import { ROUTES_PATHS } from '@/constants/url'
+import { ROUTES_PATHS } from '@/constants'
 import { AiAnswerCard } from '@/features/chat-widget'
 import type { QnaQuestionDetail } from '@/types'
 import { formatTimeAgo } from '@/utils'
