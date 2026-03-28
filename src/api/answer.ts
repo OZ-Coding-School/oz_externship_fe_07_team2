@@ -1,4 +1,4 @@
-import { QNA_API } from '@/constants/qna'
+import { QNA_API } from '@/constants/qna-api-endpoints'
 import type {
   CreateAnswerCommentRequest,
   CreateAnswerCommentResponse,
@@ -13,7 +13,7 @@ export const createAnswer = async (
   questionId: number,
   data: CreateAnswerRequest
 ): Promise<CreateAnswerResponse> => {
-  const res = await api.post(QNA_API.questions.answers(questionId), data)
+  const res = await api.post(QNA_API.QUESTION_ANSWERS(questionId), data)
   return res.data
 }
 
@@ -22,7 +22,7 @@ export const updateAnswer = async (
   answerId: number,
   data: CreateAnswerRequest
 ): Promise<CreateAnswerResponse> => {
-  const res = await api.put(QNA_API.answers.detail(answerId), data)
+  const res = await api.put(QNA_API.ANSWER_DETAIL(answerId), data)
   return res.data
 }
 
@@ -31,11 +31,11 @@ export const createAnswerComment = async (
   answerId: number,
   data: CreateAnswerCommentRequest
 ): Promise<CreateAnswerCommentResponse> => {
-  const res = await api.post(QNA_API.answers.comments(answerId), data)
+  const res = await api.post(QNA_API.ANSWER_COMMENTS(answerId), data)
   return res.data
 }
 
 // 채택
 export const adoptAnswer = async (answerId: number): Promise<void> => {
-  await api.post(QNA_API.answers.adopt(answerId))
+  await api.post(QNA_API.ANSWER_ADOPT(answerId))
 }

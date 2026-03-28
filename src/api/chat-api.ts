@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '@/constants/apiPath'
 import { CHAT_API } from '@/constants/chat'
-import { QNA_API } from '@/constants/qna'
+import { QNA_API } from '@/constants/qna-api-endpoints'
 import { useAuthStore } from '@/store'
 import type {
   ChatMessageListResponse,
@@ -245,8 +245,6 @@ export const createChatCompletion = async (
 
 // AI 답변 생성
 export const getAiAnswer = async (questionId: number): Promise<QnaAiAnswer> => {
-  const res = await api.get<QnaAiAnswer>(
-    `${QNA_API.questions}${questionId}/ai-answer`
-  )
+  const res = await api.get<QnaAiAnswer>(QNA_API.QUESTION_AI_ANSWER(questionId))
   return res.data
 }
