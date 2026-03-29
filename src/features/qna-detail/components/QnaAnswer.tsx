@@ -60,9 +60,6 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
             setIsEditing(false)
             setContent('')
           },
-          onError: () => {
-            alert('답변 수정에 실패했습니다. 다시 시도해주세요.')
-          },
         }
       )
     } else {
@@ -77,9 +74,6 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
           onSuccess: () => {
             setIsEditing(false)
             setContent('')
-          },
-          onError: () => {
-            alert('답변 등록에 실패했습니다. 다시 시도해주세요.')
           },
         }
       )

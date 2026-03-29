@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { createAnswerComment } from '@/api/answer'
+import { useToast } from '@/hooks/useToast'
 import type {
   CreateAnswerCommentRequest,
   CreateAnswerCommentResponse,
@@ -13,6 +14,7 @@ type CreateAnswerCommentParams = {
 
 export default function useCreateAnswerCommentMutation() {
   const queryClient = useQueryClient()
+  const { error } = useToast()
 
   return useMutation<
     CreateAnswerCommentResponse,
@@ -27,7 +29,7 @@ export default function useCreateAnswerCommentMutation() {
       })
     },
     onError: () => {
-      alert('댓글 등록에 실패했습니다. 다시 시도해주세요.')
+      error('댓글 등록에 실패했습니다. 다시 시도해주세요.')
     },
   })
 }
