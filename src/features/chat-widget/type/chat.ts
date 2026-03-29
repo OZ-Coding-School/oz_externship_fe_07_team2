@@ -4,4 +4,5 @@ export type ChatMessagePreview = {
   id: number
   message: string
   role: ChatRole
+  isInitialEntry?: boolean
 }
