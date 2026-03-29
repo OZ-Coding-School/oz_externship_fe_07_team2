@@ -63,7 +63,7 @@ export const updateQuestion = async (
 }
 
 // S3에 직접 업로드 (presigned URL 사용)
-export const uploadimgToS3 = async (PresignedUrl: string, file: File) => {
+export const uploadImageToS3 = async (PresignedUrl: string, file: File) => {
   await fetch(PresignedUrl, {
     method: 'PUT',
     body: file,
