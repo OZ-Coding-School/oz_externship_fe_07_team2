@@ -32,6 +32,10 @@ export default function QnaDetailPage() {
   const myAnswer =
     question?.answers.find((answer) => answer.author.id === currentUser?.id) ??
     null
+  const otherAnswers = question?.answers.filter(
+    (answer) => answer.author.id !== currentUser?.id
+  )
+  const totalAnswerCount = (otherAnswers?.length ?? 0) + (myAnswer ? 1 : 0)
 
   const handleShare = () => {
     const url = window.location.href
@@ -62,12 +66,7 @@ export default function QnaDetailPage() {
       </div>
     )
   }
-  console.log('currentUser', currentUser)
-  console.log('answers', question.answers)
-  console.log(
-    'myAnswer',
-    question.answers.find((answer) => answer.author.id === currentUser?.id)
-  )
+
   return (
     <div className="px-8 py-10">
       <QnaDetailHeader
@@ -83,7 +82,12 @@ export default function QnaDetailPage() {
       </AuthGuard>
 
       {question.answers.length > 0 ? (
-        <QnaDetailAnswer questionId={questionId} answers={question.answers} />
+        <QnaDetailAnswer
+          questionId={questionId}
+          answers={otherAnswers ?? []}
+          totalAnswerCount={totalAnswerCount}
+          currentUserId={currentUser?.id ?? null}
+        />
       ) : (
         <EmptyState type="emptyState" />
       )}

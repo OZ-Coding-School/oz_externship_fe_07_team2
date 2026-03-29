@@ -6,6 +6,7 @@ import AnswerCard from './AnswerCard'
 type QnaDetailAnswerProps = {
   questionId: number
   answers: QnaAnswer[]
+  totalAnswerCount?: number
   canAdoptAnswer?: boolean
   onAdopt?: (answerId: number) => void
   isAdoptPending?: boolean
@@ -15,6 +16,7 @@ type QnaDetailAnswerProps = {
 export default function QnaDetailAnswer({
   questionId,
   answers,
+  totalAnswerCount,
   canAdoptAnswer,
   onAdopt,
   isAdoptPending,
@@ -30,7 +32,7 @@ export default function QnaDetailAnswer({
       <div className="mb-6 flex items-center gap-3">
         <AnswerBadge variant={'detail'} size={'md'} className="my-4" />
         <h2 className="text-text-main text-xl font-bold">
-          {answers.length}개의 답변이 있어요
+          {totalAnswerCount ?? answers.length}개의 답변이 있어요
         </h2>
       </div>
 

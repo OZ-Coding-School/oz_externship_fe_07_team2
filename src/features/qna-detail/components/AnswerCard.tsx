@@ -17,6 +17,8 @@ type AnswerCardProps = {
   onAdopt?: (answerId: number) => void
   isAdoptPending?: boolean
   currentUserId?: number | null
+  onEdit?: () => void
+  editButtonLabel?: string
 }
 
 export default function AnswerCard({
@@ -27,6 +29,8 @@ export default function AnswerCard({
   onAdopt,
   isAdoptPending,
   currentUserId,
+  onEdit,
+  editButtonLabel = '답변 수정하기',
 }: AnswerCardProps) {
   const { content, created_at, is_adopted, author, comments } = answer
   const {
@@ -70,7 +74,7 @@ export default function AnswerCard({
       )}
 
       <div className={cn(isAdoptedCard && 'pt-2')}>
-        <div className="mb-5 flex items-center gap-3">
+        <div className="mb-5 flex items-start gap-3">
           <Avatar
             src={author.profile_img_url ?? undefined}
             alt={author.nickname}
@@ -87,6 +91,19 @@ export default function AnswerCard({
               )}
             </p>
           </div>
+
+          {onEdit && (
+            <div className="ml-auto">
+              <Button
+                variant="outline"
+                size="sm"
+                rounded="full"
+                onClick={onEdit}
+              >
+                {editButtonLabel}
+              </Button>
+            </div>
+          )}
         </div>
         <div
           className="text-text-main text-sm leading-7 whitespace-pre-line"
