@@ -25,7 +25,6 @@ type ChatState = ToggleState & {
 // 전체 UI 상태 Context 타입
 export type ChatWidgetContextValue = {
   chat: ChatState
-  detail: ToggleState
 }
 
 export const ChatWidgetContext = createContext<ChatWidgetContextValue | null>(

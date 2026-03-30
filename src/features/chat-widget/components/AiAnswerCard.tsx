@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import axios from 'axios'
 import { ChevronDown } from 'lucide-react'
 
-import { getAiAnswer } from '@/api'
 import { Button, Loading } from '@/components'
 import AiMarkdownRenderer from '@/components/common/markdown/AiMarkdownRenderer'
 import { useChatWidgetContext } from '@/features/chat-widget/hooks/useChatWidgetContext'
 import useExpandableContent from '@/features/chat-widget/hooks/useExpandableContent'
-import { useCreateAiAnswerMutation } from '@/queries'
+import {
+  getStoredAiAnswer,
+  setStoredAiAnswer,
+} from '@/features/chat-widget/lib/aiAnswerStorage'
+import { useAiAnswerQuery, useCreateAiAnswerMutation } from '@/queries'
+import { useAiAnswerUiStore } from '@/store'
 import type { QnaAiAnswer, QnaQuestionDetail } from '@/types'
 
 import BubbleTail from './BubbleTail'
@@ -22,9 +26,32 @@ type AiAnswerCardProps = {
 const COLLAPSED_ANSWER_HEIGHT = 320
 
 export default function AiAnswerCard({ question }: AiAnswerCardProps) {
-  const { chat, detail } = useChatWidgetContext()
+  const { chat } = useChatWidgetContext()
+  const openByQuestionId = useAiAnswerUiStore((state) => state.openByQuestionId)
+  const openDetail = useAiAnswerUiStore((state) => state.openDetail)
+  const closeDetail = useAiAnswerUiStore((state) => state.closeDetail)
   const { mutateAsync, isPending } = useCreateAiAnswerMutation()
-  const [aiAnswer, setAiAnswer] = useState<QnaAiAnswer | null>(null)
+  const initialAiAnswer = question.ai_answer ?? getStoredAiAnswer(question.id)
+  const [createdAiAnswer, setCreatedAiAnswer] = useState<QnaAiAnswer | null>(
+    initialAiAnswer
+  )
+  const {
+    data: queriedAiAnswer,
+    refetch,
+    isFetching,
+  } = useAiAnswerQuery({
+    questionId: question.id,
+    initialData: initialAiAnswer,
+  })
+  const aiAnswer = queriedAiAnswer ?? createdAiAnswer
+  const isOpen = Boolean(aiAnswer) && (openByQuestionId[question.id] ?? true)
+  // TODO: 질문 수정 기준 업데이트 시간 변경 후 주석 해제
+  // const shouldShowOutdatedNotice =
+  //   question.updated_at != null &&
+  //   aiAnswer?.created_at != null &&
+  //   new Date(question.updated_at).getTime() >
+  //     new Date(aiAnswer.created_at).getTime()
+  const shouldShowOutdatedNotice = false
 
   const {
     contentRef: answerContentRef,
@@ -34,29 +61,38 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   } = useExpandableContent({
     content: aiAnswer?.output,
     collapsedHeightPx: COLLAPSED_ANSWER_HEIGHT,
-    enabled: detail.isOpen,
+    enabled: isOpen,
   })
 
-  const handleToggleDetail = async () => {
-    if (isPending) {
+  useEffect(() => {
+    if (!aiAnswer) {
       return
     }
 
-    if (detail.isOpen) {
-      detail.close()
+    openDetail(question.id)
+  }, [aiAnswer, openDetail, question.id])
+
+  const handleToggleDetail = async () => {
+    if (isFetching || isPending) {
+      return
+    }
+
+    if (isOpen) {
+      closeDetail(question.id)
       return
     }
 
     if (aiAnswer) {
-      detail.open()
+      openDetail(question.id)
       return
     }
 
     try {
-      const existingAiAnswer = await getAiAnswer(question.id)
+      const result = await refetch()
 
-      setAiAnswer(existingAiAnswer)
-      detail.open()
+      if (result.data) {
+        openDetail(question.id)
+      }
     } catch (error) {
       const errorDetail = axios.isAxiosError(error)
         ? error.response?.data?.error_detail
@@ -74,10 +110,11 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
 
       if (status === 404) {
         try {
-          const createdAiAnswer = await mutateAsync(question.id)
+          const nextAiAnswer = await mutateAsync(question.id)
 
-          setAiAnswer(createdAiAnswer)
-          detail.open()
+          setCreatedAiAnswer(nextAiAnswer)
+          setStoredAiAnswer(nextAiAnswer)
+          openDetail(question.id)
           return
         } catch (createError) {
           const createErrorDetail = axios.isAxiosError(createError)
@@ -129,7 +166,7 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
     <div className="my-8 flex w-full flex-col items-stretch gap-4 md:my-11 md:flex-row md:items-start md:gap-8">
       <ChatBadge size="lg" className="hidden md:flex md:h-15 md:w-15" />
 
-      {!detail.isOpen ? (
+      {!isOpen ? (
         <div className="shadow-box relative w-full min-w-0 flex-1 rounded-xl bg-white px-5 pt-4 pb-5 sm:px-6 sm:pt-5.25 sm:pb-6.75 md:max-w-178.5">
           {/* 말풍선 꼬리  */}
           <BubbleTail color="#fff" className="hidden md:block" />
@@ -142,7 +179,7 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
               variant="text"
               type="button"
               onClick={handleToggleDetail}
-              disabled={isPending}
+              disabled={isFetching || isPending}
               className="text-text-sub disabled:text-text-sub gap-2 px-0 text-left font-bold hover:bg-transparent disabled:bg-transparent"
             >
               <span>질문에 대한</span>
@@ -150,7 +187,7 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
                 <ChatBadge size="xs" />
                 <span className="text-gradient-brand">AI OZ</span>
               </span>
-              {isPending ? (
+              {isFetching || isPending ? (
                 <span className="inline-flex items-center gap-2">
                   <span>의 답변 생성 중</span>
                   <span className="scale-75">
@@ -167,8 +204,7 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
           </div>
         </div>
       ) : (
-        /* 답변보기 카드 */
-        <div className="shadow-box bg-primary-100/40 relative max-w-full flex-1 rounded-xl p-5 sm:p-6 md:max-w-178.5 md:p-8">
+        <div className="shadow-box bg-primary-100/40 relative min-w-0 flex-1 rounded-xl p-5 sm:p-6 md:p-8">
           {/* 말풍선 꼬리  */}
           <BubbleTail color="#f9f5fa" className="hidden md:block" />
 
@@ -176,6 +212,11 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
             <div className="flex items-center gap-1.5">
               <ChatBadge size="xs" />
               <span className="text-gradient-brand">AI OZ</span>
+              {shouldShowOutdatedNotice && (
+                <span className="text-primary-500 text-xs font-semibold">
+                  수정 전 질문 기준 답변입니다.
+                </span>
+              )}
             </div>
             {aiAnswer?.output && (
               <div className="mb-1">
