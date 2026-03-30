@@ -41,6 +41,12 @@ type RetryAxiosRequestConfig = InternalAxiosRequestConfig & {
 }
 
 const handle401Error = async (originalRequest: RetryAxiosRequestConfig) => {
+  // 1. ._retry 제일 먼저 체크 & 세팅
+  if (originalRequest._retry) {
+    return Promise.reject(new Error('Already retried'))
+  }
+  originalRequest._retry = true
+
   if (getIsRefreshing()) {
     // 이미 refresh중이면 queue에 쌓고 대기
     return new Promise<string>((resolve, reject) => {
@@ -52,9 +58,11 @@ const handle401Error = async (originalRequest: RetryAxiosRequestConfig) => {
   }
 
   if (!TokenService.getAccessToken()) {
-    // 토큰 자체가 없으면 refresh 시도안함
     useAuthStore.getState().clearAuth()
-    window.location.href = ROUTES_PATHS.LOGIN
+    // 2. 토큰 자체가 없으면 refresh 시도안함
+    if (window.location.pathname != ROUTES_PATHS.LOGIN) {
+      window.location.href = ROUTES_PATHS.LOGIN
+    }
     return Promise.reject(new Error('No token'))
   }
 
@@ -77,7 +85,9 @@ const handle401Error = async (originalRequest: RetryAxiosRequestConfig) => {
     flushQueue(error, null)
     TokenService.clearTokens()
     useAuthStore.getState().clearAuth()
-    window.location.href = ROUTES_PATHS.LOGIN
+    if (window.location.pathname != ROUTES_PATHS.LOGIN) {
+      window.location.href = ROUTES_PATHS.LOGIN
+    }
     return Promise.reject(error)
   } finally {
     setIsRefreshing(false)
