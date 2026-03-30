@@ -17,7 +17,6 @@ const INITIAL_GREETING_MESSAGE: ChatMessagePreview = {
 type UseChatConversationParams = {
   sessionId: number | null
   hasEntryContext: boolean
-  initialAssistantMessage?: string | null
   ensureSession: (message: string) => Promise<{
     id: number
     created: boolean
@@ -32,7 +31,6 @@ function isAbortError(error: unknown) {
 export default function useChatConversation({
   sessionId,
   hasEntryContext,
-  initialAssistantMessage = null,
   ensureSession,
   isSessionCreating = false,
 }: UseChatConversationParams) {
@@ -48,6 +46,7 @@ export default function useChatConversation({
 
   // 메시지 전송 중 에러 메시지 상태
   const [sendErrorMessage, setSendErrorMessage] = useState<string | null>(null)
+  const [isBlockedByRateLimit, setIsBlockedByRateLimit] = useState(false)
   const abortControllerRef = useRef<AbortController | null>(null)
   const [isStreaming, setIsStreaming] = useState(false)
   const [scrollToLatestKey, setScrollToLatestKey] = useState(0)
@@ -65,22 +64,11 @@ export default function useChatConversation({
     chatMessages: isStreaming ? undefined : chatMessagesData?.results,
   })
 
-  const initialEntryMessages =
-    sessionId === null && hasEntryContext && initialAssistantMessage
-      ? [
-          {
-            id: 1,
-            role: 'assistant' as const,
-            message: initialAssistantMessage,
-            isInitialEntry: true,
-          },
-        ]
-      : []
   // 실제 렌더링할 메시지가 존재하는지 여부
   const renderMessages =
     sessionId === null
       ? hasEntryContext
-        ? [...initialEntryMessages, ...localMessages]
+        ? localMessages
         : [INITIAL_GREETING_MESSAGE, ...localMessages]
       : localMessages
   const hasRenderableMessages = renderMessages.length > 0
@@ -99,7 +87,14 @@ export default function useChatConversation({
     async (message: string) => {
       const trimmedMessage = message.trim()
 
-      if (!trimmedMessage || isSessionCreating || isStreaming) return false
+      if (
+        !trimmedMessage ||
+        isSessionCreating ||
+        isStreaming ||
+        isBlockedByRateLimit
+      ) {
+        return false
+      }
 
       const previousMessages = localMessagesRef.current ?? []
       const userMessageId = createLocalMessageId()
@@ -163,8 +158,20 @@ export default function useChatConversation({
           return true
         }
 
-        setSendErrorMessage('메시지 전송에 실패했습니다. 다시 시도해 주세요.')
-        restoreMessages(previousMessages)
+        const status =
+          error instanceof Error && 'status' in error
+            ? Number(error.status)
+            : null
+
+        setSendErrorMessage(
+          status === 429
+            ? '요청이 제한되었습니다. 추가 질문은 게시판을 이용해 주세요.'
+            : '메시지 전송에 실패했습니다. 다시 시도해 주세요.'
+        )
+        setIsBlockedByRateLimit(status === 429)
+        restoreMessages(
+          status === 429 ? previousMessages.slice(0, -1) : previousMessages
+        )
         return false
       } finally {
         abortControllerRef.current = null
@@ -177,6 +184,7 @@ export default function useChatConversation({
       ensureSession,
       isSessionCreating,
       isStreaming,
+      isBlockedByRateLimit,
       localMessagesRef,
       hasEntryContext,
       queryClient,
@@ -197,6 +205,7 @@ export default function useChatConversation({
     localMessages: renderMessages,
     scrollToLatestKey,
     sendErrorMessage,
+    isBlockedByRateLimit,
     isMessagePending,
     isMessageError,
     isSubmitting: isSessionCreating || isStreaming,

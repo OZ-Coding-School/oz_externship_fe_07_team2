@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
+import { deleteChatSessionOnPageExit } from '@/api/chat-api'
 import type { ChatEntryData } from '@/features/chat-widget/context/ChatWidgetContext'
 import useCreateChatSessionMutation from '@/queries/useCreateChatSessionMutation'
 import useDeleteChatSessionMutation from '@/queries/useDeleteChatSessionMutation'
@@ -19,6 +20,7 @@ export default function useChatSessionLifecycle({
   entryData = null,
 }: UseChatSessionLifecycleParams = {}) {
   const [currentSessionId, setCurrentSessionId] = useState<number | null>(null)
+  const currentSessionIdRef = useRef<number | null>(null)
   const { mutateAsync: createSession, isPending: isSessionCreating } =
     useCreateChatSessionMutation()
   const { mutateAsync: deleteSession } = useDeleteChatSessionMutation()
@@ -39,6 +41,7 @@ export default function useChatSessionLifecycle({
       })
 
       setCurrentSessionId(createdSession.id)
+      currentSessionIdRef.current = createdSession.id
 
       return { id: createdSession.id, created: true }
     },
@@ -51,18 +54,34 @@ export default function useChatSessionLifecycle({
   )
 
   const deleteCurrentSession = useCallback(async () => {
-    if (currentSessionId === null) {
+    const sessionId = currentSessionIdRef.current
+
+    if (sessionId === null) {
       return
     }
 
-    await deleteSession(currentSessionId)
     setCurrentSessionId(null)
-  }, [currentSessionId, deleteSession])
+    currentSessionIdRef.current = null
+    await deleteSession(sessionId)
+  }, [deleteSession])
+
+  const deleteCurrentSessionOnPageExit = useCallback(() => {
+    const sessionId = currentSessionIdRef.current
+
+    if (sessionId === null) {
+      return
+    }
+
+    setCurrentSessionId(null)
+    currentSessionIdRef.current = null
+    deleteChatSessionOnPageExit(sessionId)
+  }, [])
 
   return {
     currentSessionId,
     ensureSession,
     deleteCurrentSession,
+    deleteCurrentSessionOnPageExit,
     isSessionCreating,
   }
 }

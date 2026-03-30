@@ -14,6 +14,7 @@ export default function ChatView() {
     currentSessionId,
     ensureSession,
     deleteCurrentSession,
+    deleteCurrentSessionOnPageExit,
     isSessionCreating,
   } = useChatSessionLifecycle({
     entryData: chat.entryData,
@@ -48,6 +49,20 @@ export default function ChatView() {
       void deleteCurrentSession()
     }
   }, [chat.isOpen, currentSessionId, deleteCurrentSession])
+
+  useEffect(() => {
+    const handlePageExit = () => {
+      deleteCurrentSessionOnPageExit()
+    }
+
+    window.addEventListener('pagehide', handlePageExit)
+    window.addEventListener('beforeunload', handlePageExit)
+
+    return () => {
+      window.removeEventListener('pagehide', handlePageExit)
+      window.removeEventListener('beforeunload', handlePageExit)
+    }
+  }, [deleteCurrentSessionOnPageExit])
 
   if (!chat.isOpen) return null
 
