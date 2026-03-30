@@ -4,6 +4,7 @@ import useChatConversation from '@/features/chat-widget/hooks/useChatConversatio
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
 import ChatMessageList from './ChatMessageList'
+import ChatQuestionContextCard from './ChatQuestionContextCard'
 
 type ChatWindowProps = {
   onClose: () => void
@@ -27,6 +28,7 @@ export default function ChatWindow({
     localMessages,
     scrollToLatestKey,
     sendErrorMessage,
+    isBlockedByRateLimit,
     isMessagePending,
     isMessageError,
     isSubmitting,
@@ -35,7 +37,6 @@ export default function ChatWindow({
   } = useChatConversation({
     sessionId,
     hasEntryContext: entryData !== null,
-    initialAssistantMessage: entryData?.answerContent ?? null,
     ensureSession,
     isSessionCreating,
   })
@@ -43,6 +44,7 @@ export default function ChatWindow({
   return (
     <div className="bg-surface-default shadow-box flex h-152.5 min-h-0 w-90 flex-col overflow-hidden rounded-xl">
       <ChatHeader onClose={onClose} />
+      {entryData && <ChatQuestionContextCard entryData={entryData} />}
       <ChatMessageList
         messages={localMessages}
         isStreaming={isStreaming}
@@ -59,6 +61,8 @@ export default function ChatWindow({
         onSend={handleSend}
         isPending={isSubmitting}
         isStreaming={isStreaming}
+        isDisabled={isBlockedByRateLimit}
+        disabledPlaceholder=""
       />
     </div>
   )

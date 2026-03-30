@@ -126,7 +126,6 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
       questionId: question.id,
       questionTitle: question.title,
       questionContent: question.content,
-      answerContent: aiAnswer.output,
     })
     chat.setEntryMode(true)
     chat.open()

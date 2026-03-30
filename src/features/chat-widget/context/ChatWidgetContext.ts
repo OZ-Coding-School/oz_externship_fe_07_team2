@@ -4,7 +4,6 @@ export type ChatEntryData = {
   questionId: number
   questionTitle: string
   questionContent: string
-  answerContent: string
 }
 
 //열림 상태 공통화
