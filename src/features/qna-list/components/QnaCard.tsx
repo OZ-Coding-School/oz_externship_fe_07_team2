@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router'
 
 import { AnswerBadge, Avatar, CategoryPath } from '@/components'
-import { ROUTES_PATHS } from '@/constants/url'
+import { ROUTES_PATHS } from '@/constants'
 import type { QnaListItem } from '@/features/qna-list'
 import { cn, formatTimeAgo } from '@/utils'
 import { removeHtmlTags } from '@/utils/string'

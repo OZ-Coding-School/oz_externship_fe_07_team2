@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router'
 
-import { RootLayout } from '@/components'
-import { ROUTES_PATHS } from '@/constants/url'
+import { ProtectedRoute, RootLayout } from '@/components'
+import { ROUTES_PATHS } from '@/constants'
 import {
   NotFoundPage,
   QnACreatePage,
@@ -10,7 +10,6 @@ import {
 } from '@/pages'
 
 import AppInitializer from './AppInitializer'
-import ProtectedRoute from './components/router/ProtectedRouter'
 
 import './App.css'
 
@@ -39,6 +38,8 @@ function App() {
               element={<QnACreatePage mode="edit" />}
             />
           </Route>
+
+          {/* NotFound */}
           <Route
             path={ROUTES_PATHS.NOT_FOUND}
             element={<NotFoundPage type="notFound" />}

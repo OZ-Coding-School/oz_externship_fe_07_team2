@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router'
 import { Pencil, Search } from 'lucide-react'
 
 import { Button, SearchBar } from '@/components'
-import { ROUTES_PATHS } from '@/constants/url'
+import { ROUTES_PATHS } from '@/constants'
+import { useAuthStore } from '@/store'
+import { useModalStore } from '@/store/useModalStore'
 
 type QnaListHeaderProps = {
   value: string
@@ -14,6 +16,17 @@ type QnaListHeaderProps = {
 export default function QnaListHeader({ value, onChange }: QnaListHeaderProps) {
   const navigate = useNavigate()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const isEnrolled = useAuthStore((state) => state.isEnrolled())
+  const openUnauthorized = useModalStore((state) => state.openUnauthorized)
+
+  // 수강생 권한 아닐 시 클릭방지(팝업모달)
+  const handleQnaCreate = () => {
+    if (!isEnrolled) {
+      openUnauthorized()
+      return
+    }
+    navigate(ROUTES_PATHS.QNA_CREATE)
+  }
 
   return (
     <div className="mb-13 flex w-full flex-col gap-4">
@@ -39,7 +52,7 @@ export default function QnaListHeader({ value, onChange }: QnaListHeaderProps) {
             rounded="md"
             aria-label="질문하기"
             className="h-11 w-11 p-0"
-            onClick={() => navigate(ROUTES_PATHS.QNA_CREATE)}
+            onClick={handleQnaCreate}
           >
             <Pencil className="h-5 w-5" />
           </Button>
@@ -52,11 +65,7 @@ export default function QnaListHeader({ value, onChange }: QnaListHeaderProps) {
           onChange={onChange}
           className="bg-surface-sub w-full max-w-118"
         />
-        <Button
-          size="md"
-          rounded="md"
-          onClick={() => navigate(ROUTES_PATHS.QNA_CREATE)}
-        >
+        <Button size="md" rounded="md" onClick={handleQnaCreate}>
           <Pencil className="mr-2 h-5 w-5" />
           질문하기
         </Button>

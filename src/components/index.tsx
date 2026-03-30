@@ -1,6 +1,5 @@
 // components/common
 export { default as FloatingChatButton } from '../features/chat-widget/components/FloatingChatButton'
-export { default as AuthGuard } from './auth/AuthGuard'
 export { default as AnswerBadge } from './common/answer-badge/AnswerBadge'
 export { default as Avatar } from './common/avatar/Avatar'
 export { default as Button } from './common/button/Button'
@@ -20,4 +19,6 @@ export { default as SearchBar } from './common/searchbar/SearchBar'
 export { default as TabButton } from './common/tab-button/TabButton'
 export { default as GlobalToaster } from './common/toast/GlobalToaster'
 export { default as Toast } from './common/toast/Toast'
+export { default as AuthGuard } from './layout/auth/AuthGuard'
 export { default as RootLayout } from './layout/RootLayout'
+export { default as ProtectedRoute } from './router/ProtectedRouter'

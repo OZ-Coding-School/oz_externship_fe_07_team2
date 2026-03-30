@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { ROUTES_PATHS } from '@/constants'
 import { ERROR_MESSAGES } from '@/constants/message'
-import { ROUTES_PATHS } from '@/constants/url'
 import {
   useCategoriesQuery,
   useCreateQuestionMutation,

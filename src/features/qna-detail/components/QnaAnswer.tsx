@@ -4,6 +4,7 @@ import { Avatar, Button, TipTabEditor } from '@/components'
 import useCreateAnswerMutation from '@/queries/useCreateAnswerMutation'
 import useUpdateAnswerMutation from '@/queries/useUpdateAnswerMutation'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useModalStore } from '@/store/useModalStore'
 import type { QnaAnswer as QnaAnswerType } from '@/types'
 
 import AnswerCard from './AnswerCard'
@@ -18,6 +19,9 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
   const [content, setContent] = useState('')
 
   const user = useAuthStore((s) => s.user)
+  const isEnrolled = useAuthStore((s) => s.isEnrolled())
+  const openUnauthorized = useModalStore((s) => s.openUnauthorized)
+
   const { mutate: createMutate, isPending: isCreating } =
     useCreateAnswerMutation()
   const { mutate: updateMutate, isPending: isUpdating } =
@@ -33,6 +37,12 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
   }, [myAnswer, isEditing])
 
   const handleEditClick = () => {
+    // user 권한 체크
+    if (!isEnrolled) {
+      openUnauthorized()
+      return
+    }
+
     if (myAnswer) {
       // 수정 모드: 기존 내용을 에디터에 로드
       setContent(myAnswer.content)

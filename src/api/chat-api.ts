@@ -1,7 +1,7 @@
 import { API_BASE_URL } from '@/constants/apiPath'
 import { CHAT_API } from '@/constants/chat'
 import { QNA_API } from '@/constants/qna-api-endpoints'
-import { useAuthStore } from '@/store'
+import { TokenService } from '@/lib/tokenService'
 import type {
   ChatMessageListResponse,
   ChatSession,
@@ -71,7 +71,7 @@ export const createSupportCompletion = async (
   data: SendMessageRequest,
   options?: StreamChatCompletionOptions
 ): Promise<string> => {
-  const token = useAuthStore.getState().accessToken
+  const token = TokenService.getAccessToken()
 
   const response = await fetch(`${API_BASE_URL}${CHAT_API.support}`, {
     method: 'POST',
@@ -171,7 +171,7 @@ export const createChatCompletion = async (
   data: SendMessageRequest,
   options?: StreamChatCompletionOptions
 ): Promise<string> => {
-  const token = useAuthStore.getState().accessToken
+  const token = TokenService.getAccessToken()
 
   const response = await fetch(getChatCompletionUrl(sessionId), {
     method: 'POST',

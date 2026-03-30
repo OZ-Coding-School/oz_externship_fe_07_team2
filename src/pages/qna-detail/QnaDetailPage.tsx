@@ -1,14 +1,13 @@
 import { useParams } from 'react-router-dom'
 
 import { EmptyState, Loading } from '@/components'
-import AuthGuard from '@/components/auth/AuthGuard'
+import AuthGuard from '@/components/layout/auth/AuthGuard'
 import {
   QnaAnswer,
   QnaDetailAnswer,
   QnaDetailHeader,
 } from '@/features/qna-detail'
 import { useToast } from '@/hooks/useToast'
-// import { mockUsers } from '@/mocks/data/qna-detail-mock'
 import { useQnaDetailQuery } from '@/queries'
 import { useAuthStore } from '@/store'
 
@@ -75,10 +74,8 @@ export default function QnaDetailPage() {
         isQuestionAuthor={isQuestionAuthor}
       />
 
-      <AuthGuard>
-        {!isQuestionAuthor && (
-          <QnaAnswer questionId={questionId} myAnswer={myAnswer} />
-        )}
+      <AuthGuard requireEnrolled>
+        <QnaAnswer questionId={questionId} myAnswer={myAnswer} />
       </AuthGuard>
 
       {question.answers.length > 0 ? (

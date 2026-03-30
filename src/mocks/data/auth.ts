@@ -1,6 +1,6 @@
-import type { AuthUser } from '@/store/useAuthStore'
+import type { User } from '@/types'
 
-export const mockLoginUser: { accessToken: string; user: AuthUser } = {
+export const mockLoginUser: { accessToken: string; user: User } = {
   accessToken: 'mock-access-token',
   user: {
     id: 1,

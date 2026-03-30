@@ -19,6 +19,8 @@ import {
   useQnaListSearchParams,
 } from '@/features/qna-list'
 import useQnaListQuery from '@/queries/useQnaListQuery'
+import { useAuthStore } from '@/store'
+import { useModalStore } from '@/store/useModalStore'
 import type { QnaSort } from '@/types'
 
 const SORT_OPTIONS = [
@@ -56,6 +58,18 @@ export default function QnaListPage() {
     answer_status: answerStatus,
     sort,
   })
+
+  const isEnrolled = useAuthStore((state) => state.isEnrolled())
+  const openUnauthorized = useModalStore((state) => state.openUnauthorized)
+
+  // 수강생 권한 아닐 시 클릭방지(팝업모달)
+  const handleFilterOpen = () => {
+    if (!isEnrolled) {
+      openUnauthorized()
+      return
+    }
+    setIsFilterOpen(true)
+  }
 
   const questionsList = data?.results ?? []
   const totalPages = Math.max(1, Math.ceil((data?.count ?? 0) / PAGE_SIZE))
@@ -149,7 +163,7 @@ export default function QnaListPage() {
               className="text-modal h-11 w-fit p-0 font-medium md:h-auto"
               variant={'text'}
               aria-label="필터 열기"
-              onClick={() => setIsFilterOpen(true)}
+              onClick={handleFilterOpen}
             >
               <span className="hidden md:inline">필터</span>
               <SlidersHorizontal size={20} className="md:ml-1" />
