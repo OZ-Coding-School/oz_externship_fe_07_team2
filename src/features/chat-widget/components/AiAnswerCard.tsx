@@ -11,8 +11,10 @@ import {
   getStoredAiAnswer,
   setStoredAiAnswer,
 } from '@/features/chat-widget/lib/aiAnswerStorage'
+import { useToast } from '@/hooks/useToast'
 import { useAiAnswerQuery, useCreateAiAnswerMutation } from '@/queries'
-import { useAiAnswerUiStore } from '@/store'
+import { useAiAnswerUiStore, useAuthStore } from '@/store'
+import { useModalStore } from '@/store/useModalStore'
 import type { QnaAiAnswer, QnaQuestionDetail } from '@/types'
 
 import BubbleTail from './BubbleTail'
@@ -27,10 +29,13 @@ const COLLAPSED_ANSWER_HEIGHT = 320
 
 export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   const { chat } = useChatWidgetContext()
+  const isEnrolled = useAuthStore((state) => state.isEnrolled())
+  const openUnauthorized = useModalStore((state) => state.openUnauthorized)
   const openByQuestionId = useAiAnswerUiStore((state) => state.openByQuestionId)
   const openDetail = useAiAnswerUiStore((state) => state.openDetail)
   const closeDetail = useAiAnswerUiStore((state) => state.closeDetail)
   const { mutateAsync, isPending } = useCreateAiAnswerMutation()
+  const { error: showErrorToast } = useToast()
   const initialAiAnswer = question.ai_answer ?? getStoredAiAnswer(question.id)
   const [createdAiAnswer, setCreatedAiAnswer] = useState<QnaAiAnswer | null>(
     initialAiAnswer
@@ -73,6 +78,11 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   }, [aiAnswer, openDetail, question.id])
 
   const handleToggleDetail = async () => {
+    if (!isEnrolled) {
+      openUnauthorized()
+      return
+    }
+
     if (isFetching || isPending) {
       return
     }
@@ -87,67 +97,84 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
       return
     }
 
-    try {
-      const result = await refetch()
+    // refetch는 reject 대신 result.status/result.error로 결과를 반환한다.
+    const result = await refetch()
 
-      if (result.data) {
+    if (result.status === 'success' && result.data) {
+      openDetail(question.id)
+      return
+    }
+
+    if (result.status !== 'error') {
+      return
+    }
+
+    const lookupError = result.error
+    const errorDetail = axios.isAxiosError(lookupError)
+      ? lookupError.response?.data?.error_detail
+      : undefined
+    const status = axios.isAxiosError(lookupError)
+      ? lookupError.response?.status
+      : null
+
+    if (axios.isAxiosError(lookupError)) {
+      console.error('AI answer lookup failed', {
+        method: 'GET',
+        url: lookupError.config?.url,
+        status: lookupError.response?.status,
+        data: lookupError.response?.data,
+      })
+    }
+
+    if (status === 404) {
+      try {
+        const nextAiAnswer = await mutateAsync(question.id)
+
+        setCreatedAiAnswer(nextAiAnswer)
+        setStoredAiAnswer(nextAiAnswer)
         openDetail(question.id)
-      }
-    } catch (error) {
-      const errorDetail = axios.isAxiosError(error)
-        ? error.response?.data?.error_detail
-        : undefined
-      const status = axios.isAxiosError(error) ? error.response?.status : null
+        return
+      } catch (createError) {
+        const createErrorDetail = axios.isAxiosError(createError)
+          ? createError.response?.data?.error_detail
+          : undefined
 
-      if (axios.isAxiosError(error)) {
-        console.error('AI answer lookup failed', {
-          method: 'GET',
-          url: error.config?.url,
-          status: error.response?.status,
-          data: error.response?.data,
-        })
-      }
-
-      if (status === 404) {
-        try {
-          const nextAiAnswer = await mutateAsync(question.id)
-
-          setCreatedAiAnswer(nextAiAnswer)
-          setStoredAiAnswer(nextAiAnswer)
-          openDetail(question.id)
-          return
-        } catch (createError) {
-          const createErrorDetail = axios.isAxiosError(createError)
-            ? createError.response?.data?.error_detail
-            : undefined
-
-          if (axios.isAxiosError(createError)) {
-            console.error('AI answer creation failed', {
-              method: 'GET',
-              url: createError.config?.url,
-              status: createError.response?.status,
-              data: createError.response?.data,
-            })
-          }
-
-          alert(
-            createErrorDetail ??
-              'AI 답변 생성에 실패했습니다. 다시 시도해주세요.'
-          )
-          return
+        if (axios.isAxiosError(createError)) {
+          console.error('AI answer creation failed', {
+            method: 'GET',
+            url: createError.config?.url,
+            status: createError.response?.status,
+            data: createError.response?.data,
+          })
         }
-      }
 
-      if (status === 409) {
-        alert(errorDetail ?? '이미 AI가 답변을 생성했습니다.')
+        showErrorToast(
+          createErrorDetail ??
+            'AI 답변을 불러오지 못했습니다. 다시 시도해주세요.'
+        )
         return
       }
-
-      alert(errorDetail ?? 'AI 답변 생성에 실패했습니다. 다시 시도해주세요.')
     }
+
+    if (status === 409) {
+      console.warn('AI answer already exists', {
+        questionId: question.id,
+        errorDetail,
+      })
+      return
+    }
+
+    showErrorToast(
+      errorDetail ?? 'AI 답변을 불러오지 못했습니다. 다시 시도해주세요.'
+    )
   }
 
   const handleOpenChat = () => {
+    if (!isEnrolled) {
+      openUnauthorized()
+      return
+    }
+
     if (!aiAnswer) {
       return
     }

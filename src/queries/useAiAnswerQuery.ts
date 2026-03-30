@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { useQuery } from '@tanstack/react-query'
 
 import { getAiAnswer } from '@/api'
@@ -19,22 +17,17 @@ export default function useAiAnswerQuery({
 }: UseAiAnswerQueryOptions) {
   const query = useQuery({
     queryKey: ['qna-ai-answer', questionId],
-    queryFn: () => getAiAnswer(questionId),
+    queryFn: async () => {
+      const aiAnswer = await getAiAnswer(questionId)
+      setStoredAiAnswer(aiAnswer)
+      return aiAnswer
+    },
     // 답변 카드 열기 전에는 요청하지 않습니다.
     enabled: false,
     retry: false,
     staleTime: Infinity,
-    ...(initialData ? { initialData } : {}),
+    ...(initialData ? { placeholderData: initialData } : {}),
   })
-
-  useEffect(() => {
-    if (!query.data) {
-      return
-    }
-
-    // 조회한 답변은 로컬에도 저장해 상세 재진입 시 재사용합니다.
-    setStoredAiAnswer(query.data)
-  }, [query.data])
 
   return query
 }
