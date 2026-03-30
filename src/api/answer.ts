@@ -37,5 +37,8 @@ export const createAnswerComment = async (
 
 // 채택
 export const adoptAnswer = async (answerId: number): Promise<void> => {
-  await api.post(QNA_API.ANSWER_ADOPT(answerId))
+  await api.post(QNA_API.ANSWER_ADOPT(answerId), {
+    content: '',
+    image_urls: [],
+  })
 }

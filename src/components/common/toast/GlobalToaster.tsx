@@ -15,7 +15,7 @@ export default function GlobalToaster() {
         style: {
           padding: '0',
           background: 'transparent',
-          boxShadow: 'shadow-toast',
+          boxShadow: '0 0 20px rgba(0, 0, 0, 0.08)',
         },
       }}
     />

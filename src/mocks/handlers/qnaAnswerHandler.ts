@@ -120,16 +120,20 @@ export const qnaAnswerHandlers = [
     }
   ),
 
-  http.post(`${qnaAnswerApiUrl}/:answerId/adopt`, async ({ params }) => {
-    const answerId = Number(params.answerId)
+  http.post(
+    `${qnaAnswerApiUrl}/:answerId/accept`,
+    async ({ params, request }) => {
+      const answerId = Number(params.answerId)
 
-    if (!Number.isFinite(answerId) || answerId <= 0) {
-      return HttpResponse.json(
-        { message: '잘못된 답변 ID입니다.' },
-        { status: 400 }
-      )
+      if (!Number.isFinite(answerId) || answerId <= 0) {
+        return HttpResponse.json(
+          { message: '잘못된 답변 ID입니다.' },
+          { status: 400 }
+        )
+      }
+
+      await request.json()
+      return HttpResponse.json({ message: '채택되었습니다.' })
     }
-
-    return HttpResponse.json({ message: '채택되었습니다.' })
-  }),
+  ),
 ]
