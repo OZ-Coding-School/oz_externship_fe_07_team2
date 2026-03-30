@@ -11,10 +11,21 @@ type AiMarkdownRendererProps = {
 
 const IMAGE_TOKEN_PATTERN = /^\[Image #(\d+)\]$/u
 const HEADING_PATTERN = /^(#{1,6})\s+(.+)$/u
-const HEADING_ICONS: Record<number, string> = {
-  1: '✨',
-  2: '📌',
-  3: '📝',
+const LEADING_EMOJI_PATTERN =
+  /^\p{Extended_Pictographic}(?:\uFE0F|\u200D[\p{Extended_Pictographic}\uFE0F])*\s*/u
+
+function getHeadingIcon(headingText: string) {
+  if (/팁/u.test(headingText)) {
+    return '💡'
+  }
+
+  if (/주의/u.test(headingText)) {
+    return '⚠️'
+  }
+
+  if (/정리/u.test(headingText)) {
+    return '✅'
+  }
 }
 
 function normalizeMarkdown(content: string) {
@@ -34,11 +45,20 @@ function normalizeMarkdown(content: string) {
     const headingMatch = line.match(HEADING_PATTERN)
 
     if (headingMatch) {
-      const level = headingMatch[1].length
       const headingText = headingMatch[2].trim()
-      const headingIcon = HEADING_ICONS[level]
+      const headingIcon = getHeadingIcon(headingText)
 
-      if (headingIcon && !/^\p{Extended_Pictographic}/u.test(headingText)) {
+      if (LEADING_EMOJI_PATTERN.test(headingText)) {
+        nextLines.push(line)
+        continue
+      }
+
+      if (/팁/u.test(headingText) && headingIcon) {
+        nextLines.push(`> ${headingIcon} ${headingText}`)
+        continue
+      }
+
+      if (headingIcon) {
         nextLines.push(`${headingMatch[1]} ${headingIcon} ${headingText}`)
         continue
       }
