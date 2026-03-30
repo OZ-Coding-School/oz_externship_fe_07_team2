@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@source '../node_modules/streamdown/dist/*.js';
 
 body {
   @apply font-sans;
@@ -110,6 +111,19 @@ body {
 
   /*Overlay*/
   --bg-overlay: var(--gray-primary);
+
+  /* Streamdown */
+  --background: var(--white);
+  --foreground: var(--text-main);
+  --card: var(--white);
+  --card-foreground: var(--text-main);
+  --muted: var(--surface-sub);
+  --muted-foreground: var(--text-sub);
+  --border: var(--gray-250);
+  --input: var(--gray-250);
+  --primary: var(--primary-default);
+  --primary-foreground: var(--white);
+  --radius: 0.75rem;
 }
 
 @theme inline {

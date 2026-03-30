@@ -1,0 +1,270 @@
+.ai-markdown-body-chat p,
+.ai-markdown-body-chat h1,
+.ai-markdown-body-chat h2,
+.ai-markdown-body-chat h3,
+.ai-markdown-body-chat ul,
+.ai-markdown-body-chat ol,
+.ai-markdown-body-chat blockquote,
+.ai-markdown-body-chat pre {
+  margin-bottom: 0;
+}
+
+.ai-markdown-body-chat h1,
+.ai-markdown-body-chat h2,
+.ai-markdown-body-chat h3,
+.ai-markdown-body-chat h4 {
+  font-size: medium !important;
+}
+
+.ai-markdown-body-chat ul,
+.ai-markdown-body-chat ol {
+  padding-left: 0.5rem !important;
+}
+
+.ai-markdown-body-chat pre {
+  margin-top: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  font-size: 0.6875rem;
+  box-shadow: none;
+}
+
+.ai-markdown-body-chat [data-streamdown='code-block'] {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.ai-markdown-body-chat [data-streamdown='code-block-body'] {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 0.5rem !important;
+}
+
+.ai-markdown-body-chat code {
+  font-size: 0.8em;
+}
+
+.markdown-body-chat pre code {
+  display: inline-block;
+  min-width: 100%;
+  padding-right: 0.75rem;
+  box-sizing: border-box;
+}
+
+.ai-markdown-body-chat [data-streamdown='code-block-actions'] {
+  margin-top: 0.125rem;
+  margin-right: 0;
+  border: none !important;
+
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.ai-markdown-body-chat [data-streamdown='code-block-actions'] > div {
+  border: none !important;
+
+  box-shadow: none !important;
+}
+
+.ai-markdown-body-chat [data-streamdown='code-block-actions'] button {
+  padding: 0;
+}
+
+/* 상세페이지 및 공통 css */
+
+.markdown-body {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.markdown-body h1 {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.markdown-body h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.markdown-body h3 {
+  margin: 0 0 0.75rem;
+  padding: 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.markdown-body p {
+  margin: 0 0 0.3rem;
+}
+
+.markdown-body hr {
+  margin: 1rem 0 1.25rem;
+  border: 0;
+  border-top: 1px solid var(--gray-250);
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0 0 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+}
+
+.markdown-body li {
+  margin: 0 0 0.25rem;
+}
+
+.markdown-body strong {
+  font-weight: 700;
+}
+
+.markdown-body em {
+  font-style: italic;
+}
+
+.markdown-body blockquote {
+  margin: 0 0 0.75rem;
+  border-left: 4px solid var(--primary-200);
+  padding-left: 0.75rem;
+  color: var(--text-sub);
+}
+
+.markdown-body code {
+  padding: 0.125rem 0.25rem;
+  font-size: 0.85em;
+}
+
+.markdown-body [data-streamdown='code-block-body'] .comment,
+.markdown-body [data-streamdown='code-block-body'] .comment * {
+  color: #8c8c94 !important;
+}
+
+.markdown-body pre {
+  margin: 0 0 0.75rem;
+  overflow-x: auto;
+  border: 1px solid var(--gray-250);
+  border-radius: 0.5rem;
+  background-color: var(--surface-sub);
+  padding: 0.75rem;
+  font-size: 0.7rem;
+}
+
+.markdown-body pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.markdown-body [data-streamdown='code-block-body'] code > span::before {
+  display: none !important;
+  width: 0 !important;
+  margin-right: 0 !important;
+  content: none !important;
+}
+
+.markdown-body a {
+  color: var(--primary-400);
+  text-decoration: underline;
+}
+
+.markdown-body [data-streamdown='code-block-actions'] {
+  margin-right: 0.25rem;
+  border: none !important;
+
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.markdown-body [data-streamdown='code-block-actions'] > div {
+  border: none !important;
+
+  box-shadow: none !important;
+  padding: 0 !important;
+  backdrop-filter: none;
+}
+
+.markdown-body [data-streamdown='code-block-actions'] button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  color: var(--text-sub);
+}
+
+.markdown-body [data-streamdown='code-block-actions'] button:hover {
+  color: var(--text-main);
+}
+
+.markdown-body [data-streamdown='code-block-actions'] button::after {
+  content: '복사';
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.markdown-table-wrapper {
+  margin: 0 0 0.75rem;
+  overflow-x: auto;
+}
+
+.markdown-body table {
+  min-width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--gray-250);
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown-body th {
+  background-color: var(--surface-sub);
+  font-weight: 700;
+}
+
+@media (min-width: 48rem) {
+  .markdown-body h1 {
+    font-size: 1.25rem;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.125rem;
+  }
+
+  .markdown-body h3 {
+    font-size: 1.05rem;
+  }
+
+  .markdown-body code {
+    font-size: 0.9em;
+  }
+
+  .markdown-body pre {
+    font-size: 0.75rem;
+  }
+}
+
+.markdown-body > :last-child,
+.markdown-body blockquote > :last-child,
+.markdown-body li > :last-child,
+.markdown-body td > :last-child,
+.markdown-body th > :last-child {
+  margin-bottom: 0;
+}
