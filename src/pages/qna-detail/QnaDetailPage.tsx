@@ -8,7 +8,8 @@ import {
   QnaDetailHeader,
 } from '@/features/qna-detail'
 import { useToast } from '@/hooks/useToast'
-import { useQnaDetailQuery } from '@/queries'
+// import { mockUsers } from '@/mocks/data/qna-detail-mock'
+import { useAdoptAnswerMutation, useQnaDetailQuery } from '@/queries'
 import { useAuthStore } from '@/store'
 
 export default function QnaDetailPage() {
@@ -27,6 +28,8 @@ export default function QnaDetailPage() {
 
   const currentUser = useAuthStore((s) => s.user)
   const isQuestionAuthor = !!question && currentUser?.id === question.author.id
+  const { mutate: adoptAnswer, isPending: isAdoptPending } =
+    useAdoptAnswerMutation()
 
   const myAnswer =
     question?.answers.find((answer) => answer.author.id === currentUser?.id) ??
@@ -83,6 +86,9 @@ export default function QnaDetailPage() {
           questionId={questionId}
           answers={otherAnswers ?? []}
           totalAnswerCount={totalAnswerCount}
+          canAdoptAnswer={isQuestionAuthor}
+          onAdopt={(answerId) => adoptAnswer({ answerId, questionId })}
+          isAdoptPending={isAdoptPending}
           currentUserId={currentUser?.id ?? null}
         />
       ) : (

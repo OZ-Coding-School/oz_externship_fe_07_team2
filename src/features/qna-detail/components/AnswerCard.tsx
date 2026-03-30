@@ -81,29 +81,45 @@ export default function AnswerCard({
             size="md"
           />
 
-          <div className="min-w-0">
-            <p className="text-text-main text-sm font-semibold">
-              {author.nickname}{' '}
-              {currentUserId === author.id && (
-                <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-500">
-                  내 답변
-                </span>
-              )}
-            </p>
-          </div>
-
-          {onEdit && (
-            <div className="ml-auto">
-              <Button
-                variant="outline"
-                size="sm"
-                rounded="full"
-                onClick={onEdit}
-              >
-                {editButtonLabel}
-              </Button>
+          <div className="flex flex-1 items-center justify-between">
+            {/* 왼쪽 영역 */}
+            <div className="min-w-0">
+              <p className="text-text-main text-sm font-semibold">
+                {author.nickname}
+                {currentUserId === author.id && (
+                  <span className="ml-1 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-500">
+                    내 답변
+                  </span>
+                )}
+              </p>
             </div>
-          )}
+
+            {/* 오른쪽 영역 */}
+            <div className="flex items-center gap-2">
+              {onEdit && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  rounded="full"
+                  onClick={onEdit}
+                >
+                  {editButtonLabel}
+                </Button>
+              )}
+
+              {canAdopt && !is_adopted && onAdopt && (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  rounded="full"
+                  disabled={isAdoptPending}
+                  onClick={handleAdoptClick}
+                >
+                  {adoptButtonLabel}
+                </Button>
+              )}
+            </div>
+          </div>
         </div>
         <div
           className="text-text-main text-sm leading-7 whitespace-pre-line"
@@ -115,20 +131,6 @@ export default function AnswerCard({
             {formatTimeAgo(created_at)}
           </span>
         </div>
-
-        {canAdopt && !is_adopted && onAdopt && (
-          <div className="mt-3 flex justify-end">
-            <Button
-              variant="outline"
-              size="sm"
-              rounded="full"
-              disabled={isAdoptPending}
-              onClick={handleAdoptClick}
-            >
-              {adoptButtonLabel}
-            </Button>
-          </div>
-        )}
 
         {!isOwnAnswer && (
           <div className="border-border-line mt-3 flex items-center gap-2 rounded-xl border p-3">
