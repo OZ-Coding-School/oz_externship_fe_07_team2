@@ -92,7 +92,7 @@ export default function QnaDetailPage() {
           currentUserId={currentUser?.id ?? null}
         />
       ) : (
-        <EmptyState type="emptyState" />
+        <EmptyState type="answerEmpty" />
       )}
     </div>
   )
