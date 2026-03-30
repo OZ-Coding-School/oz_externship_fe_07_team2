@@ -11,7 +11,7 @@ import useChatMessageState from './useChatMessageState'
 const INITIAL_GREETING_MESSAGE: ChatMessagePreview = {
   id: 1,
   role: 'assistant',
-  message: '안녕하세요. 무엇을 도와드릴까요?',
+  message: '안녕하세요! 무엇을 도와드릴까요?',
 }
 
 type UseChatConversationParams = {
@@ -72,6 +72,7 @@ export default function useChatConversation({
             id: 1,
             role: 'assistant' as const,
             message: initialAssistantMessage,
+            isInitialEntry: true,
           },
         ]
       : []

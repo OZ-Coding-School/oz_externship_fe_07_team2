@@ -18,14 +18,16 @@ type ChatMessageListProps = {
 
 type ChatMessageRowProps = {
   message: ChatMessagePreview
+  isStreaming?: boolean
 }
 
 const ChatMessageRow = memo(function ChatMessageRow({
   message,
+  isStreaming = false,
 }: ChatMessageRowProps) {
   return (
     <div>
-      <ChatBubble message={message} />
+      <ChatBubble message={message} isStreaming={isStreaming} />
     </div>
   )
 })
@@ -77,7 +79,14 @@ export default function ChatMessageList({
       >
         {messages.map((message) => (
           <div key={message.id}>
-            <ChatMessageRow message={message} />
+            <ChatMessageRow
+              message={message}
+              isStreaming={
+                isStreaming &&
+                message.id === latestMessage?.id &&
+                message.role === 'assistant'
+              }
+            />
           </div>
         ))}
         <div ref={bottomRef} aria-hidden="true" />
