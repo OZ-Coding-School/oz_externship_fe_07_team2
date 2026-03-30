@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react'
-
 import { MessageCircle } from 'lucide-react'
 
 import { Avatar, Button, Input, ModalButton } from '@/components'
 import { useCommentSort } from '@/hooks'
 import type { SortType } from '@/hooks/useCommentSort'
-import { useCreateAnswerCommentMutation } from '@/queries'
-import { useAuthStore } from '@/store'
 import type { QnaAnswer } from '@/types'
 import { cn, formatTimeAgo } from '@/utils'
+
+import { useAnswerCommentForm } from '../hooks/useAnswerCommentForm'
 
 type AnswerCardProps = {
   questionId: number
@@ -19,6 +17,8 @@ type AnswerCardProps = {
   onAdopt?: (answerId: number) => void
   isAdoptPending?: boolean
   currentUserId?: number | null
+  onEdit?: () => void
+  editButtonLabel?: string
 }
 
 export default function AnswerCard({
@@ -29,25 +29,35 @@ export default function AnswerCard({
   onAdopt,
   isAdoptPending,
   currentUserId,
+  onEdit,
+  editButtonLabel = '답변 수정하기',
 }: AnswerCardProps) {
   const { content, created_at, is_adopted, author, comments } = answer
-  const currentUser = useAuthStore((s) => s.user)
-
-  const [commentText, setCommentText] = useState('')
-  const [localComments, setLocalComments] = useState(comments)
-
-  const { mutate: createCommentMutate, isPending: isCommentPending } =
-    useCreateAnswerCommentMutation()
-
-  // 댓글 즉시 리프레시
-  useEffect(() => {
-    setLocalComments(comments)
-  }, [comments])
+  const {
+    commentText,
+    setCommentText,
+    localComments,
+    isSubmitDisabled,
+    commentButtonLabel,
+    handleSubmitComment,
+  } = useAnswerCommentForm({
+    questionId,
+    answerId: answer.id,
+    initialComments: comments,
+  })
 
   const isOwnAnswer = currentUserId !== undefined && currentUserId === author.id
   const isAdoptedCard = is_adopted
   const { sortType, setSortType, sortOptions, sortedComments } =
     useCommentSort(localComments)
+
+  const adoptButtonLabel = isAdoptPending ? '채택 중...' : '채택하기'
+
+  const handleAdoptClick = () => {
+    if (!onAdopt) return
+
+    onAdopt(answer.id)
+  }
 
   return (
     <article
@@ -64,9 +74,9 @@ export default function AnswerCard({
       )}
 
       <div className={cn(isAdoptedCard && 'pt-2')}>
-        <div className="mb-5 flex items-center gap-3">
+        <div className="mb-5 flex items-start gap-3">
           <Avatar
-            src={author.profile_image_url ?? undefined}
+            src={author.profile_img_url ?? undefined}
             alt={author.nickname}
             size="md"
           />
@@ -81,6 +91,19 @@ export default function AnswerCard({
               )}
             </p>
           </div>
+
+          {onEdit && (
+            <div className="ml-auto">
+              <Button
+                variant="outline"
+                size="sm"
+                rounded="full"
+                onClick={onEdit}
+              >
+                {editButtonLabel}
+              </Button>
+            </div>
+          )}
         </div>
         <div
           className="text-text-main text-sm leading-7 whitespace-pre-line"
@@ -100,9 +123,9 @@ export default function AnswerCard({
               size="sm"
               rounded="full"
               disabled={isAdoptPending}
-              onClick={() => onAdopt(answer.id)}
+              onClick={handleAdoptClick}
             >
-              {isAdoptPending ? '채택 중...' : '채택하기'}
+              {adoptButtonLabel}
             </Button>
           </div>
         )}
@@ -119,59 +142,10 @@ export default function AnswerCard({
             <Button
               size="sm"
               rounded="full"
-              disabled={!commentText.trim() || isCommentPending}
-              onClick={() => {
-                const text = commentText.trim()
-                if (!text || !currentUser) return
-
-                createCommentMutate(
-                  {
-                    questionId,
-                    answerId: answer.id,
-                    content: text,
-                    image_urls: [],
-                  },
-                  {
-                    onSuccess: (data) => {
-                      const author = data.author
-                      const commentAuthor = author
-                        ? {
-                            id: author.id,
-                            nickname: author.nickname,
-                            profile_image_url: author.profile_image_url,
-                          }
-                        : currentUser
-                          ? {
-                              id: currentUser.id,
-                              nickname: currentUser.nickname,
-                              profile_image_url:
-                                currentUser.profile_img_url ?? null,
-                            }
-                          : {
-                              id: 0,
-                              nickname: '알 수 없음',
-                              profile_image_url: null,
-                            }
-
-                      setLocalComments((prev) => [
-                        ...prev,
-                        {
-                          id: data.id,
-                          content: data.content,
-                          created_at: data.created_at,
-                          author: commentAuthor,
-                        },
-                      ])
-                      setCommentText('')
-                    },
-                    onError: () => {
-                      alert('댓글 등록에 실패했습니다. 다시 시도해주세요.')
-                    },
-                  }
-                )
-              }}
+              disabled={isSubmitDisabled}
+              onClick={handleSubmitComment}
             >
-              {isCommentPending ? '등록 중...' : '등록'}
+              {commentButtonLabel}
             </Button>
           </div>
         )}
@@ -197,7 +171,7 @@ export default function AnswerCard({
                 <div key={comment.id} className="py-4 first:pt-0 last:pb-0">
                   <div className="mb-2 flex items-center gap-2">
                     <Avatar
-                      src={comment.author.profile_image_url ?? undefined}
+                      src={comment.author.profile_img_url ?? undefined}
                       alt={comment.author.nickname}
                       size="sm"
                     />

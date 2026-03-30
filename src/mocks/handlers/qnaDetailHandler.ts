@@ -113,7 +113,7 @@ export const qnaDetailHandlers = [
         author: {
           id: 999,
           nickname: '테스트 사용자',
-          profile_image_url: null,
+          profile_img_url: null,
         },
         comments: [],
       }

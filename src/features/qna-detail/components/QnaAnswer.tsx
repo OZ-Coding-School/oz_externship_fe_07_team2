@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import DOMPurify from 'dompurify'
-
 import { Avatar, Button, TipTabEditor } from '@/components'
 import useCreateAnswerMutation from '@/queries/useCreateAnswerMutation'
 import useUpdateAnswerMutation from '@/queries/useUpdateAnswerMutation'
 import { useAuthStore } from '@/store/useAuthStore'
 import type { QnaAnswer as QnaAnswerType } from '@/types'
+
+import AnswerCard from './AnswerCard'
 
 type QnaAnswerProps = {
   questionId: number
@@ -60,9 +60,6 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
             setIsEditing(false)
             setContent('')
           },
-          onError: () => {
-            alert('답변 수정에 실패했습니다. 다시 시도해주세요.')
-          },
         }
       )
     } else {
@@ -78,9 +75,6 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
             setIsEditing(false)
             setContent('')
           },
-          onError: () => {
-            alert('답변 등록에 실패했습니다. 다시 시도해주세요.')
-          },
         }
       )
     }
@@ -88,34 +82,12 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
 
   if (myAnswer && !isEditing) {
     return (
-      <section className="bg-surface-default border-border-line mt-6 rounded-2xl border px-5 py-4">
-        <div className="m-5 flex items-center justify-between">
-          <div className="flex items-center gap-5">
-            <Avatar size="lg" />
-
-            <div>
-              <p className="text-text-highlight text-sm font-semibold">
-                {myAnswer.author.nickname}
-              </p>
-              <p className="text-text-sub text-sm">이미 작성한 답변입니다.</p>
-            </div>
-          </div>
-
-          <Button
-            variant="primary"
-            size="md"
-            rounded="full"
-            onClick={handleEditClick}
-          >
-            수정하기
-          </Button>
-        </div>
-
-        <div
-          className="border-border-line mx-5 mt-4 border-t pt-4"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
-        />
-      </section>
+      <AnswerCard
+        questionId={questionId}
+        answer={myAnswer}
+        currentUserId={user?.id ?? null}
+        onEdit={handleEditClick}
+      />
     )
   }
 
@@ -130,7 +102,7 @@ export default function QnaAnswer({ questionId, myAnswer }: QnaAnswerProps) {
               {user?.nickname ?? '회원'} 님,
             </p>
             <p className="text-text-sub text-sm">
-              {myAnswer ? '답변을 수정해 주세요.' : '정보를 공유해 주세요.'}
+              {myAnswer ? '' : '정보를 공유해 주세요.'}
             </p>
           </div>
         </div>

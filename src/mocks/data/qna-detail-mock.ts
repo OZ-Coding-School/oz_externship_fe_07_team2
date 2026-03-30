@@ -20,7 +20,7 @@ export const mockQuestionDetail: QnaQuestionDetail = {
   author: {
     id: 211,
     nickname: '한솔_회장',
-    profile_image_url: null,
+    profile_img_url: null,
   },
   answers: [
     {
@@ -32,7 +32,7 @@ export const mockQuestionDetail: QnaQuestionDetail = {
       author: {
         id: 102,
         nickname: 'django_master',
-        profile_image_url: 'https://cdn.ozcodingschool.com/profile/user102.png',
+        profile_img_url: 'https://cdn.ozcodingschool.com/profile/user102.png',
       },
       comments: [
         {
@@ -42,7 +42,7 @@ export const mockQuestionDetail: QnaQuestionDetail = {
           author: {
             id: 211,
             nickname: '한솔_회장',
-            profile_image_url: null,
+            profile_img_url: null,
           },
         },
         {
@@ -52,7 +52,7 @@ export const mockQuestionDetail: QnaQuestionDetail = {
           author: {
             id: 211,
             nickname: '한솔_회장',
-            profile_image_url: null,
+            profile_img_url: null,
           },
         },
       ],
@@ -65,7 +65,7 @@ export const mockQuestionDetail: QnaQuestionDetail = {
       author: {
         id: 305,
         nickname: 'orm_lover',
-        profile_image_url: null,
+        profile_img_url: null,
       },
       comments: [],
     },

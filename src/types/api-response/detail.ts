@@ -1,7 +1,7 @@
 export type QnaAuthor = {
   id: number
   nickname: string
-  profile_image_url: string | null
+  profile_img_url: string | null
 }
 
 export type QnaCategory = {
