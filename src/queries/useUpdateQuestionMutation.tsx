@@ -11,10 +11,15 @@ export function useUpdateQuestionMutation(questionId: number) {
   return useMutation({
     mutationFn: (data: UpdateQuestionRequest) =>
       updateQuestion(questionId, data),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       queryClient.setQueryData(['qna-detail', questionId], data)
-      queryClient.invalidateQueries({ queryKey: ['qna-detail', questionId] })
-      queryClient.invalidateQueries({ queryKey: ['qna-list'] })
+      await queryClient.invalidateQueries({
+        queryKey: ['qna-detail', questionId],
+      })
+      await queryClient.invalidateQueries({
+        queryKey: ['qna-list'],
+      })
+
       success('질문이 수정되었습니다.')
     },
     onError: () => {
