@@ -95,14 +95,14 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
 
     if (mode === 'create') {
       createQuestion(
-        { title, content, category_id: categoryId! },
+        { title, content, category_id: categoryId!, image_urls: imageUrls },
         {
           onSuccess: () => navigate(ROUTES_PATHS.QNA_LIST),
         }
       )
     } else {
       updateQuestion(
-        { title, content, category_id: categoryId! },
+        { title, content, category_id: categoryId!, image_urls: imageUrls },
         {
           onSuccess: () => navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!)),
         }

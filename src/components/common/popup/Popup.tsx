@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { Button } from '@/components'
+import { cn } from '@/utils'
 
 type PopupProps = {
   isOpen: boolean
@@ -9,6 +10,7 @@ type PopupProps = {
   onCancel?: () => void
   confirmLabel?: string
   cancelLabel?: string
+  buttonClassName?: string
 }
 
 export default function Popup({
@@ -18,6 +20,7 @@ export default function Popup({
   onCancel,
   confirmLabel = '확인',
   cancelLabel = '취소',
+  buttonClassName,
 }: PopupProps) {
   if (!isOpen) return null
   return (
@@ -39,6 +42,7 @@ export default function Popup({
               variant="outline"
               size="md"
               rounded="full"
+              className={cn('whitespace-nowrap', buttonClassName)}
             >
               {cancelLabel}
             </Button>
@@ -48,6 +52,7 @@ export default function Popup({
             variant="primary"
             size="md"
             rounded="full"
+            className={cn('whitespace-nowrap', buttonClassName)}
           >
             {confirmLabel}
           </Button>

@@ -8,5 +8,5 @@ export const QNA_API = {
   ANSWER_DETAIL: (id: number | string) => `/qna/answers/${id}`,
   ANSWER_COMMENTS: (id: number | string) => `/qna/answers/${id}/comments`,
   ANSWER_ACCEPT: (id: number | string) => `/qna/answers/${id}/accept`,
-  PRESIGNED_URL: '/qna/questions/presigned-url/',
+  PRESIGNED_URL: '/qna/questions/presigned-url',
 } as const

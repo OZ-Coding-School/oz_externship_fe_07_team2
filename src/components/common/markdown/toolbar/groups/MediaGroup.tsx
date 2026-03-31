@@ -5,11 +5,12 @@ import { Image, Link2 } from 'lucide-react'
 
 import { getPresignedUrl, uploadImageToS3 } from '@/api'
 import { Popup } from '@/components'
+import { useToast } from '@/hooks/useToast'
 
 import { Group, IconBtn } from '../ToolbarPrimitives'
 
 type PopupState = {
-  type: 'link' | 'image'
+  type: 'link'
   isOpen: boolean
 }
 
@@ -20,6 +21,7 @@ type MediaGroupProp = {
 
 export default function MediaGroup({ editor, onImageUpload }: MediaGroupProp) {
   const [inputValue, setInputValue] = useState('')
+  const { error } = useToast()
   const [popup, setPopup] = useState<PopupState>({
     type: 'link',
     isOpen: false,
@@ -64,7 +66,7 @@ export default function MediaGroup({ editor, onImageUpload }: MediaGroupProp) {
       onImageUpload?.(img_url)
       editor.chain().focus().setImage({ src: img_url }).run()
     } catch {
-      setPopup({ type: 'image', isOpen: true })
+      error('이미지 업로드에 실패했습니다. 다시 시도해 주세요.')
     }
 
     e.target.value = ''
@@ -114,6 +116,7 @@ export default function MediaGroup({ editor, onImageUpload }: MediaGroupProp) {
         cancelLabel="취소"
         onConfirm={handleConfirm}
         onCancel={closePopup}
+        buttonClassName="px-6"
       />
     </>
   )
