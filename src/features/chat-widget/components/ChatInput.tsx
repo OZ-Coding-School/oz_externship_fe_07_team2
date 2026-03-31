@@ -16,6 +16,8 @@ type ChatInputProps = {
   onSend: (message: string) => Promise<boolean>
   isPending?: boolean
   isStreaming?: boolean
+  isDisabled?: boolean
+  disabledPlaceholder?: string
 }
 
 //글자 제한수
@@ -25,19 +27,28 @@ function ChatInput({
   onSend,
   isPending = false,
   isStreaming = false,
+  isDisabled = false,
+  disabledPlaceholder = '',
 }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const [value, setValue] = useState('')
 
-  const isSendDisabled = isPending || isStreaming || value.trim().length === 0
+  const isSendDisabled =
+    isDisabled || isPending || isStreaming || value.trim().length === 0
 
   //채팅방 진입시 자동포커스
   useEffect(() => {
     textareaRef.current?.focus()
   }, [])
 
+  useEffect(() => {
+    if (isDisabled) {
+      setValue('')
+    }
+  }, [isDisabled])
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (isStreaming) {
+    if (isStreaming || isDisabled) {
       return
     }
 
@@ -90,17 +101,21 @@ function ChatInput({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         maxLength={MAX_LENGTH}
-        readOnly={isStreaming}
+        readOnly={isStreaming || isDisabled}
         aria-busy={isStreaming}
+        disabled={isDisabled}
         className={cn(
           'bg-surface-sub text-text-chatbot min-h-0 w-full overflow-y-auto rounded-lg pb-5 text-base [scrollbar-width:thin]',
+          isDisabled && 'cursor-not-allowed opacity-70',
           isStreaming &&
             'border-primary-200 bg-primary-50/40 text-primary-400 placeholder:text-primary-300'
         )}
         placeholder={
-          isStreaming
-            ? 'AI가 답변 생성 중입니다...'
-            : '더 궁금한 것이 있다면 이어서 질문해 보세요.'
+          isDisabled
+            ? disabledPlaceholder
+            : isStreaming
+              ? 'AI가 답변 생성 중입니다...'
+              : '더 궁금한 것이 있다면 이어서 질문해 보세요.'
         }
       />
 

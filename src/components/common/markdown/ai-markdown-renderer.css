@@ -14,57 +14,145 @@
 .ai-markdown-body-chat h3,
 .ai-markdown-body-chat h4 {
   font-size: medium !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  line-break: auto !important;
+  text-wrap: wrap !important;
 }
 
 .ai-markdown-body-chat ul,
 .ai-markdown-body-chat ol {
-  padding-left: 0.5rem !important;
+  margin-left: 0 !important;
+  padding-left: 1rem !important;
+  list-style-position: outside;
+}
+
+.ai-markdown-body-chat ul.list-inside,
+.ai-markdown-body-chat ol.list-inside {
+  padding-left: 1rem !important;
+  list-style-position: outside !important;
+}
+
+.ai-markdown-body-chat ul ul,
+.ai-markdown-body-chat ol ol,
+.ai-markdown-body-chat ul ol,
+.ai-markdown-body-chat ol ul {
+  padding-left: 0.9rem !important;
+}
+
+.ai-markdown-body-chat ul ul.list-inside,
+.ai-markdown-body-chat ol ol.list-inside,
+.ai-markdown-body-chat ul ol.list-inside,
+.ai-markdown-body-chat ol ul.list-inside {
+  padding-left: 0.9rem !important;
+}
+
+.ai-markdown-body-chat ul {
+  list-style-type: disc;
+}
+
+.ai-markdown-body-chat ul ul {
+  list-style-type: circle;
+}
+
+.ai-markdown-body-chat ul ul ul {
+  list-style-type: square;
+}
+
+.ai-markdown-body-chat ol {
+  list-style-type: decimal;
+}
+
+.ai-markdown-body-chat li {
+  margin: 0 !important;
+  padding-left: 0 !important;
+}
+
+.ai-markdown-body-chat li::marker {
+  color: var(--text-chatbot);
+  font-size: 1em;
+}
+
+.ai-markdown-body-chat ul ul li::marker {
+  color: var(--text-chatbot);
+}
+
+.markdown-body li::marker {
+  font-size: 1em;
+}
+
+.ai-markdown-body-chat .markdown-table-wrapper {
+  margin: 0.25rem 0 0;
+  overflow-x: auto;
+}
+
+.ai-markdown-body-chat table {
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.6875rem !important;
+  white-space: normal;
+}
+
+.ai-markdown-body-chat th,
+.ai-markdown-body-chat td {
+  border: 1px solid var(--gray-250);
+  padding: 0.25rem !important;
+  font-size: 0.6875rem !important;
+  line-height: 1.35;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.ai-markdown-body-chat th {
+  background-color: var(--surface-sub);
+  font-weight: 600;
 }
 
 .ai-markdown-body-chat pre {
   margin-top: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
   border-radius: 0.75rem;
   padding: 0.5rem;
   font-size: 0.6875rem;
-  box-shadow: none;
+  background: #1e1e1e !important;
+  color: white !important;
 }
 
 .ai-markdown-body-chat [data-streamdown='code-block'] {
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.4rem !important;
 }
 
 .ai-markdown-body-chat [data-streamdown='code-block-body'] {
   border: none !important;
   box-shadow: none !important;
-  padding: 0 0.5rem !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 0.1rem 0 0.1rem !important;
 }
 
 .ai-markdown-body-chat code {
   font-size: 0.8em;
 }
 
-.markdown-body-chat pre code {
+.ai-markdown-body-chat pre code {
   display: inline-block;
   min-width: 100%;
-  padding-right: 0.75rem;
+  padding-right: 1rem;
   box-sizing: border-box;
 }
 
 .ai-markdown-body-chat [data-streamdown='code-block-actions'] {
   margin-top: 0.125rem;
   margin-right: 0;
-  border: none !important;
-
-  box-shadow: none !important;
+  position: static !important;
+  inset: auto !important;
   padding: 0 !important;
-}
-
-.ai-markdown-body-chat [data-streamdown='code-block-actions'] > div {
-  border: none !important;
-
-  box-shadow: none !important;
 }
 
 .ai-markdown-body-chat [data-streamdown='code-block-actions'] button {
@@ -83,12 +171,20 @@
   margin: 0 0 1rem;
   font-size: 1.125rem;
   font-weight: 700;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  line-break: strict;
+  text-wrap: pretty;
 }
 
 .markdown-body h2 {
   margin: 0 0 0.75rem;
   font-size: 1rem;
   font-weight: 700;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  line-break: strict;
+  text-wrap: pretty;
 }
 
 .markdown-body h3 {
@@ -96,6 +192,17 @@
   padding: 0.25rem 0;
   font-size: 0.95rem;
   font-weight: 600;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  line-break: strict;
+  text-wrap: pretty;
+}
+
+.markdown-body h4 {
+  overflow-wrap: normal;
+  word-break: keep-all;
+  line-break: strict;
+  text-wrap: pretty;
 }
 
 .markdown-body p {
@@ -111,11 +218,39 @@
 .markdown-body ul,
 .markdown-body ol {
   margin: 0 0 0.75rem;
-  padding-left: 1.25rem;
+  padding-left: 1rem;
+}
+
+.markdown-body ul.list-inside,
+.markdown-body ol.list-inside {
+  padding-left: 1rem !important;
+  list-style-position: outside !important;
+}
+
+.markdown-body ul ul,
+.markdown-body ol ol,
+.markdown-body ul ol,
+.markdown-body ol ul {
+  padding-left: 0.9rem;
+}
+
+.markdown-body ul ul.list-inside,
+.markdown-body ol ol.list-inside,
+.markdown-body ul ol.list-inside,
+.markdown-body ol ul.list-inside {
+  padding-left: 0.9rem !important;
 }
 
 .markdown-body ul {
   list-style-type: disc;
+}
+
+.markdown-body ul ul {
+  list-style-type: circle;
+}
+
+.markdown-body ul ul ul {
+  list-style-type: square;
 }
 
 .markdown-body ol {
@@ -123,15 +258,7 @@
 }
 
 .markdown-body li {
-  margin: 0 0 0.25rem;
-}
-
-.markdown-body strong {
-  font-weight: 700;
-}
-
-.markdown-body em {
-  font-style: italic;
+  margin: 0;
 }
 
 .markdown-body blockquote {
@@ -146,24 +273,26 @@
   font-size: 0.85em;
 }
 
-.markdown-body [data-streamdown='code-block-body'] .comment,
-.markdown-body [data-streamdown='code-block-body'] .comment * {
-  color: #8c8c94 !important;
+.markdown-body [data-streamdown='code-block-body'] {
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .markdown-body pre {
-  margin: 0 0 0.75rem;
   overflow-x: auto;
   border: 1px solid var(--gray-250);
   border-radius: 0.5rem;
-  background-color: var(--surface-sub);
+  background-color: #1e1e1e;
   padding: 0.75rem;
   font-size: 0.7rem;
+  color: #ffffff;
 }
 
 .markdown-body pre code {
   background-color: transparent;
   padding: 0;
+  color: inherit;
 }
 
 .markdown-body [data-streamdown='code-block-body'] code > span::before {
@@ -213,6 +342,10 @@
   content: '복사';
   font-size: 0.75rem;
   font-weight: 600;
+}
+
+.markdown-body [data-streamdown='code-block-body'] {
+  box-shadow: none !important;
 }
 
 .markdown-table-wrapper {

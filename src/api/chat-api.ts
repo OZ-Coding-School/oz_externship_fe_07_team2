@@ -20,6 +20,10 @@ type StreamChatCompletionOptions = {
   signal?: AbortSignal
 }
 
+type ChatRequestError = Error & {
+  status?: number
+}
+
 function getApiBaseUrl() {
   return API_BASE_URL
 }
@@ -85,7 +89,11 @@ export const createSupportCompletion = async (
   })
 
   if (!response.ok) {
-    throw new Error(`Support completion failed: ${response.status}`)
+    const error = new Error(
+      `Support completion failed: ${response.status}`
+    ) as ChatRequestError
+    error.status = response.status
+    throw error
   }
 
   if (!response.body) {
@@ -148,6 +156,22 @@ export const deleteChatSession = async (
   await api.delete(CHAT_API.sessionById(sessionId))
 }
 
+// 페이지 종료 직전에도 세션 삭제 요청이 최대한 전송되도록 keepalive fetch를 사용한다.
+export const deleteChatSessionOnPageExit = (sessionId: SessionId) => {
+  const token = TokenService.getAccessToken()
+
+  void fetch(`${API_BASE_URL}${CHAT_API.sessionById(sessionId)}`, {
+    method: 'DELETE',
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    credentials: 'include',
+    keepalive: true,
+  }).catch(() => {
+    // 페이지 종료 중 실패는 복구할 수 없으므로 무시
+  })
+}
+
 // 채팅 메시지 목록을 cursor 기반으로 조회
 export const getChatCompletions = async (
   sessionId: SessionId,
@@ -185,7 +209,11 @@ export const createChatCompletion = async (
   })
 
   if (!response.ok) {
-    throw new Error(`Chat completion failed: ${response.status}`)
+    const error = new Error(
+      `Chat completion failed: ${response.status}`
+    ) as ChatRequestError
+    error.status = response.status
+    throw error
   }
 
   if (!response.body) {
