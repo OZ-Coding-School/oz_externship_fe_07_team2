@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { EmptyState, Loading } from '@/components'
 import AuthGuard from '@/components/layout/auth/AuthGuard'
@@ -14,7 +13,6 @@ import { useAdoptAnswerMutation, useQnaDetailQuery } from '@/queries'
 import { useAuthStore } from '@/store'
 
 export default function QnaDetailPage() {
-  const location = useLocation()
   const { id } = useParams<{ id: string }>()
   const questionId = Number(id)
   const isValidQuestionId = Number.isFinite(questionId) && questionId > 0
@@ -24,17 +22,9 @@ export default function QnaDetailPage() {
     data: question,
     isPending,
     isError,
-    refetch,
   } = useQnaDetailQuery(questionId, {
     enabled: isValidQuestionId,
   })
-
-  useEffect(() => {
-    const state = location.state as { updated?: boolean } | null
-    if (state?.updated) {
-      refetch()
-    }
-  }, [location.state, refetch])
 
   const currentUser = useAuthStore((s) => s.user)
   const isQuestionAuthor = !!question && currentUser?.id === question.author.id

@@ -1,25 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 import { updateQuestion } from '@/api'
 import { useToast } from '@/hooks/useToast'
 import type { UpdateQuestionRequest } from '@/types'
 
 export function useUpdateQuestionMutation(questionId: number) {
-  const queryClient = useQueryClient()
   const { success, error } = useToast()
 
   return useMutation({
     mutationFn: (data: UpdateQuestionRequest) =>
       updateQuestion(questionId, data),
-    onSuccess: async (data) => {
-      queryClient.setQueryData(['qna-detail', questionId], data)
-      await queryClient.invalidateQueries({
-        queryKey: ['qna-detail', questionId],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: ['qna-list'],
-      })
-
+    onSuccess: () => {
       success('질문이 수정되었습니다.')
     },
     onError: () => {
