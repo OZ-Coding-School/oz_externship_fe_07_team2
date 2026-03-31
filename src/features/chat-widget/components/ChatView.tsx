@@ -64,6 +64,26 @@ export default function ChatView() {
     }
   }, [deleteCurrentSessionOnPageExit])
 
+  useEffect(() => {
+    if (!chat.isOpen) {
+      return
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') {
+        return
+      }
+
+      void handleCloseChat()
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [chat.isOpen, handleCloseChat])
+
   if (!chat.isOpen) return null
 
   return (

@@ -4,7 +4,8 @@ import useChatConversation from '@/features/chat-widget/hooks/useChatConversatio
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
 import ChatMessageList from './ChatMessageList'
-import ChatQuestionContextCard from './ChatQuestionContextCard'
+
+const ENTRY_GUIDE_MESSAGE = '추가로 궁금한 내용을 질문해 보세요.'
 
 type ChatWindowProps = {
   onClose: () => void
@@ -44,9 +45,9 @@ export default function ChatWindow({
   return (
     <div className="bg-surface-default shadow-box flex h-152.5 min-h-0 w-90 flex-col overflow-hidden rounded-xl">
       <ChatHeader onClose={onClose} />
-      {entryData && <ChatQuestionContextCard entryData={entryData} />}
       <ChatMessageList
         messages={localMessages}
+        guideMessage={entryData ? ENTRY_GUIDE_MESSAGE : undefined}
         isStreaming={isStreaming}
         scrollToLatestKey={scrollToLatestKey}
         isPending={isMessagePending}

@@ -75,6 +75,28 @@ export default function useChatAutoScroll({
     scrollToBottom(behavior)
   }, [isStreaming, latestMessageKey, scrollToBottom])
 
+  useEffect(() => {
+    const element = containerRef.current
+
+    if (!element || typeof ResizeObserver === 'undefined') {
+      return
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (!isAutoFollowingRef.current) {
+        return
+      }
+
+      scrollToBottom('auto')
+    })
+
+    resizeObserver.observe(element)
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [scrollToBottom])
+
   const handleScroll = () => {
     if (isProgrammaticScrollRef.current) {
       return

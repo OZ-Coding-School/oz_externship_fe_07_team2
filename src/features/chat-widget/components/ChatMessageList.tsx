@@ -6,10 +6,12 @@ import { Button, Loading } from '@/components'
 import useChatAutoScroll from '@/features/chat-widget/hooks/useChatAutoScroll'
 import type { ChatMessagePreview } from '@/features/chat-widget/type/chat'
 
+import ChatBadge from './ChatBadge'
 import ChatBubble from './ChatBubble'
 
 type ChatMessageListProps = {
   messages: ChatMessagePreview[]
+  guideMessage?: string
   isStreaming?: boolean
   scrollToLatestKey?: number
   isPending?: boolean
@@ -34,6 +36,7 @@ const ChatMessageRow = memo(function ChatMessageRow({
 
 export default function ChatMessageList({
   messages,
+  guideMessage,
   isStreaming = false,
   scrollToLatestKey = 0,
   isPending = false,
@@ -77,6 +80,14 @@ export default function ChatMessageList({
         onScroll={handleScroll}
         className="flex min-h-0 flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto px-4 py-5"
       >
+        {guideMessage && (
+          <div className="flex w-full items-start gap-3 text-sm font-light">
+            <ChatBadge size="sm" />
+            <div className="bg-surface-chat text-text-chatbot max-w-[85%] min-w-0 rounded-2xl px-3 py-2.5 break-all">
+              {guideMessage}
+            </div>
+          </div>
+        )}
         {messages.map((message) => (
           <div key={message.id}>
             <ChatMessageRow
