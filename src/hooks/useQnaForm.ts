@@ -62,7 +62,7 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
     isError: isCreateError,
   } = useCreateQuestionMutation()
   const {
-    mutate: updateQuestion,
+    mutateAsync: updateQuestion,
     isPending: isUpdatePending,
     isError: isUpdateError,
   } = useUpdateQuestionMutation(questionId ?? 0)
@@ -89,7 +89,7 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
    * - create 모드: 질문 등록 후 QNA_LIST로 이동
    * - edit 모드: 질문 수정 후 해당 질문 상세 페이지로 이동
    */
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const error = validate()
     if (error) return setPopupMessage(error)
 
@@ -101,12 +101,19 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
         }
       )
     } else {
-      updateQuestion(
-        { title, content, category_id: categoryId!, image_urls: imageUrls },
-        {
-          onSuccess: () => navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!)),
-        }
-      )
+      try {
+        await updateQuestion({
+          title,
+          content,
+          category_id: categoryId!,
+          image_urls: imageUrls,
+        })
+        navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!), {
+          state: { updated: true },
+        })
+      } catch {
+        // onError toast handled inside mutation
+      }
     }
   }
 
