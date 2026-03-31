@@ -1,5 +1,7 @@
 export const ROUTES_PATHS = {
   LOGIN: '/login',
+  LOGOUT: '/logout',
+  SIGNUP: '/signup',
 
   QNA_LIST: '/questions',
   QNA_DETAIL: `/questions/:id`,
