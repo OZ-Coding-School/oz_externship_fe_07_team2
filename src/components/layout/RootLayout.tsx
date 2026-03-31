@@ -9,7 +9,7 @@ export default function RootLayout() {
   const { isUnauthorizedOpen: isOpen, closeUnauthorized: close } =
     useModalStore()
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
       <PageContainer>
         <ChatWidgetProvider>
@@ -26,6 +26,6 @@ export default function RootLayout() {
         />
       </PageContainer>
       <Footer />
-    </>
+    </div>
   )
 }
