@@ -19,10 +19,19 @@ export default function QnaDetailHeader({
   onShare,
   isQuestionAuthor,
 }: QnaDetailHeaderProps) {
-  const { category, title, content, author, view_count, created_at } = question
+  const {
+    category,
+    title,
+    content,
+    author,
+    view_count,
+    created_at,
+    updated_at,
+  } = question
   const navigate = useNavigate()
 
-  const avatarSrc = author.profile_img_url ?? undefined
+  const avatarSrc =
+    author.profile_img_url ?? author.profile_image_url ?? undefined
 
   return (
     <header className="border-border-line pb-5">
@@ -56,7 +65,11 @@ export default function QnaDetailHeader({
           <div className="flex items-center gap-2">
             <span>조회수 {view_count}</span>
             <span>·</span>
-            <span>{formatTimeAgo(created_at)}</span>
+            <span>
+              {updated_at
+                ? formatTimeAgo(updated_at)
+                : formatTimeAgo(created_at)}
+            </span>
           </div>
           {/* 글 작성자 수정 버튼 */}
           {isQuestionAuthor && (

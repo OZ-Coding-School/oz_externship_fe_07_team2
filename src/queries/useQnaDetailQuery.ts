@@ -24,5 +24,9 @@ export default function useQnaDetailQuery(
     queryKey: ['qna-detail', questionId],
     queryFn: () => getQuestionDetail(questionId),
     enabled: isValidQuestionId && (options?.enabled ?? true),
+    staleTime: options?.staleTime ?? 1000 * 60,
+    refetchOnWindowFocus: options?.refetchOnWindowFocus ?? false,
+    refetchOnReconnect: options?.refetchOnReconnect ?? false,
+    refetchOnMount: options?.refetchOnMount ?? false,
   })
 }

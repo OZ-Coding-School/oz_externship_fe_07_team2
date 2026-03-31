@@ -4,6 +4,7 @@ export type QnaAuthor = {
   id: number
   nickname: string
   profile_img_url: string | null
+  profile_image_url?: string | null
 }
 
 export type QnaCategory = {
@@ -28,6 +29,7 @@ export type QnaAnswer = {
   id: number
   content: string
   created_at: string
+  updated_at?: string
   is_adopted: boolean
   author: QnaAuthor
   comments: QnaAnswerComment[]
