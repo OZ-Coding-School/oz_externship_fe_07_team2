@@ -22,7 +22,8 @@ export default function QnaDetailHeader({
   const { category, title, content, author, view_count, created_at } = question
   const navigate = useNavigate()
 
-  const avatarSrc = author.profile_img_url ?? undefined
+  const avatarSrc =
+    author.profile_img_url ?? author.profile_image_url ?? undefined
 
   return (
     <header className="border-border-line pb-5">

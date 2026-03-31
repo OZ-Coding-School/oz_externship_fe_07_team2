@@ -35,7 +35,8 @@ export function useAnswerCommentForm({
       return {
         id: data.author.id,
         nickname: data.author.nickname,
-        profile_img_url: data.author.profile_img_url,
+        profile_img_url:
+          data.author.profile_img_url ?? data.author.profile_image_url ?? null,
       }
     }
 

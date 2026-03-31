@@ -76,7 +76,9 @@ export default function AnswerCard({
       <div className={cn(isAdoptedCard && 'pt-2')}>
         <div className="mb-5 flex items-start gap-3">
           <Avatar
-            src={author.profile_img_url ?? undefined}
+            src={
+              author.profile_img_url ?? author.profile_image_url ?? undefined
+            }
             alt={author.nickname}
             size="md"
           />
@@ -173,7 +175,11 @@ export default function AnswerCard({
                 <div key={comment.id} className="py-4 first:pt-0 last:pb-0">
                   <div className="mb-2 flex items-center gap-2">
                     <Avatar
-                      src={comment.author.profile_img_url ?? undefined}
+                      src={
+                        comment.author.profile_img_url ??
+                        comment.author.profile_image_url ??
+                        undefined
+                      }
                       alt={comment.author.nickname}
                       size="sm"
                     />
