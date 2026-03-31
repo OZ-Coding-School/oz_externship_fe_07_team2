@@ -58,16 +58,35 @@ const handle401Error = async (originalRequest: RetryAxiosRequestConfig) => {
   }
 
   if (!TokenService.getAccessToken()) {
-    useAuthStore.getState().clearAuth()
-    // 2. 토큰 자체가 없으면 refresh 시도안함
-    if (window.location.pathname != ROUTES_PATHS.LOGIN) {
-      window.location.href = ROUTES_PATHS.LOGIN
+    // 2. access token 없으면 refresh 먼저 시도
+    setIsRefreshing(true)
+    try {
+      const { data } = await axios.post(
+        `${API_BASE_URL}${AUTH_API.REFRESH}`,
+        {},
+        { withCredentials: true }
+      )
+      const newToken = data.access_token
+      TokenService.setAccessToken(newToken)
+      flushQueue(null, newToken)
+
+      originalRequest.headers.Authorization = `Bearer ${newToken}`
+      return api(originalRequest)
+    } catch (error) {
+      flushQueue(error, null)
+      TokenService.clearTokens()
+      useAuthStore.getState().clearAuth()
+      // refresh도 실패하면 로그인으로 이동
+      if (window.location.pathname !== ROUTES_PATHS.LOGIN) {
+        window.location.href = ROUTES_PATHS.LOGIN
+      }
+      return Promise.reject(error)
+    } finally {
+      setIsRefreshing(false)
     }
-    return Promise.reject(new Error('No token'))
   }
 
   setIsRefreshing(true)
-  originalRequest._retry = true
 
   try {
     const { data } = await axios.post(
@@ -85,7 +104,7 @@ const handle401Error = async (originalRequest: RetryAxiosRequestConfig) => {
     flushQueue(error, null)
     TokenService.clearTokens()
     useAuthStore.getState().clearAuth()
-    if (window.location.pathname != ROUTES_PATHS.LOGIN) {
+    if (window.location.pathname !== ROUTES_PATHS.LOGIN) {
       window.location.href = ROUTES_PATHS.LOGIN
     }
     return Promise.reject(error)
