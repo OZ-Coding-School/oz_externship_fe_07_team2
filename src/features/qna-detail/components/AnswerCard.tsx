@@ -32,7 +32,8 @@ export default function AnswerCard({
   onEdit,
   editButtonLabel = '답변 수정하기',
 }: AnswerCardProps) {
-  const { content, created_at, is_adopted, author, comments } = answer
+  const { content, created_at, updated_at, is_adopted, author, comments } =
+    answer
   const {
     commentText,
     setCommentText,
@@ -130,7 +131,9 @@ export default function AnswerCard({
 
         <div className="border-border-line mt-6 border-b pb-2 text-right">
           <span className="text-text-light text-xs">
-            {formatTimeAgo(created_at)}
+            {updated_at
+              ? `수정됨 ${formatTimeAgo(updated_at)}`
+              : formatTimeAgo(created_at)}
           </span>
         </div>
 
