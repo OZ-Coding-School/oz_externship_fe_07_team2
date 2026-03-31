@@ -27,5 +27,6 @@ export default function useQnaDetailQuery(
     staleTime: options?.staleTime ?? 1000 * 60,
     refetchOnWindowFocus: options?.refetchOnWindowFocus ?? false,
     refetchOnReconnect: options?.refetchOnReconnect ?? false,
+    refetchOnMount: options?.refetchOnMount ?? false,
   })
 }
