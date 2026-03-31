@@ -1,5 +1,3 @@
----
-
 ## 📚 통합 교육 플랫폼(LMS) 개발 프로젝트
 
 > 질문을 등록하고 답변을 확인하는 질의응답 서비스와  
@@ -14,8 +12,6 @@
 > 더 끊기지 않는 학습 경험이 만들어집니다.
 > 이 프로젝트는 강의 탐색과 학습, 질의응답, 채팅 기능을 하나로 연결한
 > `통합 교육 플랫폼(LMS)`입니다.
-
-- 프로젝트 기간: 2026.03.02 - 2026.03.31
 
 ## 🔗 배포 링크
 
@@ -54,11 +50,13 @@ pnpm storybook
 
 ---
 
-## 🗣️ 발표 영상, 발표 문서
+## 🗣️ 발표 영상 & 발표 문서
+
+📅 2026.03.02 - 2026.03.31
 
 > ### [📺 발표 영상]()
 >
-> ### [📑 발표 문서]()
+> ### [📑 발표 문서](https://doc-0g-7c-apps-viewer.googleusercontent.com/viewer/secure/pdf/u1ligkkqqo2upst491m9ah3t70afj2gb/su5667k73g7s85s1i69d78vg9kmbi6tp/1774985775000/drive/14246550380768199504/ACFrOgBrSIE1fKzFgfnIJ1U1OtuJjP5WDcB_TWxy8SnokQCVAsaiHc1Uv7HiW2Nw2os797mmOY0eS_6nbiS9Q9CnGPKnvteCP2VEjdIauOL-FSK15-wQ4LkxZxfzJQ45Q5nyTG8LYMdlif9zNS1-bRT_YKxCLj4ORelFDQ5XLJg6DAxEzDfqZPRyebgcU6GrxNB2ttC4Uwdc99wP6PE46xyGE0f_-qtPZxEBZDx4RnfTd71f055hWf2YqCqZWC3_gY8qngJFgebveAZPTt9sdaqPu1A1bAPzh0Rwm2Nccg==?print=true&nonce=c21j28egjj9p2&user=14246550380768199504&hash=u3ndp8601mpmrkdv6psqnhs9utkvc3m7)
 
 ---
 
@@ -73,12 +71,12 @@ pnpm storybook
 
 ```md
 1. 질의응답 목록 페이지
-   목록 조회 기능: 최신순/조회수순 정렬, 검색어 입력, 카테고리 조회 및 필터, 페이지네이션을 지원합니다.
+   - 목록 조회 기능: 최신순/조회수순 정렬, 검색어 입력, 카테고리 조회 및 필터, 페이지네이션을 지원합니다.
 ```
 
-|                                                                                                                 목록 조회                                                                                                                 |                                                                                                            검색 및 필터                                                                                                             |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://lh6.googleusercontent.com/M7RxaY_ZsF5sQcqiIOafdBGHuVGqKrQ0c07hzOtLgkhxYTK-aRKWdhkMfi8DaoZxyDWLZKhdUEDKBIEpETcm2_sH5JdW69mrOXzASMQYHFEiaP0QbgCEHa5bnKzITG-v9ztn0QfbCeZtznJ8q-SDo2qoEA=s2048" alt="질의응답 목록 페이지"> | <img src="https://lh4.googleusercontent.com/iFbgPqWgK__YmSB8ha53yHTLfU_LtwJNEAf7KCDUxbraZbJhh1vQkAjTMLhaQF24HN2s3oniEsOL75mfiiMV2gRUs0exNptePw0hp0a9Q0Ko3XzfN3l4lPoWY5NP3Eif4KONMmgWQ-kKTYamb2mOiGiMlw=s2048" alt="질문 검색 기능"> |
+|                                        목록 조회                                         |                                           검색 및 필터                                           |
+| :--------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
+| <img src="./public/images/qna-list-demo.gif" alt="질의응답 목록 조회 시연" width="100%"> | <img src="./public/images/qna-search-filter-demo.gif" alt="질문 검색 및 필터 시연" width="100%"> |
 
 ### 질문 등록 및 수정
 
@@ -90,86 +88,64 @@ pnpm storybook
 
 ```md
 2. 질문 등록 및 수정
-   질문 작성 기능: 로그인 사용자는 제목, 본문, 카테고리, 이미지 등을 포함해 질문을 등록할 수 있으며, 마크다운 에디터를 통해 내용을 작성할 수 있습니다.
-
-질문 수정 기능: 기존 질문 데이터를 불러와 수정할 수 있으며, 입력값 검증을 함께 제공합니다.
+   - 질문 작성 기능: 로그인한 수강생은 제목, 본문, 카테고리, 이미지 등을 포함해 질문을 등록할 수 있으며, 마크다운 에디터를 통해 내용을 작성할 수 있습니다.
+   - 질문 수정 기능: 질문을 등록한 작성자만 기존 질문 데이터를 불러와 수정할 수 있습니다.
 ```
 
-|                                                                                                               질문 등록                                                                                                               |                                                                                                               질문 수정                                                                                                               |
-| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://lh6.googleusercontent.com/LgLnyK4xbij_SmBQd_9b-zKL7NjFBceXLFr97o-S9z4JMw7bZaO4E9W5SbwJn_xOAVu4xCk9Se0eqShfP8YkzkaL-QilqVa6LRaQEQ5h4PHLZOgmT8ZByBV-eEIZEr9D3I1mB6qu5nhIehup3910FytnrQ=s2048" alt="질문 등록 페이지"> | <img src="https://lh3.googleusercontent.com/_WEmqGBbE04OIWsmijjjMk7eyk2jKBC9qXLFTWJjpWHfcUknRcVfOSA5Xy5QqTILk75qm4EcbgyXNM5h8dtitdmfuQ7Gg7YSR_Hb8GBffFeiEMLx6NYXVPDLA8BwHVUHrfZtHl-yATyXIiJhtdsaOMoMqA=s2048" alt="질문 수정 페이지"> |
+|                                     질문 등록                                     |                                    질문 수정                                    |
+| :-------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: |
+| <img src="./public/images/qna-create-demo.gif" alt="질문 등록 시연" width="100%"> | <img src="./public/images/qna-edit-demo.gif" alt="질문 수정 시연" width="100%"> |
 
 ### 질의응답 상세 페이지
 
-- 질문 본문 조회
-- 답변 목록 조회
+- 상세 조회 기능
+- AI 답변 생성
 - 답변 작성 및 수정
-- 답변 채택
+- 질문 채택 기능
 
 ```md
 3. 질의응답 상세 페이지
-   상세 조회 기능: 질문 본문, 답변 목록, 댓글, 작성자 정보 등 상세 데이터를 확인할 수 있습니다.
-
-답변 상호작용 기능: 답변 작성, 수정, 채택 등 질의응답 흐름을 상세 페이지에서 이어갈 수 있습니다.
+   - 상세 조회 기능: 질문 본문, 답변 목록, 댓글, 작성자 정보 등 상세 데이터를 확인할 수 있습니다.
+   - AI 답변 생성: 질문 등록 시 최초 1회만 AI 답변을 생성할 수 있습니다.
+   - 답변 작성 및 수정: 답변을 작성하고 수정할 수 있습니다.
+   - 질문 채택 기능: 질문을 등록한 사용자만 답변을 채택할 수 있습니다.
 ```
 
-|                                                                                                               질의응답 상세                                                                                                               |                                                                                                       답변 작성 및 수정                                                                                                        |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://lh6.googleusercontent.com/WSSZM-N1tpBvXui0ivLMaSJv5u-Jn8oUNXik40GOW7thMqmNdMPrjfO4-halmEZ80GuBBlI5ENm8TtDovjSOMRqHE6Z5w7F5yYxdplO643k3wfhyW4wT0IUT15Rv6kk_FAnST07-50NOOeXHjRfjh6dEBA=s2048" alt="질의응답 상세 페이지"> | <img src="https://lh4.googleusercontent.com/3od9me49rKBnI9saCG7TuRqlg4RQGb9JX4z8PyXMHfpqW6jF4gLgly_fZympLUsQUzxVBfWeEDIOha2-TyV-6pV_BiIbafOb9AG6vZVAgBomqyfgr8r6I_Xilqyi-p5rTA6q8lJeVqt-en4I1jnEGoK19Q=s2048" alt="답변 작성"> |
+|                                     질의응답 상세                                     |                                   AI 답변 생성                                   |                                     답변 작성 및 수정                                     |
+| :-----------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| <img src="./public/images/qna-detail-demo.gif" alt="질의응답 상세 시연" width="100%"> | <img src="./public/images/qna-ai-demo.gif" alt="AI 답변 생성 시연" width="100%"> | <img src="./public/images/qna-answer-demo.gif" alt="답변 작성 및 수정 시연" width="100%"> |
 
-### AI 답변 및 챗봇
+### AI 채팅 및 챗봇
 
-- AI 답변 생성
-- 추가 질문 및 AI 채팅
-- 시스템 챗봇 제공
+- QnA AI 챗봇
+- AI 시스템 챗봇
 
 ```md
-4. AI 답변 및 챗봇
-   AI 답변 생성 기능: 질문 상세 페이지에서 AI 답변 생성 요청을 통해 답변을 확인할 수 있습니다.
-
-추가 질문 기능: 생성된 AI 답변을 기반으로 연속적인 질문 흐름을 이어갈 수 있습니다.
-
-시스템 챗봇: 별도 질문 문맥 없이도 일반 문의에 대해 1회성 AI 상담을 제공합니다.
+4. AI 채팅 및 챗봇
+   - QnA AI 챗봇: 질문 상세 페이지의 추가 질문 버튼을 통해 질문 문맥을 이어서 AI 채팅을 시작할 수 있습니다.
+   - AI 시스템 챗봇: 플로팅 버튼을 클릭하면 별도 질문 문맥 없이 1회성 시스템 챗봇을 이용할 수 있습니다.
 ```
 
-|                                                                                                           AI 답변 생성                                                                                                            |                                                                                                           추가 질문 및 AI 채팅                                                                                                            |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://lh6.googleusercontent.com/uQJWChKZY7rtI-IdUgG9AxKSUfEeAUbFu3vnfrEkxDXSYHF7-e2ban3omp9Hn0yjtIh6uyQUC3DY8FXOOTLZEk5oK5t3BhD4WS6_jdJclc-L-zn8iavUnRgtLf0In1yH_C933V2MVtYE6_a40slzphM88A=s2048" alt="AI 답변 생성"> | <img src="https://lh6.googleusercontent.com/wQiDqzndpvTRfIsHy-l3_eCjPDQ0JF28pCmLrDdSFQfR0UTuJHiF_erHsz57FuHFDWbHMnmOLquWxJxqUwjeAy_JnhaOzpjdemsvAzwPQdfK6J-H6vqOj3GwrnpBMs43Gl6BhC_idUh9lVyONEgCdIHMPQ=s2048" alt="추가 질문 및 AI 채팅"> |
+|                                      QnA AI 챗봇                                      |                                     AI 시스템 챗봇                                      |
+| :-----------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
+| <img src="./public/images/qna-followup-demo.gif" alt="QnA AI 챗봇 시연" width="100%"> | <img src="./public/images/qna-chatbot-demo.gif" alt="AI 시스템 챗봇 시연" width="100%"> |
 
 ### 사용자 상태 기반 접근 제어
 
-- 회원 전용 기능 접근 제어
-- 비회원 접근 제한 및 UI 분기
-- 인증 상태 기반 버튼 노출 분기
+- 비회원 접근 제한
+- 일반유저 권한 분기
+- 수강생 전용 기능 이용
 
 ```md
 5. 사용자 상태 기반 접근 제어
-   회원 전용 기능: 질문 작성, 답변 작성, 추가 질문 등 로그인 사용자만 사용할 수 있는 기능을 분리했습니다.
-
-UI 분기 처리: 인증 여부에 따라 버튼 노출, 액션 가능 여부, 접근 가능한 화면을 다르게 제공합니다.
+   - 비회원: 상세 조회 등 공개 화면만 접근할 수 있으며, 질문 작성·답변 작성·추가 질문 등 회원 기능은 제한됩니다.
+   - 일반유저: 로그인은 가능하지만 수강생 전용 기능은 제한되며, 권한 안내 UI가 노출됩니다.
+   - 수강생: 질문 작성, 답변 작성, 추가 질문 등 수강생 전용 기능을 이용할 수 있습니다.
 ```
 
-|                                                                                                           비회원 접근 화면                                                                                                            |                                                                                                           회원 이용 화면                                                                                                            |
-| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://lh5.googleusercontent.com/KRfPZ8P2TzvLBeHAcApzzHDn6xbkCYp8Z9sDmWSifQNwQwfC7HAjczd-KHVs5dGbKhi2AO5O3A8wd8mewcze3TKb_yM9y5-PHQVE7axz5HVdWsI1alg2-qatjn7G2c0Y6Fx786KMjoiIULFLpCoQx6HWJA=s2048" alt="비회원 접근 화면"> | <img src="https://lh5.googleusercontent.com/eTvLqwjRti-QhqDMWb2gMw692w-qmSipvVOjcXHvVIetlZiBvgbzcDakCP2Gmf-kGNx5vuZ5fm_3ExzA3_rD3ux4DaDK5xaP90LgDmK6fRYPdGdolg8dJrdh8fKT7a4H0odAYlK9t4-iLxjtsbinTnz0ow=s2048" alt="회원 이용 화면"> |
-
-### 예외 및 상태 처리
-
-- 로딩 상태 UI
-- 에러 상태 UI
-- 빈 상태 UI
-- 잘못된 접근 안내 UI
-
-```md
-6. 예외 및 상태 처리
-   로딩 및 에러 처리: API 요청 진행 상태와 실패 상황을 사용자에게 명확히 안내합니다.
-
-빈 상태 UI: 검색 결과 없음, 데이터 없음, 잘못된 접근 등에 대응하는 전용 UI를 제공합니다.
-```
-
-|                                                                                                           에러 상태 안내 UI                                                                                                            |                                                                                                         빈 상태 및 접근 제어                                                                                                          |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://lh5.googleusercontent.com/KjjwMZ-FrNzlWa0N8IS2iYAr92JgQCMbOFEwZdtScJJwzt5XY70dZII-OyvHUSbWV_7qBNCFc3pslsgcfLX9ZAM54y0F5pRrO4e2EMv8ee1K2FzzieU5ByAn9UhBqB08Fk1pHUaGvRzxGt8HhFh17fongw=s2048" alt="에러 상태 안내 UI"> | <img src="https://lh5.googleusercontent.com/KRfPZ8P2TzvLBeHAcApzzHDn6xbkCYp8Z9sDmWSifQNwQwfC7HAjczd-KHVs5dGbKhi2AO5O3A8wd8mewcze3TKb_yM9y5-PHQVE7axz5HVdWsI1alg2-qatjn7G2c0Y6Fx786KMjoiIULFLpCoQx6HWJA=s2048" alt="비회원 접근 화면"> |
+|                                     비회원 접근 화면                                      |                                     일반유저 화면                                      |                                      수강생 화면                                      |
+| :---------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: |
+| <img src="./public/images/qna-guest-access-demo.gif" alt="비회원 접근 화면" width="100%"> | <img src="./public/images/qna-general-user-demo.gif" alt="일반유저 화면" width="100%"> | <img src="./public/images/qna-enrolled-user-demo.gif" alt="수강생 화면" width="100%"> |
 
 ---
 
