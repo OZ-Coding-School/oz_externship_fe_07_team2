@@ -1,24 +1,30 @@
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 
 import { useQueryClient } from '@tanstack/react-query'
 
+import { logout as logoutApi } from '@/api/auth'
 import Logo from '@/assets/images/logo.png'
-import { EXTERNAL_LINKS, ROUTES_PATHS } from '@/constants'
+import { Avatar } from '@/components'
+import { EXTERNAL_LINKS } from '@/constants'
+import { TokenService } from '@/lib/tokenService'
 import { useAuthStore } from '@/store'
 
-import Avatar from '../common/avatar/Avatar'
-
 export default function Header() {
-  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
   const user = useAuthStore((state) => state.user)
   const clearAuth = useAuthStore((state) => state.clearAuth)
 
   const handleLogout = async () => {
+    try {
+      await logoutApi()
+    } catch {
+      // API 실패해도 클라이언트 로그아웃 진행
+    }
+    TokenService.clearTokens()
     clearAuth()
     queryClient.clear()
-    navigate(ROUTES_PATHS.LOGIN)
+    window.location.href = EXTERNAL_LINKS.HOME
   }
 
   return (
