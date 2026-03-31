@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
-import { Link } from 'lucide-react'
+import { Link as LinkIcon } from 'lucide-react'
 
 import { Avatar, Button, CategoryPath } from '@/components'
 import { ROUTES_PATHS } from '@/constants'
@@ -26,7 +26,12 @@ export default function QnaDetailHeader({
 
   return (
     <header className="border-border-line pb-5">
-      <CategoryPath path={category.names} variant="detail" className="mb-4" />
+      <Link
+        to={ROUTES_PATHS.QNA_LIST}
+        className="cursor-pointer transition-opacity hover:opacity-80"
+      >
+        <CategoryPath path={category.names} variant="detail" className="mb-4" />
+      </Link>
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 flex-1 items-center gap-3">
           <span className="text-primary text-6xl leading-none font-bold">
@@ -76,7 +81,7 @@ export default function QnaDetailHeader({
 
       <div className="border-border-line flex justify-end border-b p-4">
         <Button variant="ghost" size="sm" rounded="full" onClick={onShare}>
-          <Link className="h-4 w-4" />
+          <LinkIcon className="h-4 w-4" />
           공유하기
         </Button>
       </div>
