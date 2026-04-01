@@ -51,6 +51,9 @@ export default function AnswerCard({
 
   const isOwnAnswer = currentUserId !== undefined && currentUserId === author.id
   const isAdoptedCard = is_adopted
+  const isEdited =
+    updated_at &&
+    new Date(updated_at).getTime() > new Date(created_at).getTime()
   const { sortType, setSortType, sortOptions, sortedComments } =
     useCommentSort(localComments)
 
@@ -133,7 +136,7 @@ export default function AnswerCard({
 
         <div className="border-border-line mt-6 border-b pb-2 text-right">
           <span className="text-text-light text-xs">
-            {updated_at
+            {isEdited
               ? `수정됨 ${formatTimeAgo(updated_at)}`
               : formatTimeAgo(created_at)}
           </span>
