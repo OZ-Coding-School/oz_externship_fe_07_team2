@@ -18,11 +18,9 @@ const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
-    <StrictMode>
-      <BrowserRouter>
-        <GlobalToaster />
-        <App />
-      </BrowserRouter>
-    </StrictMode>
+    <BrowserRouter>
+      <GlobalToaster />
+      <App />
+    </BrowserRouter>
   </QueryClientProvider>
 )
