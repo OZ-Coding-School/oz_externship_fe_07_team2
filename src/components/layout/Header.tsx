@@ -1,5 +1,3 @@
-import { Link } from 'react-router'
-
 import { useQueryClient } from '@tanstack/react-query'
 
 import { logout as logoutApi } from '@/api/auth'
@@ -35,13 +33,13 @@ export default function Header() {
       <section className="text-ui-gray-600 flex h-16 w-full min-w-170 items-center justify-between px-10 text-[18px] whitespace-nowrap md:px-20 xl:px-90">
         <div className="flex items-center gap-15">
           <h1 className="shrink-0">
-            <Link to="/">
+            <a href={EXTERNAL_LINKS.HOME}>
               <img
                 className="h-auto w-30 object-contain"
                 src={Logo}
                 alt="logo"
               />
-            </Link>
+            </a>
           </h1>
           <nav aria-label="주요 메뉴">
             <ul className="flex gap-15">
