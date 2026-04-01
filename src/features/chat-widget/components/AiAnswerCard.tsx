@@ -114,6 +114,11 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   }
 
   const handleToggleDetail = async () => {
+    if (!isLoggedIn) {
+      openUnauthorized()
+      return
+    }
+
     await loadAiAnswer()
   }
 

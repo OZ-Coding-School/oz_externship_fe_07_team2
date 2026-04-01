@@ -1,3 +1,8 @@
 export const removeHtmlTags = (html: string) => {
-  return html.replace(/<[^>]*>/g, '').trim()
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html')
+    return doc.body.textContent ?? ''
+  } catch {
+    return html.replace(/<[^>]*>?/gm, '').trim()
+  }
 }
