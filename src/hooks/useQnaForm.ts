@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import { ROUTES_PATHS } from '@/constants'
 import { ERROR_MESSAGES } from '@/constants/message'
 import {
@@ -13,6 +15,7 @@ import type { SelectedCategory } from '@/shared/CategoryDropdown'
 import { findSelectedCategory } from '@/utils'
 
 export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
+  const queryClient = useQueryClient()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [selectedCategory, setSelectedCategory] =
@@ -91,6 +94,7 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
    */
   const handleSubmit = () => {
     const error = validate()
+
     if (error) return setPopupMessage(error)
 
     if (mode === 'create') {
@@ -101,15 +105,20 @@ export function useQnaForm(mode: 'create' | 'edit', questionId?: number) {
         }
       )
     } else {
+      if (!questionId) return
       updateQuestion(
         { title, content, category_id: categoryId!, image_urls: imageUrls },
         {
-          onSuccess: () => navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!)),
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({
+              queryKey: ['qna-detail', questionId],
+            })
+            navigate(ROUTES_PATHS.QNA_DETAIL_URL(questionId!))
+          },
         }
       )
     }
   }
-
   /**
    * 이미지 업로드 완료 후 URL을 imageUrls 상태에 추가
    * - 질문 등록/수정 시 image_urls 필드에 포함됨

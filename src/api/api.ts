@@ -61,7 +61,7 @@ const handle401Error = async (originalRequest: RetryAxiosRequestConfig) => {
     // 2. access token 없으면 refresh 먼저 시도
     setIsRefreshing(true)
     try {
-      const { data } = await axios.post(
+      const { data } = await api.post(
         `${API_BASE_URL}${AUTH_API.REFRESH}`,
         {},
         { withCredentials: true }

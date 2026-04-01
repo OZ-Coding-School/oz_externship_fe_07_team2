@@ -12,7 +12,7 @@ type QnACreatePageProps = {
 
 export default function QnACreatePage({ mode }: QnACreatePageProps) {
   const { id } = useParams<{ id: string }>()
-  const questionId = Number(id)
+  const questionId = id ? Number(id) : undefined
   const {
     title,
     setTitle,
@@ -73,7 +73,9 @@ export default function QnACreatePage({ mode }: QnACreatePageProps) {
           variant="primary"
           size="lg"
           className="h-9.5 w-28 p-0 text-[clamp(0.875rem,calc(0.663vw+0.72rem),1.25rem)] md:h-13.5 md:w-35"
-          onClick={handleSubmit}
+          onClick={() => {
+            handleSubmit()
+          }}
           disabled={isPending}
         >
           {mode === 'create' ? '등록하기' : '저장하기'}
