@@ -55,7 +55,7 @@ export default function QnaDetailHeader({
         </div>
 
         <div className="m-4 flex shrink-0 items-center gap-2">
-          <Avatar src={avatarSrc} alt={author.nickname} size="md" />{' '}
+          <Avatar src={avatarSrc} alt={author.nickname} size="md" />
           <span className="text-text-sub text-sm font-semibold">
             {author.nickname}
           </span>
@@ -87,7 +87,7 @@ export default function QnaDetailHeader({
       </div>
 
       <div
-        className="text-text-primary pt-6 pb-16 text-base leading-7 break-words whitespace-pre-line"
+        className="text-text-primary pt-6 pb-16 text-base leading-7 wrap-break-word whitespace-pre-line [&_figure]:my-6 [&_figure]:flex [&_figure]:max-w-full [&_figure]:justify-center [&_figure]:overflow-x-auto [&_figure]:rounded-2xl [&_figure]:bg-black/5 [&_figure]:p-2 [&_img]:h-64 [&_img]:max-w-full [&_img]:shrink-0 [&_img]:rounded-xl [&_img]:object-contain md:[&_img]:h-80"
         dangerouslySetInnerHTML={{ __html: content }}
       />
 

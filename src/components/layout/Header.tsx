@@ -56,9 +56,8 @@ export default function Header() {
           <ul className="flex items-center gap-2">
             {isLoggedIn ? (
               <>
-                <li className="flex items-center gap-2 py-4">
+                <li className="flex items-center py-4">
                   <Avatar src={user?.profile_img_url ?? undefined} size="sm" />
-                  <span>{user?.nickname}</span>
                 </li>
                 <li className="py-4">
                   <button type="button" onClick={handleLogout}>
