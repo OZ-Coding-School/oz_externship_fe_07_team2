@@ -29,6 +29,8 @@ export type QnaListItem = {
   answer_count: number
   view_count: number
   created_at: string
+  update_at?: string
+  updated_at?: string
   thumbnail_img_url: string | null
 }
 

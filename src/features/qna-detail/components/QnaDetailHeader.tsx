@@ -5,6 +5,7 @@ import { Link as LinkIcon } from 'lucide-react'
 import { Avatar, Button, CategoryPath } from '@/components'
 import { ROUTES_PATHS } from '@/constants'
 import { AiAnswerCard } from '@/features/chat-widget'
+import { useMinuteTick } from '@/hooks/useMinuteTick'
 import type { QnaQuestionDetail } from '@/types'
 import { formatTimeAgo } from '@/utils'
 
@@ -19,6 +20,7 @@ export default function QnaDetailHeader({
   onShare,
   isQuestionAuthor,
 }: QnaDetailHeaderProps) {
+  useMinuteTick()
   const {
     category,
     title,

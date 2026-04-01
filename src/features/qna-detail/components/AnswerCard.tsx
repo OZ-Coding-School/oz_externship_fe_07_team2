@@ -3,6 +3,7 @@ import { MessageCircle } from 'lucide-react'
 import { Avatar, Button, Input, ModalButton } from '@/components'
 import { useCommentSort } from '@/hooks'
 import type { SortType } from '@/hooks/useCommentSort'
+import { useMinuteTick } from '@/hooks/useMinuteTick'
 import type { QnaAnswer } from '@/types'
 import { cn, formatTimeAgo } from '@/utils'
 
@@ -32,6 +33,7 @@ export default function AnswerCard({
   onEdit,
   editButtonLabel = '답변 수정하기',
 }: AnswerCardProps) {
+  useMinuteTick()
   const { content, created_at, updated_at, is_adopted, author, comments } =
     answer
   const {

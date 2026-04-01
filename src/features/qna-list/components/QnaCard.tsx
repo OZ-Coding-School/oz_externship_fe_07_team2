@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { AnswerBadge, Avatar, CategoryPath } from '@/components'
 import { ROUTES_PATHS } from '@/constants'
 import type { QnaListItem } from '@/features/qna-list'
+import { useMinuteTick } from '@/hooks/useMinuteTick'
 import { cn, formatTimeAgo } from '@/utils'
 import { removeHtmlTags } from '@/utils/string'
 
@@ -32,10 +33,13 @@ function highlightText(text: string, keyword: string) {
 }
 
 export default function QnaCard({ question, keyword }: QnaCardProps) {
+  useMinuteTick()
   const navigate = useNavigate()
   const hasThumbnail = Boolean(question.thumbnail_img_url)
   const isAnswered = question.answer_count > 0
-  const date = formatTimeAgo(question.created_at)
+  const activityAt =
+    question.update_at ?? question.updated_at ?? question.created_at
+  const date = formatTimeAgo(activityAt)
 
   return (
     <div
