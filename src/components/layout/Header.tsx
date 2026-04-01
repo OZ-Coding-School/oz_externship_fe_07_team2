@@ -1,9 +1,13 @@
+import { useRef, useState } from 'react'
+
 import { useQueryClient } from '@tanstack/react-query'
 
 import { logout as logoutApi } from '@/api/auth'
+import defaultAvatar from '@/assets/images/default-avatar.png'
 import Logo from '@/assets/images/logo.png'
-import { Avatar } from '@/components'
 import { EXTERNAL_LINKS } from '@/constants'
+import { UserMenu } from '@/features'
+import useOutsideClick from '@/hooks/useOutsideClick'
 import { TokenService } from '@/lib/tokenService'
 import { useAuthStore } from '@/store'
 
@@ -12,6 +16,9 @@ export default function Header() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
   const user = useAuthStore((state) => state.user)
   const clearAuth = useAuthStore((state) => state.clearAuth)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLLIElement>(null)
+  useOutsideClick(dropdownRef, () => setIsDropdownOpen(false))
 
   const handleLogout = async () => {
     try {
@@ -52,19 +59,31 @@ export default function Header() {
             </ul>
           </nav>
         </div>
+
         <nav aria-label="사용자 메뉴">
           <ul className="flex items-center gap-2">
             {isLoggedIn ? (
-              <>
-                <li className="flex items-center py-4">
-                  <Avatar src={user?.profile_img_url ?? undefined} size="sm" />
-                </li>
-                <li className="py-4">
-                  <button type="button" onClick={handleLogout}>
-                    로그아웃
-                  </button>
-                </li>
-              </>
+              <li className="relative py-4" ref={dropdownRef}>
+                <button
+                  type="button"
+                  className="flex cursor-pointer items-center gap-2"
+                  onClick={() => setIsDropdownOpen((prev) => !prev)}
+                >
+                  <img
+                    src={user?.profile_img_url ?? defaultAvatar}
+                    alt="프로필 이미지"
+                    className="pointer-events-none h-6 w-6 rounded-full object-cover"
+                  />
+                </button>
+
+                {isDropdownOpen && (
+                  <UserMenu
+                    userInfo={user}
+                    onLogout={handleLogout}
+                    className="absolute top-full right-0 z-50 mt-2 w-48"
+                  />
+                )}
+              </li>
             ) : (
               <>
                 <li className="py-4">

@@ -4,4 +4,5 @@ export const EXTERNAL_LINKS = {
   COMMUNITY: 'https://community.ozcodingschool.site/posts',
   QNA: 'https://qna.ozcodingschool.site/questions',
   HOME: 'https://my.ozcodingschool.site',
+  MYPAGE: 'https://my.ozcodingschool.site/mypage',
 } as const
