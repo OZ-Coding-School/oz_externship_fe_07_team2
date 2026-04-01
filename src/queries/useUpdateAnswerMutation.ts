@@ -21,6 +21,9 @@ export default function useUpdateAnswerMutation() {
       queryClient.invalidateQueries({
         queryKey: ['qna-detail', variables.questionId],
       })
+      queryClient.invalidateQueries({
+        queryKey: ['qna-list'],
+      })
     },
     onError: () => {
       error('답변 수정에 실패했습니다. 다시 시도해주세요.')

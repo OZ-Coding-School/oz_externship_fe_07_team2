@@ -29,6 +29,7 @@ export type QnaAnswer = {
   id: number
   content: string
   created_at: string
+  update_at?: string
   updated_at?: string
   is_adopted: boolean
   author: QnaAuthor
@@ -43,6 +44,7 @@ export type QnaQuestionDetail = {
   images: QnaImage[]
   view_count: number
   created_at: string
+  update_at?: string
   updated_at?: string
   author: QnaAuthor
   answers: QnaAnswer[]

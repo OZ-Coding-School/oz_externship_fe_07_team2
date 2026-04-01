@@ -1,14 +1,16 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { createQuestion } from '@/api'
 import { useToast } from '@/hooks/useToast'
 
 export default function useCreateQuestionMutation() {
+  const queryClient = useQueryClient()
   const { success, error } = useToast()
 
   const mutation = useMutation({
     mutationFn: createQuestion,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['qna-list'] })
       success('질문이 등록되었습니다.')
     },
     onError: () => {
