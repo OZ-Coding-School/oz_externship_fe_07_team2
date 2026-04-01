@@ -36,12 +36,17 @@ export default function AiAnswerCard({ question }: AiAnswerCardProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const aiAnswer = question.ai_answer ?? createdAiAnswer
+  const questionUpdatedAt = question.update_at ?? question.updated_at
+  const hasQuestionBeenEdited =
+    questionUpdatedAt != null &&
+    new Date(questionUpdatedAt).getTime() >
+      new Date(question.created_at).getTime()
 
-  // 수정전 분기처리
+  // 실제로 질문이 수정된 뒤, 그 수정 시각이 AI 답변 생성 시각보다 늦을 때만 안내 문구를 표시한다.
   const shouldShowOutdatedNotice =
-    question.updated_at != null &&
+    hasQuestionBeenEdited &&
     aiAnswer?.created_at != null &&
-    new Date(question.updated_at).getTime() >
+    new Date(questionUpdatedAt!).getTime() >
       new Date(aiAnswer.created_at).getTime()
 
   const renderDefaultButtonLabel = (trailingText: string) => (
